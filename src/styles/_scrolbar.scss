@@ -1,0 +1,33 @@
+::-webkit-scrollbar {
+  width: 5px;
+  height: 7px;
+  &-button {
+    width: 0px;
+    height: 0px;
+  }
+  &-thumb {
+    background: #525965;
+    border: 0px none #ffffff;
+    border-radius: 0px;
+    &:hover {
+      background: #525965;
+    }
+    &:active {
+      background: #525965;
+    }
+  }
+  &-track {
+    background: transparent;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+    &:hover {
+      background: transparent;
+    }
+    &:active {
+      background: transparent;
+    }
+  }
+  &-corner {
+    background: transparent;
+  }
+}

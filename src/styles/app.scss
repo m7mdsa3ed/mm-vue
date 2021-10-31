@@ -1,0 +1,68 @@
+@import "bs_vars";
+@import "scrolbar";
+
+:root {
+  --bg-main: #fff;
+  --bg-main-color: #000;
+
+  --body-bg: #fff3fb;
+  --body-bg-color: #000;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: var(--body-bg);
+  color: var(--body-bg-color);
+}
+
+.box {
+  border-radius: $border-radius-lg;
+  padding: map-get($spacers, 3);
+}
+
+.bg-main {
+  background-color: var(--bg-main);
+  color: var(--bg-main-color);
+  overflow: auto;
+}
+
+.icon {
+  border-radius: $border-radius;
+  width: 1.75em;
+  height: 1.75em;
+  line-height: 1.75em;
+  text-align: center;
+  font-size: 1em;
+
+  @each $name, $color in $theme-colors {
+    &-bg-#{$name} {
+      background-color: rgba($color, 15%);
+      color: $color;
+    }
+  }
+}
+
+.c-sidebar {
+  li {
+    cursor: pointer;
+    i {
+      transition: all 0.2s ease;
+      @extend .icon-bg-dark;
+    }
+
+    &.active,
+    &:hover {
+      i {
+        @extend .icon-bg-light;
+        color: #000;
+      }
+    }
+  }
+}
+
+.dropdown-menu-custom {
+  padding: map-get($spacers, 2);
+  .dropdown-item {
+    border-radius: $border-radius;
+  }
+}
