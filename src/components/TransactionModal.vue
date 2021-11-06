@@ -131,22 +131,23 @@
 
 <script>
 import { Modal } from "bootstrap";
+import { mapState } from "vuex";
 export default {
   props: {
     transaction: {
       type: Object,
     },
-  },
-
-  data() {
-    return {
-      modal: null,
-      accounts: [],
-      categories: [],
-    };
+    modal: {
+      type: Object,
+    },
   },
 
   computed: {
+    ...mapState({
+      accounts: (state) => state.accounts.accounts,
+      categories: (state) => state.categories.categories,
+    }),
+
     activeTransaction() {
       const transaction = this.transaction ?? {};
       const defaultProps = {
@@ -168,37 +169,7 @@ export default {
     },
   },
 
-  mounted() {
-    this.modal = new Modal(this.$refs.TransactionModal);
-
-    this.fetchAccounts();
-    this.fetchCategories();
-  },
-
   methods: {
-    fetchAccounts() {
-      this.$http
-        .get("accounts", {
-          params: {
-            all: true,
-          },
-        })
-        .then((res) => {
-          this.accounts = res.data;
-        });
-    },
-    fetchCategories() {
-      this.$http
-        .get("categories", {
-          params: {
-            all: true,
-          },
-        })
-        .then((res) => {
-          this.categories = res.data;
-        });
-    },
-
     save() {
       const fd = new FormData();
 

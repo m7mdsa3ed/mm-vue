@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="bg-main box mb-3">
-      <p class="h1 fw-light mb-0">
+      <p class="h1 fw-bold mb-0">
         {{ $fn.money(stats?.balance) }}
       </p>
     </div>
 
     <div class="bg-main box mb-3">
-      <p class="fs-4 fw-light mb-0">Account Balances</p>
+      <p class="fs-4 fw-light mb-0">Accounts</p>
 
-      <table class="table table-borderless mb-0">
+      <table class="table table-borderless">
         <thead>
           <tr>
             <th>Name</th>
@@ -27,15 +27,25 @@
         </tbody>
       </table>
 
-      <button
-        class="btn btn-dark btn-sm w-100 mt-4"
-        data-bs-toggle="modal"
-        data-bs-target="#MoveMoneyModal"
-      >
-        <i class="icon fas fa-exchange-alt"> </i> Move Money
-      </button>
+      <div class="btn-group w-100">
+        <button
+          class="btn btn-dark btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#MoveMoneyModal"
+        >
+          <i class="icon fas fa-exchange-alt"> </i> Move Money
+        </button>
+        <button
+          class="btn btn-dark btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#AccountModal"
+        >
+          <i class="icon fas fa-plus"> </i> Account
+        </button>
+      </div>
 
       <MoveMoneyModal />
+      <AccountModal />
     </div>
 
     <div class="bg-main box mb-3">
@@ -127,16 +137,16 @@
     <div class="bg-main box mb-3">
       <p class="fs-4 fw-light">Category Monthly Rates</p>
 
-      <div class="d-flex gap-2 flex-wrap">
-        <span
-          class="badge bg-dark"
+      <div class="d-flex gap-1 flex-wrap">
+        <button
+          class="btn btn-outline-dark border-0 btn-sm"
           role="button"
           v-for="rate in stats?.ratesPerMonth || []"
           :key="rate.date"
           @click.prevent="setCategoryRates(rate.ratesPerCategory)"
         >
           {{ rate.date }}
-        </span>
+        </button>
       </div>
 
       <CategoryMonthlyRatesModal :rates="rates" />
@@ -146,6 +156,7 @@
 
 <script>
 import MoveMoneyModal from "./MoveMoneyModal";
+import AccountModal from "./AccountModal";
 import CategoryMonthlyRatesModal from "./CategoryMonthlyRatesModal";
 import { Modal } from "bootstrap";
 
@@ -154,6 +165,7 @@ export default {
 
   components: {
     MoveMoneyModal,
+    AccountModal,
     CategoryMonthlyRatesModal,
   },
 

@@ -8,7 +8,32 @@
       <div class="col-12 col-lg-8">
         <TimeCalculator class="mb-3" />
         <Transactions class="mb-3" />
-        <CategroyStats :stats="stats?.perCategory" class="mb-3" />
+        <CategroyStats :stats="stats?.perCategory" />
+      </div>
+
+      <div class="col-12">
+        <div class="box bg-main">
+          <p class="fs-4 fw-light mb-0">To do</p>
+
+          <ul class="mb-0">
+            <li>
+              Vuex
+              <ul>
+                <li>Fetch Stats</li>
+                <li>Store Accounts CUD</li>
+                <li>Store Categories CUD</li>
+                <li>Transcations CRUD</li>
+              </ul>
+            </li>
+            <li>Authentication</li>
+            <li>Go live</li>
+            <li>Export Options</li>
+            <li>Import Options</li>
+            <li>Dark Mode</li>
+            <li>Caching</li>
+            <li>Offline Mode</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

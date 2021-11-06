@@ -31,7 +31,7 @@
       <label> Start the calculation from this month </label>
     </div>
 
-    <button class="btn btn-dark w-100" @click.prevent="calculate">
+    <button class="btn btn-dark btn-sm w-100" @click.prevent="calculate">
       <i class="icon fas fa-calculator"></i>
       Calculate
     </button>
