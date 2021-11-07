@@ -242,16 +242,16 @@ export default {
 
       // If transactions exists => update it
       const transactionIndex = this.transactions.data.findIndex(
-        (x) => (x.id = transaction.id)
+        (x) => x.id == transaction.id
       );
 
-      if (transactionIndex) {
-        this.transactions[transactionIndex] = this.transaction;
+      if (transactionIndex != -1) {
+        this.transactions.data[transactionIndex] = this.transaction;
       }
 
       // Push it
       else {
-        this.transactions.data.unshift(this.transaction);
+        this.transactions.data.unshift(transaction);
       }
     },
   },
