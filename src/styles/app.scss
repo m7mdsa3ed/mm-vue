@@ -66,3 +66,21 @@ body {
     border-radius: $border-radius;
   }
 }
+
+#loadingSpinner {
+  position: fixed;
+  bottom: 0;
+  margin: map-get($spacers, 3);
+  background-color: var(--body-bg);
+  z-index: 1051; // Higher than Bootstrap Modal
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @extend .box;
+}
+
+.modal-open {
+  #loadingSpinner {
+    color: #fff;
+  }
+}

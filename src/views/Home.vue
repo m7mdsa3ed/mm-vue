@@ -1,8 +1,27 @@
 <template>
   <div class="container-xxl mt-3">
     <div class="row g-3">
+      <div class="col-12">
+        <StatusWidget />
+      </div>
       <div class="col-12 col-lg-4">
-        <StatsWidget :stats="stats" />
+        <template v-if="stats">
+          <div class="bg-main box mb-3">
+            <p class="h1 fw-bold mb-0">
+              {{ $fn.money(stats.balance) }}
+            </p>
+          </div>
+
+          <AccountBalances :balancePerAccount="stats.balancePerAccount" />
+
+          <PeriodStatus
+            :today="stats.today"
+            :last7Days="stats.last7Days"
+            :last30Days="stats.last30Days"
+          />
+
+          <MonthlyRates :ratesPerMonth="stats.ratesPerMonth" />
+        </template>
       </div>
 
       <div class="col-12 col-lg-8">
@@ -10,52 +29,35 @@
         <Transactions class="mb-3" />
         <CategroyStats :stats="stats?.perCategory" />
       </div>
-
-      <div class="col-12">
-        <div class="box bg-main">
-          <p class="fs-4 fw-light mb-0">To do</p>
-
-          <ul class="mb-0">
-            <li>
-              Vuex
-              <ul>
-                <li>Fetch Stats</li>
-                <li>Store Accounts CUD</li>
-                <li>Store Categories CUD</li>
-                <li>Transcations CRUD</li>
-              </ul>
-            </li>
-            <li>Authentication</li>
-            <li>Go live</li>
-            <li>Export Options</li>
-            <li>Import Options</li>
-            <li>Dark Mode</li>
-            <li>Caching</li>
-            <li>Offline Mode</li>
-          </ul>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Transactions from "../components/Transactions";
-import StatsWidget from "../components/StatsWidget";
 import TimeCalculator from "../components/TimeCalculator";
 import CategroyStats from "../components/CategroyStats";
+import MonthlyRates from "../components/Widgets/MonthlyRates.vue";
+import PeriodStatus from "../components/Widgets/PeriodStatus.vue";
+import AccountBalances from "../components/Widgets/AccountBalances.vue";
+import StatusWidget from "../components/Widgets/StatusWidget.vue";
+import { mapActions, mapState } from "vuex";
+
 export default {
   components: {
     Transactions,
-    StatsWidget,
     TimeCalculator,
     CategroyStats,
+    MonthlyRates,
+    PeriodStatus,
+    AccountBalances,
+    StatusWidget,
   },
 
-  data() {
-    return {
-      stats: null,
-    };
+  computed: {
+    ...mapState({
+      stats: (state) => state.app.stats,
+    }),
   },
 
   mounted() {
@@ -63,12 +65,9 @@ export default {
   },
 
   methods: {
-    fetchStats() {
-      this.$http.get("stats").then((res) => {
-        const { data } = res;
-        this.stats = data;
-      });
-    },
+    ...mapActions({
+      fetchStats: "app/fetchStats",
+    }),
   },
 };
 </script>

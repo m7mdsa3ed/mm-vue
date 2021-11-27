@@ -139,6 +139,7 @@ import TransactionsFilter from "./TransactionsFilter";
 import TransactionModal from "./TransactionModal";
 import TransactionDetailsModal from "./TransactionDetailsModal";
 import { Modal } from "bootstrap";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
@@ -150,7 +151,6 @@ export default {
 
   data() {
     return {
-      transactions: [],
       filter: {},
       modals: {
         activeModal: null,
@@ -164,6 +164,12 @@ export default {
         },
       },
     };
+  },
+
+  computed: {
+    ...mapState({
+      transactions: (state) => state.transactions.data,
+    }),
   },
 
   mounted() {
@@ -195,16 +201,12 @@ export default {
   },
 
   methods: {
-    fetch(url = null) {
-      this.$http
-        .get(url ?? "transactions", {
-          params: this.filter,
-        })
-        .then((res) => {
-          const { data } = res;
+    ...mapActions({
+      deleteTransaction: "transactions/delete",
+    }),
 
-          this.transactions = data;
-        });
+    fetch(url = null) {
+      this.$store.dispatch("transactions/fetch", { url, filter: this.filter });
     },
 
     setTransactionOpenModal(transaction, modal) {
@@ -229,7 +231,7 @@ export default {
     },
 
     removeTransation(transaction) {
-      this.$http.post(`transactions/${transaction.id}/delete`).then(() => {
+      this.deleteTransaction({ transaction }).then(() => {
         const transactionIndex = this.transactions.data.findIndex(
           (x) => (x.id = transaction.id)
         );
@@ -246,7 +248,7 @@ export default {
       );
 
       if (transactionIndex != -1) {
-        this.transactions.data[transactionIndex] = this.transaction;
+        this.transactions.data[transactionIndex] = transaction;
       }
 
       // Push it

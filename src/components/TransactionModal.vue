@@ -131,7 +131,7 @@
 
 <script>
 import { Modal } from "bootstrap";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   props: {
     transaction: {
@@ -170,19 +170,16 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      saveTransaction: "transactions/save",
+    }),
+
     save() {
-      const fd = new FormData();
-
-      for (const key in this.activeTransaction) {
-        fd.append(key, this.activeTransaction[key]);
-      }
-
-      const url = this.isUpdating
-        ? `transactions/${this.activeTransaction.id}/update`
-        : "transactions";
-
-      this.$http.post(url, fd).then((res) => {
-        this.$emit("newTransaction", res.data);
+      this.saveTransaction({
+        data: this.activeTransaction,
+        isUpdating: this.isUpdating,
+      }).then((transaction) => {
+        this.$emit("newTransaction", transaction);
         this.modal.hide();
       });
     },
