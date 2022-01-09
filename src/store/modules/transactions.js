@@ -12,7 +12,10 @@ export default {
   },
 
   actions: {
-    async fetch({ state }, { url, filter }) {
+    async fetch({ state }, payload) {
+      let url = payload?.url;
+      let filter = payload?.filter;
+
       store.commit("loading", [true, "Loading Transactions."]);
 
       return new Promise((resolve, reject) => {
