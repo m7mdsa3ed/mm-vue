@@ -13,7 +13,7 @@ const routes = [
         component: () => import("../views/Home.vue")
       },
       {
-        path: "Transactions",
+        path: "transactions",
         component: RouterView,
         children: [
           {
