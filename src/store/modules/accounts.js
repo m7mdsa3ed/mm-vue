@@ -5,8 +5,20 @@ export default {
 
   state: {
     loading: false,
-    accounts: [],
+    data: [],
     errors: []
+  },
+
+  mutations: {
+    saveAccount: (state, { account, isUpdating }) => {
+      const index = state.data.findIndex(x => x.id == account.id);
+
+      if (isUpdating && index != -1) {
+        state.data[index] = account;
+      } else {
+        state.data.push(account);
+      }
+    }
   },
 
   actions: {
@@ -15,13 +27,9 @@ export default {
 
       return new Promise((resolve, reject) => {
         axios
-          .get("accounts", {
-            params: {
-              all: true
-            }
-          })
+          .get("accounts")
           .then(response => {
-            state.accounts = response.data;
+            state.data = response.data;
             resolve(response);
           })
           .catch(err => {
@@ -30,6 +38,44 @@ export default {
           })
           .finally(() => {
             state.loading = false;
+          });
+      });
+    },
+
+    async save({ commit }, payload) {
+      const { account, data } = payload;
+
+      const isUpdating = !!account;
+
+      const url = isUpdating ? `accounts/${account.id}/update` : "accounts";
+
+      return new Promise((resolve, reject) => {
+        axios
+          .post(url, data)
+          .then(response => {
+            commit("saveAccount", { account: response.data, isUpdating });
+            resolve(response.data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
+    },
+
+    async delete({ commit }, payload) {
+      const { account } = payload;
+
+      const url = `accounts/${account.id}/delete`;
+
+      return new Promise((resolve, reject) => {
+        axios
+          .post(url)
+          .then(response => {
+            commit("removeAccount", { account: account });
+            resolve(response.data);
+          })
+          .catch(err => {
+            reject(err);
           });
       });
     }

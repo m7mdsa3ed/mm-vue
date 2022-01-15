@@ -16,7 +16,6 @@ export default {
 
   actions: {
     async login({ state, dispatch }, payload) {
-      store.commit("loading", [true, "Logging in."]);
       return new Promise((resolve, reject) => {
         axios
           .post("login", payload)
@@ -27,14 +26,11 @@ export default {
           .catch(err => {
             state.errors = err.response.data;
           })
-          .finally(() => {
-            store.commit("loading", false);
-          });
+          .finally(() => {});
       });
     },
 
     async register({ state }, payload) {
-      store.commit("loading", [true, "Signing up."]);
       return new Promise((resolve, reject) => {
         axios
           .post("regsiter", payload)
@@ -46,15 +42,11 @@ export default {
           })
           .catch(err => {
             state.errors = err.response.data;
-          })
-          .finally(() => {
-            store.commit("loading", false);
           });
       });
     },
 
     async logout({ state, dispatch }) {
-      store.commit("loading", [true, "Logging out."]);
       return new Promise((resolve, reject) => {
         axios
           .post("logout")
@@ -63,15 +55,11 @@ export default {
           })
           .catch(err => {
             state.errors = err.response.data;
-          })
-          .finally(() => {
-            store.commit("loading", false);
           });
       });
     },
 
     async getUser({ state, dispatch }) {
-      store.commit("loading", [true, "Loading User."]);
       return new Promise((resolve, reject) => {
         axios
           .get("me")
@@ -86,9 +74,6 @@ export default {
 
             state.errors = err;
             reject(err);
-          })
-          .finally(() => {
-            store.commit("loading", false);
           });
       });
     },
@@ -105,6 +90,7 @@ export default {
       state.user = null;
       localStorage.removeItem(LSItemName);
       axios.defaults.headers.Authorization = null;
+      localStorage.removeItem("store");
     }
   }
 };

@@ -16,8 +16,6 @@ export default {
       let url = payload?.url;
       let filter = payload?.filter;
 
-      store.commit("loading", [true, "Loading Transactions."]);
-
       return new Promise((resolve, reject) => {
         axios
           .get(url ?? "transactions", {
@@ -30,23 +28,18 @@ export default {
           .catch(err => {
             state.errors = err.response.data;
             reject(err);
-          })
-          .finally(() => {
-            store.commit("loading", false);
           });
       });
     },
 
     async save({}, { data, isUpdating }) {
-      store.commit("loading", [true, "Creating transaction"]);
+      const fd = JSON2FD(data);
+
+      const url = isUpdating
+        ? `transactions/${data.id}/update`
+        : "transactions";
 
       return new Promise((resolve, reject) => {
-        const fd = JSON2FD(data);
-
-        const url = isUpdating
-          ? `transactions/${data.id}/update`
-          : "transactions";
-
         axios
           .post(url, fd)
           .then(res => {
@@ -54,20 +47,16 @@ export default {
 
             store.dispatch("app/fetchStats");
           })
-          .catch(err => reject(err))
-          .finally(() => store.commit("loading", false));
+          .catch(err => reject(err));
       });
     },
 
     async delete({}, { transaction }) {
-      store.commit("loading", [true, "Deleting transaction"]);
-
       return new Promise((resolve, reject) => {
         axios
           .post(`transactions/${transaction.id}/delete`)
           .then(res => resolve(res.data))
-          .catch(err => reject(err))
-          .finally(() => store.commit("loading", false));
+          .catch(err => reject(err));
       });
     }
   }

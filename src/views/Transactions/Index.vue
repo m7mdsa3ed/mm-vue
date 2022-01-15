@@ -4,7 +4,7 @@
       <p class="display-6">Transactions</p>
     </div>
 
-    <div class="box bg-main">
+    <div class="box bg-main mb-3">
       <button
         class="btn btn-sm btn-dark w-100"
         data-bs-toggle="modal"
@@ -16,7 +16,7 @@
       </button>
     </div>
 
-    <div class="my-3 box bg-main">
+    <div class="mb-3 box bg-main">
       <TransactionsFilter />
     </div>
 
@@ -113,9 +113,7 @@
                       <a
                         class="dropdown-item text-danger"
                         href=""
-                        @click.prevent="
-                          removeTransation(transaction, 'details')
-                        "
+                        @click.prevent="removeTransaction(transaction)"
                       >
                         <span> Delete </span>
                       </a>
@@ -240,7 +238,7 @@ export default {
       this.modals.activeModal = modalName;
     },
 
-    removeTransation(transaction) {
+    removeTransaction(transaction) {
       this.deleteTransaction({ transaction }).then(() => {
         const transactionIndex = this.transactions.data.findIndex(
           (x) => (x.id = transaction.id)

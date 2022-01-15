@@ -1,13 +1,4 @@
 <template>
-  <div id="loadingSpinner" v-if="$store.state.app.loading">
-    <div>
-      <div class="spinner-border spinner-border-sm" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      {{ $store.getters["app/loadingMessage"] }}
-    </div>
-  </div>
-
   <RouterView />
 </template>
 

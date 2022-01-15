@@ -1,11 +1,10 @@
 <template>
   <div
     class="modal fade"
-    id="AccountModal"
+    id="AccountEditModal"
     tabindex="-1"
-    aria-labelledby="AccountModalLabel"
+    aria-labelledby="AccountEditModalLabel"
     aria-hidden="true"
-    ref="AccountModal"
     data-bs-backdrop="static"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -26,7 +25,7 @@
                 type="text"
                 class="form-control"
                 placeholder=" "
-                v-model="account.name"
+                v-model="data.name"
               />
               <label> Account Name </label>
             </div>
@@ -40,12 +39,16 @@
 
 <script>
 export default {
-  props: ["modal"],
+  props: ["account", "modal"],
 
-  data() {
-    return {
-      account: {},
-    };
+  computed: {
+    data() {
+      if (this.account) {
+        return this.account;
+      }
+
+      return {};
+    },
   },
 
   methods: {
@@ -61,6 +64,7 @@ export default {
 
       this.$store
         .dispatch("accounts/save", {
+          account: this.account,
           data: fd,
         })
         .then(() => {

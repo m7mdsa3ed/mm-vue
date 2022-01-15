@@ -1,18 +1,17 @@
 <template>
   <div
     class="modal fade"
-    id="AccountModal"
+    id="CategoryEditModal"
     tabindex="-1"
-    aria-labelledby="AccountModalLabel"
+    aria-labelledby="CategoryEditModalLabel"
     aria-hidden="true"
-    ref="AccountModal"
     data-bs-backdrop="static"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="bg-main box">
           <div class="d-flex align-items-center justify-content-between mb-3">
-            <p class="fs-4 fw-light mb-0">Account</p>
+            <p class="fs-4 fw-light mb-0">Category</p>
             <button
               type="button"
               class="btn-close"
@@ -26,9 +25,9 @@
                 type="text"
                 class="form-control"
                 placeholder=" "
-                v-model="account.name"
+                v-model="data.name"
               />
-              <label> Account Name </label>
+              <label> Category Name </label>
             </div>
             <button class="btn btn-dark w-100">Save</button>
           </form>
@@ -40,27 +39,32 @@
 
 <script>
 export default {
-  props: ["modal"],
+  props: ["category", "modal"],
 
-  data() {
-    return {
-      account: {},
-    };
+  computed: {
+    data() {
+      if (this.category) {
+        return this.category;
+      }
+
+      return {};
+    },
   },
 
   methods: {
     save() {
       const fd = new FormData();
 
-      for (const key in this.account) {
-        const value = this.account[key];
+      for (const key in this.category) {
+        const value = this.category[key];
         if (value) {
           fd.append(key, value);
         }
       }
 
       this.$store
-        .dispatch("accounts/save", {
+        .dispatch("categories/save", {
+          category: this.category,
           data: fd,
         })
         .then(() => {

@@ -24,21 +24,6 @@ const store = createStore({
           Object.assign(state, JSON.parse(localStorage.getItem("store")))
         );
       }
-    },
-    loading(state, payload) {
-      var loading, message;
-
-      if (Array.isArray(payload)) {
-        [loading, message] = payload;
-      } else if (typeof payload == "object") {
-        var { loading, message } = payload;
-      } else {
-        loading = payload;
-        message = "Loading";
-      }
-
-      state.app.loading = loading;
-      state.app.loadingMessage = message;
     }
   }
 });

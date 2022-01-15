@@ -4,6 +4,18 @@
       <p class="display-6">Categories</p>
     </div>
 
+    <div class="box bg-main mb-3">
+      <button
+        class="btn btn-sm btn-dark w-100"
+        data-bs-toggle="modal"
+        data-bs-target="#CategoryModal"
+        ref="CategoryModalButton"
+      >
+        <i class="icon fas fa-plus"></i>
+        Category
+      </button>
+    </div>
+
     <div class="table-responsive box bg-main">
       <table class="table align-middle table-borderless mb-0">
         <thead>
@@ -14,13 +26,18 @@
         </thead>
 
         <tbody>
-          <template v-for="cateogry in categories" :key="cateogry.id">
+          <template v-for="category in categories" :key="category.id">
             <tr>
               <td>
-                {{ cateogry.name }}
+                <p class="mb-0">
+                  {{ category.name }}
+                </p>
+                <span class="text-muted small">
+                  Transactions: {{ category.transactions_count }}
+                </span>
               </td>
               <td class="text-end">
-                {{ $fn.money(cateogry.balance) }}
+                {{ $fn.money(category.balance) }}
               </td>
               <td width="1">
                 <div class="dropdown">
@@ -42,7 +59,7 @@
                         @click.prevent="
                           $router.push({
                             name: 'categories.detail',
-                            params: { id: account.id },
+                            params: { id: category.id },
                           })
                         "
                       >
@@ -53,7 +70,7 @@
                       <a
                         class="dropdown-item"
                         href=""
-                        @click.prevent="setAccountOpenModal(account, 'edit')"
+                        @click.prevent="setCategoryOpenModal(category, 'edit')"
                       >
                         <span> Edit </span>
                       </a>
@@ -63,7 +80,7 @@
                       <a
                         class="dropdown-item text-danger"
                         href=""
-                        @click.prevent="removeTransation(Account, 'details')"
+                        @click.prevent="removeCategory(category)"
                       >
                         <span> Delete </span>
                       </a>
@@ -76,24 +93,29 @@
         </tbody>
       </table>
     </div>
+    <CategoryModal :modal="this.modals.CategoryModal?.instance" />
+    <CategoryEditModal
+      :modal="this.modals.CategoryEditModal?.instance"
+      :category="this.modals.CategoryEditModal?.data"
+    />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import CategoryModal from "@/components/CategoryModal";
+import CategoryEditModal from "@/components/CategoryEditModal";
+import { Modal } from "bootstrap";
 export default {
+  components: {
+    CategoryModal,
+    CategoryEditModal,
+  },
+
   data() {
     return {
       modals: {
         activeModal: null,
-        AccountModal: {
-          instance: null,
-          account: null,
-        },
-        AccountDetailsModal: {
-          instance: null,
-          account: null,
-        },
       },
     };
   },
@@ -104,26 +126,39 @@ export default {
     }),
   },
 
+  mounted() {
+    document.querySelectorAll(".modal").forEach((modalElement) => {
+      this.modals[modalElement.id] = { instance: new Modal(modalElement) };
+    });
+  },
+
   methods: {
-    setAccountOpenModal(Account, modal) {
+    setCategoryOpenModal(data, modal) {
       var modalName, modal;
 
       switch (modal) {
         case "edit":
-          modal = this.modals.AccountModal;
-          modalName = "AccountModal";
-          break;
-
-        case "details":
-          modal = this.modals.AccountDetailsModal;
-          modalName = "AccountDetailsModal";
+          modal = this.modals.CategoryEditModal;
+          modalName = "CategoryEditModal";
           break;
       }
 
       modal.instance.show();
 
-      modal.account = { ...account };
+      modal.data = { ...data };
       this.modals.activeModal = modalName;
+    },
+
+    removeCategory(category) {
+      if (confirm("Are you sure you want to delete this category?")) {
+        this.$store
+          .dispatch("categories/delete", {
+            category,
+          })
+          .then((res) => {
+            alert("deleted");
+          });
+      }
     },
   },
 };

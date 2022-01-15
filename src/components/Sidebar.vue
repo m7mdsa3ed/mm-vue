@@ -1,5 +1,15 @@
 <template>
-  <ul class="list-unstyled d-flex flex-column gap-3 c-sidebar">
+  <ul
+    class="
+      list-unstyled
+      d-flex
+      flex-column
+      gap-3
+      h-100
+      justify-content-center
+      c-sidebar
+    "
+  >
     <li @click="goto('Home')" class="text-nowrap">
       <i class="icon fas fa-home"></i>
       <span class="ms-2 d-none d-lg-inline-block"> Home </span>

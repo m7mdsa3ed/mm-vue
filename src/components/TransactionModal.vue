@@ -144,7 +144,7 @@ export default {
 
   computed: {
     ...mapState({
-      accounts: (state) => state.accounts.accounts,
+      accounts: (state) => state.accounts.data,
       categories: (state) => state.categories.categories,
     }),
 

@@ -39,17 +39,11 @@
 </template>
 
 <script>
-import { Modal } from "bootstrap";
 export default {
   data() {
     return {
-      modal: null,
       category: {},
     };
-  },
-
-  mounted() {
-    this.modal = new Modal(document.querySelector("#CategoryModal"));
   },
 
   methods: {

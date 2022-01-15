@@ -4,14 +4,7 @@ export default {
   namespaced: true,
 
   state: {
-    loading: true,
-    loadingMessage: null,
-    loadingDefaultMessage: "Loading",
     stats: null
-  },
-
-  getters: {
-    loadingMessage: state => state.loadingMessage ?? state.loadingDefaultMessage
   },
 
   actions: {
