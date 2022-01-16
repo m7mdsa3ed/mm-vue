@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0b8b5d"],{"309c":function(n,r,c){"use strict";c.r(r);var e=c("7a23");function t(n,r){return Object(e["A"])(n.$route.params.id)}var a=c("6b0d"),d=c.n(a);const o={},u=d()(o,[["render",t]]);r["default"]=u}}]);
