@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === "production" ? "/fin" : "/",
+  // publicPath: process.env.NODE_ENV === "production" ? "/fin" : "/",
   filenameHashing: false,
   productionSourceMap: false,
   pwa: {
