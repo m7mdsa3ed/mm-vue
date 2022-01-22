@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="updateExists"
     class="alert alert-primary d-flex align-items-center justify-content-center"
   >
     <p class="mb-0 me-4 lead">An update is available</p>
