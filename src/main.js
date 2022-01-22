@@ -21,6 +21,11 @@ const baseURL =
     ? process.env.VUE_APP_API_BASEURL_LOCAL
     : process.env.VUE_APP_API_BASEURL;
 
+console.log({
+  baseURL,
+  env: process.env,
+});
+
 // Axios configration
 axios.defaults.baseURL = baseURL + "/api";
 axios.defaults.headers.Authorization = `Bearer ${store.state.auth.token}`;
