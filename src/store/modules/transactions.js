@@ -73,7 +73,6 @@ export default {
             resolve(res.data);
           })
           .catch((err) => {
-            console.log(err);
             commit("setErrors", err.response.data);
             reject(err);
           });

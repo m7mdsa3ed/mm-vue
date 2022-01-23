@@ -151,13 +151,9 @@ export default {
 
     removeCategory(category) {
       if (confirm("Are you sure you want to delete this category?")) {
-        this.$store
-          .dispatch("categories/delete", {
-            category,
-          })
-          .then((res) => {
-            alert("deleted");
-          });
+        this.$store.dispatch("categories/delete", {
+          category,
+        });
       }
     },
   },

@@ -40,6 +40,8 @@
 
 <script>
 export default {
+  props: ["modal"],
+
   data() {
     return {
       category: {},
@@ -48,16 +50,16 @@ export default {
 
   methods: {
     save() {
-      const fd = new FormData();
+      const data = new FormData();
 
       for (const key in this.category) {
         const value = this.category[key];
         if (value) {
-          fd.append(key, value);
+          data.append(key, value);
         }
       }
 
-      this.$http.post("categories", fd).then(() => {
+      this.$store.dispatch("categories/save", { data }).then(() => {
         this.modal.hide();
       });
     },

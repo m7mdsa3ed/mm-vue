@@ -75,18 +75,16 @@
                         <span> Edit </span>
                       </a>
                     </li>
-                    <template v-if="false">
-                      <li><hr class="dropdown-divider" /></li>
-                      <li>
-                        <a
-                          class="dropdown-item text-danger"
-                          href=""
-                          @click.prevent="removeAccount(account)"
-                        >
-                          <span> Delete </span>
-                        </a>
-                      </li>
-                    </template>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a
+                        class="dropdown-item text-danger"
+                        href=""
+                        @click.prevent="removeAccount(account)"
+                      >
+                        <span> Delete </span>
+                      </a>
+                    </li>
                   </ul>
                 </div>
               </td>
@@ -163,7 +161,7 @@ export default {
     },
 
     removeAccount(account) {
-      console.log("removing account");
+      alert("removing account is wip");
     },
   },
 };
