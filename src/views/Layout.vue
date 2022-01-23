@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <div class="p-4 bg-white vh-100 sticky-top">
+    <div class="p-4 bg-white vh-100 sticky-top" v-if="false">
       <Sidebar />
     </div>
 
