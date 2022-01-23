@@ -1,6 +1,5 @@
 import axios from "axios";
 import { JSON2FD } from "../../helpers";
-import store from "..";
 
 export default {
   namespaced: true,
@@ -8,31 +7,58 @@ export default {
   state: {
     loading: false,
     data: [],
-    errors: []
+    errors: [],
+  },
+
+  mutations: {
+    setTransactions: (state, transactions) => (state.data = transactions),
+    setErrors: (state, errors) => (state.errors = errors),
+    setLoading: (state, status) => (state.loading = status),
+
+    saveTransaction: (state, { transaction, isUpdating }) => {
+      const index = state.data.data.findIndex((x) => x.id == transaction.id);
+
+      if (isUpdating && index != -1) {
+        state.data.data[index] = transaction;
+      } else {
+        state.data.data.push(transaction);
+      }
+    },
+
+    removeTransaction: (state, transaction) => {
+      const index = state.data.data.findIndex((x) => x.id == transaction.id);
+
+      if (index != -1) {
+        state.data.data.splice(index, 1);
+      }
+    },
   },
 
   actions: {
-    async fetch({ state }, payload) {
+    async fetch({ commit }, payload) {
       let url = payload?.url;
       let filter = payload?.filter;
+
+      commit("setLoading", true);
 
       return new Promise((resolve, reject) => {
         axios
           .get(url ?? "transactions", {
-            params: filter
+            params: filter,
           })
-          .then(response => {
-            state.data = response.data;
+          .then((response) => {
+            commit("setTransactions", response.data);
             resolve(response);
           })
-          .catch(err => {
-            state.errors = err.response.data;
+          .catch((err) => {
+            commit("setErrors", err.response.data);
             reject(err);
-          });
+          })
+          .finally(() => commit("setLoading", false));
       });
     },
 
-    async save({}, { data, isUpdating }) {
+    async save({ commit }, { data, isUpdating }) {
       const fd = JSON2FD(data);
 
       const url = isUpdating
@@ -42,22 +68,31 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post(url, fd)
-          .then(res => {
+          .then((res) => {
+            commit("saveTransaction", { transaction: res.data, isUpdating });
             resolve(res.data);
-
-            store.dispatch("app/fetchStats");
           })
-          .catch(err => reject(err));
+          .catch((err) => {
+            console.log(err);
+            commit("setErrors", err.response.data);
+            reject(err);
+          });
       });
     },
 
-    async delete({}, { transaction }) {
+    async delete({ commit }, { transaction }) {
       return new Promise((resolve, reject) => {
         axios
           .post(`transactions/${transaction.id}/delete`)
-          .then(res => resolve(res.data))
-          .catch(err => reject(err));
+          .then((res) => {
+            commit("removeTransaction", res.data);
+            resolve(res.data);
+          })
+          .catch((err) => {
+            commit("setErrors", err.response?.data);
+            reject(err);
+          });
       });
-    }
-  }
+    },
+  },
 };

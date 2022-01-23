@@ -6,12 +6,16 @@ export default {
   state: {
     loading: false,
     categories: [],
-    errors: []
+    errors: [],
   },
 
   mutations: {
+    setCategories: (state, categories) => (state.categories = categories),
+    setErrors: (state, errors) => (state.errors = errors),
+    setLoading: (state, status) => (state.loading = status),
+
     saveCategory: (state, { category, isUpdating }) => {
-      const index = state.categories.findIndex(x => x.id == category.id);
+      const index = state.categories.findIndex((x) => x.id == category.id);
 
       if (isUpdating && index != -1) {
         state.categories[index] = category;
@@ -21,35 +25,35 @@ export default {
     },
 
     removeCategory: (state, { category }) => {
-      const index = state.categories.findIndex(x => x.id == category.id);
+      const index = state.categories.findIndex((x) => x.id == category.id);
 
       if (index != -1) {
         state.categories.splice(index, 1);
       }
-    }
+    },
   },
 
   actions: {
-    async fetch({ state }) {
-      state.loading = true;
+    async fetch({ commit }) {
+      commit("setLoading", true);
 
       return new Promise((resolve, reject) => {
         axios
           .get("categories", {
             params: {
-              all: true
-            }
+              all: true,
+            },
           })
-          .then(response => {
-            state.categories = response.data;
+          .then((response) => {
+            commit("setCategories", response.data);
             resolve(response);
           })
-          .catch(err => {
-            state.errors = err.response.data;
+          .catch((err) => {
+            commit("setErrors", err.response.data);
             reject(err);
           })
           .finally(() => {
-            state.loading = false;
+            commit("setLoading", false);
           });
       });
     },
@@ -66,11 +70,11 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post(url, data)
-          .then(response => {
+          .then((response) => {
             commit("saveCategory", { category: response.data, isUpdating });
             resolve(response.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -84,14 +88,14 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post(url)
-          .then(response => {
+          .then((response) => {
             commit("removeCategory", { category });
             resolve(response.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
-    }
-  }
+    },
+  },
 };

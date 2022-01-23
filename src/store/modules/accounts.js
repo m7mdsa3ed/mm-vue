@@ -6,38 +6,50 @@ export default {
   state: {
     loading: false,
     data: [],
-    errors: []
+    errors: [],
   },
 
   mutations: {
+    setAccounts: (state, accounts) => (state.data = accounts),
+    setErrors: (state, errors) => (state.errors = errors),
+    setLoading: (state, status) => (state.loading = status),
+
     saveAccount: (state, { account, isUpdating }) => {
-      const index = state.data.findIndex(x => x.id == account.id);
+      const index = state.data.findIndex((x) => x.id == account.id);
 
       if (isUpdating && index != -1) {
         state.data[index] = account;
       } else {
         state.data.push(account);
       }
-    }
+    },
+
+    removeAccount: (state, account) => {
+      const index = state.data.findIndex((x) => x.id == account.id);
+
+      if (index != -1) {
+        state.data.splice(index, 1);
+      }
+    },
   },
 
   actions: {
-    async fetch({ state }) {
-      state.loading = true;
+    async fetch({ commit }) {
+      commit("setLoading", true);
 
       return new Promise((resolve, reject) => {
         axios
           .get("accounts")
-          .then(response => {
-            state.data = response.data;
+          .then((response) => {
+            commit("setAccounts", response.data);
             resolve(response);
           })
-          .catch(err => {
-            state.errors = err.response.data;
+          .catch((err) => {
+            commit("setErrors", err.response.data);
             reject(err);
           })
           .finally(() => {
-            state.loading = false;
+            commit("setLoading", false);
           });
       });
     },
@@ -52,11 +64,11 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post(url, data)
-          .then(response => {
+          .then((response) => {
             commit("saveAccount", { account: response.data, isUpdating });
             resolve(response.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -70,14 +82,14 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post(url)
-          .then(response => {
+          .then((response) => {
             commit("removeAccount", { account: account });
             resolve(response.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
-    }
-  }
+    },
+  },
 };

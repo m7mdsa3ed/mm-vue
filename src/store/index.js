@@ -12,7 +12,7 @@ const store = createStore({
     auth,
     accounts,
     categories,
-    transactions
+    transactions,
   },
 
   mutations: {
@@ -24,13 +24,31 @@ const store = createStore({
           Object.assign(state, JSON.parse(localStorage.getItem("store")))
         );
       }
-    }
-  }
+    },
+  },
 });
 
 store.subscribe((mutation, state) => {
-  // Store the state object as a JSON string
-  localStorage.setItem("store", JSON.stringify(state));
+  if (process.env.VUE_APP_ENABLE_VUEX_CACHE ?? false) {
+    localStorage.setItem("store", JSON.stringify(state));
+  }
+
+  const events = [
+    "transactions/saveTransaction",
+    "transactions/removeTransaction",
+    "accounts/saveAccount",
+    "accounts/removeAccount",
+    "categories/saveCategory",
+    "categories/removeCategory",
+  ];
+
+  events.forEach((evt) => {
+    if (evt == mutation.type) {
+      ["fetchStats", "loadChartData"].forEach((action) =>
+        store.dispatch("app/" + action)
+      );
+    }
+  });
 });
 
 export default store;
