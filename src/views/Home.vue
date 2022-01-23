@@ -7,24 +7,24 @@
     </div>
     <div class="row g-3 mb-3" v-if="stats">
       <template v-if="charts">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4">
           <div class="box p-0 overflow-hidden bg-main">
             <SparkChart :data="charts.balanceChart" title="Current Balance" />
           </div>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4">
           <div class="box p-0 overflow-hidden bg-main">
             <SparkChart :data="charts.incomeChart" title="Income this month" />
           </div>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4">
           <div class="box p-0 overflow-hidden bg-main">
             <SparkChart :data="charts.spendChart" title="Spend this month" />
           </div>
         </div>
-        <div class="col-12 col-md-9 d-none d-md-flex">
-          <div class="box bg-main w-100">
-            <Chart :data="charts.monthlySpendPerCategory" />
+        <div class="col-12 col-md-9">
+          <div class="box bg-main">
+            <MonthlySpendPerCategory :data="charts.monthlySpendPerCategory" />
           </div>
         </div>
       </template>
@@ -159,14 +159,14 @@
 <script>
 import PeriodStatus from "@/components/Widgets/PeriodStatus.vue";
 import SparkChart from "@/components/Charts/SparkChart.vue";
-import Chart from "@/components/Charts/Chart.vue";
+import MonthlySpendPerCategory from "@/components/Charts/MonthlySpendPerCategory.vue";
 
 import { mapActions, mapState } from "vuex";
 export default {
   components: {
     PeriodStatus,
     SparkChart,
-    Chart,
+    MonthlySpendPerCategory,
   },
 
   computed: {

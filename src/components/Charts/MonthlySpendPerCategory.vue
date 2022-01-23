@@ -23,7 +23,6 @@ export default {
         width: "100%",
         height: "600px",
         stacked: true,
-        stackType: "100%",
       },
       plotOptions: {
         bar: {
