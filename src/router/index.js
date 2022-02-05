@@ -10,7 +10,7 @@ const routes = [
       {
         path: "",
         name: "home",
-        component: () => import("../views/Home.vue")
+        component: () => import("../views/Home.vue"),
       },
       {
         path: "transactions",
@@ -19,9 +19,9 @@ const routes = [
           {
             path: "",
             name: "transactions",
-            component: () => import("../views/Transactions/Index.vue")
-          }
-        ]
+            component: () => import("../views/Transactions/Index.vue"),
+          },
+        ],
       },
       {
         path: "accounts",
@@ -30,14 +30,14 @@ const routes = [
           {
             path: "",
             name: "accounts",
-            component: () => import("../views/Accounts/Index.vue")
+            component: () => import("../views/Accounts/Index.vue"),
           },
           {
             path: ":id/details",
             name: "accounts.detail",
-            component: () => import("../views/Accounts/Details.vue")
-          }
-        ]
+            component: () => import("../views/Accounts/Details.vue"),
+          },
+        ],
       },
       {
         path: "categories",
@@ -46,32 +46,39 @@ const routes = [
           {
             path: "",
             name: "categories",
-            component: () => import("../views/Categories/Index.vue")
+            component: () => import("../views/Categories/Index.vue"),
           },
           {
             path: ":id/details",
             name: "categories.detail",
-            component: () => import("../views/Categories/Details.vue")
-          }
-        ]
+            component: () => import("../views/Categories/Details.vue"),
+          },
+        ],
       },
       {
         path: "profile",
         name: "profile",
-        component: () => import("../views/Profile.vue")
-      }
-    ]
+        component: () => import("../views/Profile.vue"),
+      },
+    ],
   },
   {
     path: "/a",
     component: () => import("../components/RouterView"),
-    children: [...auth]
-  }
+    children: [...auth],
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0,
+      behavior: "smooth",
+    };
+  },
 });
 
 export default router;

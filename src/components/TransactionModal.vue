@@ -60,6 +60,7 @@
                 placeholder="Amount"
                 v-model="activeTransaction.amount"
                 class="form-control mb-3"
+                step="any"
                 required
               />
               <label> Amount</label>
