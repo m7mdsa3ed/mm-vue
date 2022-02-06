@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "..";
 
 export default {
   namespaced: true,
@@ -24,6 +25,14 @@ export default {
           state.charts = res.data;
         });
       });
+    },
+
+    async fetchAll() {
+      ["accounts/fetch", "categories/fetch", "transactions/fetch"].forEach(
+        (dispatchName) => {
+          store.dispatch(dispatchName);
+        }
+      );
     },
   },
 };

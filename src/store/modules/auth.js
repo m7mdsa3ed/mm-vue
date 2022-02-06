@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "..";
+import router from "../../router";
 
 const LSItemName = (process.env.VUE_APP_NSP ?? "VUE") + ".ACCESS_TOKEN";
 
@@ -11,7 +12,7 @@ export default {
     errors: [],
     user: null,
     token: localStorage.getItem(LSItemName),
-    enabled: true
+    enabled: true,
   },
 
   actions: {
@@ -19,11 +20,11 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post("login", payload)
-          .then(response => {
+          .then((response) => {
             dispatch("_login", response.data);
             resolve(response);
           })
-          .catch(err => {
+          .catch((err) => {
             state.errors = err.response.data;
           })
           .finally(() => {});
@@ -34,13 +35,13 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post("regsiter", payload)
-          .then(response => {
+          .then((response) => {
             const { user, token } = response.data;
 
             state.token = token;
             state.user = user;
           })
-          .catch(err => {
+          .catch((err) => {
             state.errors = err.response.data;
           });
       });
@@ -53,7 +54,7 @@ export default {
           .then(() => {
             dispatch("_logout");
           })
-          .catch(err => {
+          .catch((err) => {
             state.errors = err.response.data;
           });
       });
@@ -63,11 +64,11 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .get("me")
-          .then(response => {
+          .then((response) => {
             dispatch("_login", { user: response.data });
             resolve(response);
           })
-          .catch(err => {
+          .catch((err) => {
             if (err.response?.status === 401) {
               dispatch("_logout");
             }
@@ -83,6 +84,8 @@ export default {
       state.user = user;
       localStorage.setItem(LSItemName, state.token);
       axios.defaults.headers.Authorization = `Bearer ${state.token}`;
+
+      store.dispatch("app/fetchAll");
     },
 
     _logout({ state }) {
@@ -91,6 +94,8 @@ export default {
       localStorage.removeItem(LSItemName);
       axios.defaults.headers.Authorization = null;
       localStorage.removeItem("store");
-    }
-  }
+
+      router.push({ name: "login" });
+    },
+  },
 };
