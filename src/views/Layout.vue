@@ -1,24 +1,22 @@
 <template>
-  <div class="d-flex">
-    <div class="p-4 bg-white vh-100 sticky-top" v-if="false">
-      <Sidebar />
+  <div>
+    <div class="bg-white sticky-top">
+      <Navbar />
     </div>
 
-    <div class="w-100">
-      <router-view v-slot="{ Component }">
-        <transition name="slide" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </div>
+    <router-view v-slot="{ Component }">
+      <transition name="slide" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
 <script>
-import Sidebar from "@/components/Sidebar";
+import Navbar from "@/components/Navbar";
 export default {
   components: {
-    Sidebar,
+    Navbar,
   },
 };
 </script>
