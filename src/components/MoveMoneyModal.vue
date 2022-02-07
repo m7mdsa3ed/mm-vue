@@ -81,35 +81,27 @@
 
 <script>
 import { Modal } from "bootstrap";
+import { mapState } from "vuex";
 export default {
+  props: ["modal"],
+
   data() {
     return {
       move: {
         from: "",
         to: "",
       },
-      accounts: [],
       errors: null,
     };
   },
 
-  mounted() {
-    this.fetchAccounts();
+  computed: {
+    ...mapState({
+      accounts: (state) => state.accounts.data,
+    }),
   },
 
   methods: {
-    fetchAccounts() {
-      this.$http
-        .get("accounts", {
-          params: {
-            all: true,
-          },
-        })
-        .then((res) => {
-          this.accounts = res.data;
-        });
-    },
-
     moveMoney() {
       const fd = new FormData();
 
@@ -117,13 +109,19 @@ export default {
         fd.append(key, this.move[key]);
       }
 
-      this.$http.post("transactions/move", fd).catch((err) => {
-        const { errors } = err.response?.data;
+      this.$http
+        .post("transactions/move", fd)
+        .then(() => {
+          this.$store.dispatch("accounts/fetch");
+          this.modal.hide();
+        })
+        .catch((err) => {
+          const data = err.response?.data;
 
-        if (errors) {
-          this.errors = errors;
-        }
-      });
+          if (data.errors) {
+            this.errors = errors;
+          }
+        });
     },
 
     hasErrors(field) {

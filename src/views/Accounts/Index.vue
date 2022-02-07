@@ -4,7 +4,7 @@
       <p class="display-6">Accounts</p>
     </div>
 
-    <div class="box bg-main mb-3">
+    <div class="box bg-main mb-3 d-flex gap-3">
       <button
         class="btn btn-sm btn-dark w-100"
         data-bs-toggle="modal"
@@ -13,6 +13,15 @@
       >
         <i class="icon fas fa-plus"></i>
         Account
+      </button>
+      <button
+        class="btn btn-sm btn-dark w-100"
+        data-bs-toggle="modal"
+        data-bs-target="#MoveMoneyModal"
+        ref="MoveMoneyModalButton"
+      >
+        <i class="icon fas fa-sync"></i>
+        Move Money
       </button>
     </div>
 
@@ -99,6 +108,7 @@
       :account="this.modals.AccountEditModal?.data ?? null"
       :modal="this.modals.AccountEditModal?.instance"
     />
+    <MoveMoneyModal :modal="this.modals.MoveMoneyModal?.instance" />
   </div>
 </template>
 
@@ -106,11 +116,13 @@
 import { mapState } from "vuex";
 import AccountModal from "@/components/AccountModal";
 import AccountEditModal from "@/components/AccountEditModal";
+import MoveMoneyModal from "@/components/MoveMoneyModal";
 import { Modal } from "bootstrap";
 export default {
   components: {
     AccountModal,
     AccountEditModal,
+    MoveMoneyModal,
   },
 
   data() {
