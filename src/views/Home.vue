@@ -95,7 +95,7 @@
           <div
             v-for="account in accounts
               .filter((a) => a.balance != 0)
-              .sort((a, b) => a.balance - b.balance)
+              .sort((a, b) => b.balance - a.balance)
               .filter((e, i) => i <= 4)"
             :key="account.id"
             class="
@@ -133,7 +133,7 @@
           <div
             v-for="category in categories
               .filter((a) => a.balance != 0)
-              .sort((a, b) => b.balance - a.balance)"
+              .sort((a, b) => a.balance - b.balance)"
             :key="category.id"
             class="
               d-flex
