@@ -51,10 +51,16 @@
               </td>
               <td>
                 <p class="mb-0 small">
-                  {{ transaction.category?.name || "No Category" }}
+                  <span>
+                    {{ transaction.category?.name || "No Category" }}
+                  </span>
+                  -
+                  <span class="text-muted small">
+                    {{ transaction.account?.name }}
+                  </span>
                 </p>
                 <span class="small text-muted">
-                  {{ transaction.account?.name }}
+                  {{ transaction.description }}
                 </span>
               </td>
               <td class="text-end">
