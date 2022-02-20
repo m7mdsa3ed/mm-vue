@@ -3,10 +3,10 @@ module.exports = {
   filenameHashing: false,
   productionSourceMap: false,
   pwa: {
-    name: "Fin",
+    name: "Money Management",
     themeColor: "#000000",
     workboxOptions: {
-      exclude: [/\.htaccess$/]
-    }
-  }
+      exclude: [/\.htaccess$/],
+    },
+  },
 };
