@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
+  <div>
     <div class="mb-3">
       <p class="display-6">Transactions</p>
     </div>
