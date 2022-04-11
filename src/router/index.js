@@ -60,6 +60,11 @@ const routes = [
         name: "profile",
         component: () => import("../views/Profile.vue"),
       },
+      {
+        path: "/backup",
+        name: "backup",
+        component: () => import("../views/Common/Backup.vue"),
+      },
     ],
   },
   {
