@@ -56,6 +56,17 @@ const routes = [
         ],
       },
       {
+        path: "tags",
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            name: "tags",
+            component: () => import("../views/Tags/Index.vue"),
+          },
+        ],
+      },
+      {
         path: "profile",
         name: "profile",
         component: () => import("../views/Profile.vue"),

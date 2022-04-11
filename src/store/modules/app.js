@@ -28,11 +28,14 @@ export default {
     },
 
     async fetchAll() {
-      ["accounts/fetch", "categories/fetch", "transactions/fetch"].forEach(
-        (dispatchName) => {
-          store.dispatch(dispatchName);
-        }
-      );
+      [
+        "accounts/fetch",
+        "categories/fetch",
+        "transactions/fetch",
+        "tags/fetch",
+      ].forEach((dispatchName) => {
+        store.dispatch(dispatchName);
+      });
     },
   },
 };

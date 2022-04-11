@@ -71,6 +71,11 @@ export default {
           icon: `<i class="icon fas fa-th"></i>`,
         },
         {
+          name: "Tags",
+          routeName: "Tags",
+          icon: `<i class="icon fas fa-tags"></i>`,
+        },
+        {
           name: "Profile",
           routeName: "Profile",
           icon: `<i class="icon fas fa-user"></i>`,

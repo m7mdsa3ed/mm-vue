@@ -4,6 +4,7 @@ import app from "./modules/app";
 import auth from "./modules/auth";
 import accounts from "./modules/accounts";
 import categories from "./modules/categories";
+import tags from "./modules/tags";
 import transactions from "./modules/transactions";
 
 const store = createStore({
@@ -12,6 +13,7 @@ const store = createStore({
     auth,
     accounts,
     categories,
+    tags,
     transactions,
   },
 
