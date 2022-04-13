@@ -4,6 +4,11 @@
       <div class="col-12 col-lg-6">
         <div class="bg-main box my-3">
           <p class="fs-4 fw-light">Login</p>
+
+          <div v-if="errors.message" class="alert alert-danger">
+            {{ errors.message }}
+          </div>
+
           <form @submit.prevent="login">
             <div class="form-floating mb-3">
               <input

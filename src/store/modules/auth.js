@@ -18,6 +18,8 @@ export default {
   actions: {
     async login({ state, dispatch }, payload) {
       return new Promise((resolve, reject) => {
+        state.errors = [];
+
         axios
           .post("login", payload)
           .then((response) => {
@@ -26,23 +28,30 @@ export default {
           })
           .catch((err) => {
             state.errors = err.response.data;
+            reject(err);
           })
-          .finally(() => {});
+          .finally(() => {
+            state.loading = false;
+          });
       });
     },
 
     async register({ state }, payload) {
       return new Promise((resolve, reject) => {
+        state.errors = [];
+
         axios
-          .post("regsiter", payload)
+          .post("register", payload)
           .then((response) => {
             const { user, token } = response.data;
 
             state.token = token;
             state.user = user;
+            resolve(response);
           })
           .catch((err) => {
             state.errors = err.response.data;
+            reject(err);
           });
       });
     },
@@ -62,6 +71,10 @@ export default {
 
     async getUser({ state, dispatch }) {
       return new Promise((resolve, reject) => {
+        if (state.token == null) {
+          return reject("No token");
+        }
+
         axios
           .get("me")
           .then((response) => {
