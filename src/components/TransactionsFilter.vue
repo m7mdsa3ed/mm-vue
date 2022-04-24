@@ -40,7 +40,21 @@
           <label> Account </label>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-3">
+
+      <div class="col-sm-4 col-lg-2">
+        <div class="form-floating">
+          <select class="form-select" v-model="filter.period">
+            <option selected value="">Select Period</option>
+            <option value="1">Today</option>
+            <option value="2">This Week</option>
+            <option value="3">This Month</option>
+            <option value="0">Custom</option>
+          </select>
+          <label> Period </label>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-lg-2" v-if="filter.period == 0">
         <div class="form-floating">
           <input
             type="date"
@@ -51,7 +65,8 @@
           <label> Date From </label>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-3">
+
+      <div class="col-sm-4 col-lg-2" v-if="filter.period == 0">
         <div class="form-floating">
           <input
             type="date"
@@ -79,7 +94,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -88,6 +103,7 @@ export default {
       filterDefault: {
         category_id: "",
         account_id: "",
+        period: "",
       },
     };
   },
