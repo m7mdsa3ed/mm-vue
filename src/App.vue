@@ -2,7 +2,12 @@
   <div>
     <div
       v-if="updateExists"
-      class="alert alert-primaryd-flexalign-items-centerjustify-content-center"
+      class="
+        alert alert-primary
+        d-flex
+        align-items-center
+        justify-content-center
+      "
     >
       <p class="mb-0 me-2 fw-bold">An update is available</p>
       <button class="btn btn-dark btn-sm" @click="refreshApp">Update</button>
