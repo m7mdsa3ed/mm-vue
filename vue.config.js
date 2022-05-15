@@ -7,6 +7,7 @@ module.exports = {
     themeColor: "#000000",
     workboxOptions: {
       exclude: [/\.htaccess$/],
+      skipWaiting: true,
     },
   },
 };
