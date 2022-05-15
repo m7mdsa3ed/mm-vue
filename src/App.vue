@@ -1,15 +1,16 @@
 <template>
   <div>
     <div
-      v-if="updateExists"
+      v-if="true"
       class="
         alert alert-primary
+        py-1
         d-flex
         align-items-center
         justify-content-center
       "
     >
-      <p class="mb-0 me-4 lead">An update is available</p>
+      <p class="mb-0 me-2 fw-bold">An update is available</p>
       <button class="btn btn-dark btn-sm" @click="refreshApp">Update</button>
     </div>
 
