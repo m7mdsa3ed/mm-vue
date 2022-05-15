@@ -5,12 +5,14 @@ import RouterView from "@/components/RouterView";
 const routes = [
   {
     path: "/",
-    component: () => import("../views/Layout.vue"),
+    component: () =>
+      import(/* webpackChunkName: "views-layout" */ "../views/Layout.vue"),
     children: [
       {
         path: "",
         name: "home",
-        component: () => import("../views/Home.vue"),
+        component: () =>
+          import(/* webpackChunkName: "views-home" */ "../views/Home.vue"),
       },
       {
         path: "transactions",
@@ -19,7 +21,10 @@ const routes = [
           {
             path: "",
             name: "transactions",
-            component: () => import("../views/Transactions/Index.vue"),
+            component: () =>
+              import(
+                /* webpackChunkName: "views-transactions-index */ "../views/Transactions/Index.vue"
+              ),
           },
         ],
       },
@@ -30,12 +35,18 @@ const routes = [
           {
             path: "",
             name: "accounts",
-            component: () => import("../views/Accounts/Index.vue"),
+            component: () =>
+              import(
+                /* webpackChunkName: "views-accounts-index */ "../views/Accounts/Index.vue"
+              ),
           },
           {
             path: ":id/details",
             name: "accounts.detail",
-            component: () => import("../views/Accounts/Details.vue"),
+            component: () =>
+              import(
+                /* webpackChunkName: "views-accounts-details */ "../views/Accounts/Details.vue"
+              ),
           },
         ],
       },
@@ -46,12 +57,18 @@ const routes = [
           {
             path: "",
             name: "categories",
-            component: () => import("../views/Categories/Index.vue"),
+            component: () =>
+              import(
+                /* webpackChunkName: "views-categories-Index */ "../views/Categories/Index.vue"
+              ),
           },
           {
             path: ":id/details",
             name: "categories.detail",
-            component: () => import("../views/Categories/Details.vue"),
+            component: () =>
+              import(
+                /* webpackChunkName: "views-categories-Details */ "../views/Categories/Details.vue"
+              ),
           },
         ],
       },
@@ -62,25 +79,37 @@ const routes = [
           {
             path: "",
             name: "tags",
-            component: () => import("../views/Tags/Index.vue"),
+            component: () =>
+              import(
+                /* webpackChunkName: "views-tags-index */ "../views/Tags/Index.vue"
+              ),
           },
         ],
       },
       {
         path: "profile",
         name: "profile",
-        component: () => import("../views/Profile.vue"),
+        component: () =>
+          import(
+            /* webpackChunkName: "views-profile" */ "../views/Profile.vue"
+          ),
       },
       {
         path: "/backup",
         name: "backup",
-        component: () => import("../views/Common/Backup.vue"),
+        component: () =>
+          import(
+            /* webpackChunkName: "views-common-backup */ "../views/Common/Backup.vue"
+          ),
       },
     ],
   },
   {
     path: "/a",
-    component: () => import("../components/RouterView"),
+    component: () =>
+      import(
+        /* webpackChunkName: "components-router" */ "../components/RouterView"
+      ),
     children: [...auth],
   },
 ];
