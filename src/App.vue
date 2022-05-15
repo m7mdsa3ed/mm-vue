@@ -1,13 +1,20 @@
 <template>
-  <div
-    v-if="updateExists"
-    class="alert alert-primary d-flex align-items-center justify-content-center"
-  >
-    <p class="mb-0 me-4 lead">An update is available</p>
-    <button class="btn btn-dark btn-sm" @click="refreshApp">Update</button>
-  </div>
+  <div>
+    <div
+      v-if="updateExists"
+      class="
+        alert alert-primary
+        d-flex
+        align-items-center
+        justify-content-center
+      "
+    >
+      <p class="mb-0 me-4 lead">An update is available</p>
+      <button class="btn btn-dark btn-sm" @click="refreshApp">Update</button>
+    </div>
 
-  <RouterView />
+    <RouterView />
+  </div>
 </template>
 
 <script>
