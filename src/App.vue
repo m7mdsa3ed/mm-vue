@@ -29,6 +29,18 @@ export default {
       .catch(() => {
         this.$router.push({ name: "login" });
       });
+
+    // Ctrl + Enter to submit the form
+    window.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key == "Enter") {
+        const element = e.target;
+
+        // Get form from [form] attribute or the closest one
+        const form = element.form || element.closest("form");
+
+        form.dispatchEvent(new Event("submit"));
+      }
+    });
   },
 
   methods: {
