@@ -33,6 +33,7 @@ export default {
         "categories/fetch",
         "transactions/fetch",
         "tags/fetch",
+        "currencies/fetch",
       ].forEach((dispatchName) => {
         store.dispatch(dispatchName);
       });

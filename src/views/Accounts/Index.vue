@@ -46,7 +46,7 @@
                 </span>
               </td>
               <td class="text-end">
-                {{ $fn.money(account.balance) }}
+                {{ $fn.money(account.balance, account.currency?.name) }}
               </td>
               <td width="1">
                 <div class="dropdown">
@@ -173,7 +173,7 @@ export default {
     },
 
     removeAccount(account) {
-      alert("removing account is wip");
+      this.$store.dispatch("accounts/delete", { account });
     },
   },
 };

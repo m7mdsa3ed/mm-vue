@@ -13,6 +13,7 @@
         <div class="bg-main box">
           <div class="d-flex align-items-center justify-content-between mb-3">
             <p class="fs-4 fw-light mb-0">Move Money</p>
+
             <button
               type="button"
               class="btn-close"
@@ -20,18 +21,8 @@
               aria-label="Close"
             ></button>
           </div>
-          <form @submit.prevent="moveMoney">
-            <div class="form-floating mb-3">
-              <input
-                type="number"
-                placeholder="Amount"
-                v-model="move.amount"
-                class="form-control mb-3"
-                :class="{ 'is-invalid': hasErrors('amount') }"
-              />
-              <label>Amount</label>
-            </div>
 
+          <form @submit.prevent="moveMoney">
             <div class="form-floating mb-3">
               <select
                 class="form-select"
@@ -71,6 +62,30 @@
               </select>
               <label for="accountSelect">To Account</label>
             </div>
+
+            <div class="form-floating mb-3">
+              <input
+                type="number"
+                placeholder="Amount"
+                v-model="move.amount"
+                class="form-control mb-3"
+                :class="{ 'is-invalid': hasErrors('amount') }"
+              />
+              <label>Amount</label>
+            </div>
+
+            <div v-if="differentCurrency">
+              <div class="form-floating">
+                <input
+                  type="number"
+                  placeholder="To Amount"
+                  v-model="move.toAmount"
+                  class="form-control mb-3"
+                />
+                <label> To Amount </label>
+              </div>
+            </div>
+
             <button class="btn btn-dark w-100">Save</button>
           </form>
         </div>
@@ -80,7 +95,6 @@
 </template>
 
 <script>
-import { Modal } from "bootstrap";
 import { mapState } from "vuex";
 export default {
   props: ["modal"],
@@ -99,6 +113,20 @@ export default {
     ...mapState({
       accounts: (state) => state.accounts.data,
     }),
+
+    differentCurrency() {
+      const from = this.accounts.find(
+        (account) => account.id === this.move.from
+      );
+
+      const to = this.accounts.find((account) => account.id === this.move.to);
+
+      if (from && to) {
+        return from.currency_id !== to.currency_id;
+      }
+
+      return false;
+    },
   },
 
   methods: {

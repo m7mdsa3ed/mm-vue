@@ -20,7 +20,7 @@
               aria-label="Close"
             ></button>
           </div>
-          <form @submit.prevent="save">
+          <form @submit.prevent="save" id="accountForm">
             <div class="form-floating mb-3">
               <input
                 type="text"
@@ -29,6 +29,27 @@
                 v-model="account.name"
               />
               <label> Account Name </label>
+            </div>
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                id="floatingSelect"
+                v-model="account.currency_id"
+                aria-label="Floating label select example"
+                form="accountForm"
+                required
+              >
+                <option selected>Open this select menu</option>
+                <option
+                  v-for="currency in currencies"
+                  :key="currency.id"
+                  :value="currency.id"
+                >
+                  {{ currency.name }}
+                </option>
+              </select>
+
+              <label> Currency </label>
             </div>
             <button class="btn btn-dark w-100">Save</button>
           </form>
@@ -39,6 +60,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: ["modal"],
 
@@ -46,6 +68,12 @@ export default {
     return {
       account: {},
     };
+  },
+
+  computed: {
+    ...mapState({
+      currencies: (state) => state.currencies.data,
+    }),
   },
 
   methods: {

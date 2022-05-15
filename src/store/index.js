@@ -6,6 +6,7 @@ import accounts from "./modules/accounts";
 import categories from "./modules/categories";
 import tags from "./modules/tags";
 import transactions from "./modules/transactions";
+import currencies from "./modules/currencies";
 
 const store = createStore({
   modules: {
@@ -15,6 +16,7 @@ const store = createStore({
     categories,
     tags,
     transactions,
+    currencies,
   },
 
   mutations: {
