@@ -36,8 +36,12 @@ export default {
 
   actions: {
     async fetch({ commit }, payload) {
-      let url = payload?.url;
-      let filter = payload?.filter;
+      let { url, filter } = payload || {};
+
+      // Reset Before Fetch
+      if (typeof filter.rbf != "undefined") {
+        commit("setTransactions", []);
+      }
 
       commit("setLoading", true);
 

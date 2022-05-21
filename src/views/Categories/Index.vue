@@ -58,8 +58,8 @@
                         href=""
                         @click.prevent="
                           $router.push({
-                            name: 'categories.detail',
-                            params: { id: category.id },
+                            name: 'transactions',
+                            query: { category_id: category.id, rbf: 1 },
                           })
                         "
                       >

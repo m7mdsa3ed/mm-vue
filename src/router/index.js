@@ -40,14 +40,6 @@ const routes = [
                 /* webpackChunkName: "views-accounts-index */ "../views/Accounts/Index.vue"
               ),
           },
-          {
-            path: ":id/details",
-            name: "accounts.detail",
-            component: () =>
-              import(
-                /* webpackChunkName: "views-accounts-details */ "../views/Accounts/Details.vue"
-              ),
-          },
         ],
       },
       {
@@ -60,14 +52,6 @@ const routes = [
             component: () =>
               import(
                 /* webpackChunkName: "views-categories-Index */ "../views/Categories/Index.vue"
-              ),
-          },
-          {
-            path: ":id/details",
-            name: "categories.detail",
-            component: () =>
-              import(
-                /* webpackChunkName: "views-categories-Details */ "../views/Categories/Details.vue"
               ),
           },
         ],

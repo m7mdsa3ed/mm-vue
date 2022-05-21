@@ -61,14 +61,14 @@
                     "
                     style="width: 220px"
                   >
-                    <li v-if="false">
+                    <li>
                       <a
                         class="dropdown-item"
                         href=""
                         @click.prevent="
                           $router.push({
-                            name: 'accounts.detail',
-                            params: { id: account.id },
+                            name: 'transactions',
+                            query: { account_id: account.id, rbf: 1 },
                           })
                         "
                       >
