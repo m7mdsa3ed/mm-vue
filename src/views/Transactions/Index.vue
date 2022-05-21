@@ -42,7 +42,7 @@
                   <i
                     class="icon fa-sm"
                     :class="
-                      transaction.type == 1
+                      transaction.action == 1
                         ? 'icon-bg-success fas fa-arrow-up'
                         : 'icon-bg-danger fas fa-arrow-down'
                     "
@@ -59,19 +59,31 @@
                     {{ transaction.account?.name }}
                   </span>
                 </p>
-                <span class="small text-muted">
+                <span
+                  class="
+                    small
+                    text-muted text-multi-truncate text-multi-truncate-2
+                    white-space-pre-wrap
+                  "
+                >
                   {{ transaction.description }}
                 </span>
               </td>
               <td class="text-end">
                 <span
-                  class="small"
+                  class="small d-flex flex-column align-items-end"
                   :class="
-                    transaction.type == 2 ? 'text-danger' : 'text-success'
+                    transaction.action == 2 ? 'text-danger' : 'text-success'
                   "
                 >
-                  {{ transaction.type == 2 ? "-" : "+"
-                  }}{{ $fn.money(transaction.amount) }}
+                  <span>
+                    {{ transaction.action == 2 ? "-" : "+" }}
+                    {{ $fn.money(transaction.amount) }}
+                  </span>
+
+                  <span class="badge bg-secondary rounded-0 mt-1">
+                    {{ transaction.action_type_as_string }}
+                  </span>
                 </span>
               </td>
               <td class="text-nowrap d-none d-lg-table-cell text-end">

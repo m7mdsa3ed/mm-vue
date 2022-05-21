@@ -45,8 +45,20 @@
                   Transactions: {{ account.transactions_count }}
                 </span>
               </td>
-              <td class="text-end">
+              <td class="text-end d-flex flex-column">
                 {{ $fn.money(account.balance, account.currency?.name) }}
+                <span
+                  v-if="Number(account.loans) != 0"
+                  class="small text-success text-uppercase fw-bold"
+                >
+                  {{ account.loans }} Loans
+                </span>
+                <span
+                  v-if="Number(account.debits) != 0"
+                  class="small text-danger text-uppercase fw-bold"
+                >
+                  {{ account.debits }} Debits
+                </span>
               </td>
               <td width="1">
                 <div class="dropdown">

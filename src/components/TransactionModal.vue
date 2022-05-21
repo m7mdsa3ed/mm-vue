@@ -29,31 +29,60 @@
               <input
                 type="radio"
                 class="btn-check"
-                v-model="activeTransaction.type"
-                name="type"
-                id="typeIncome"
+                v-model="activeTransaction.action"
+                name="action"
+                id="actionIncome"
                 value="1"
                 autocomplete="off"
                 required
               />
-              <label class="btn btn-outline-dark" for="typeIncome"
+              <label class="btn btn-outline-dark" for="actionIncome"
                 >Income</label
               >
 
               <input
                 type="radio"
                 class="btn-check"
-                v-model="activeTransaction.type"
-                name="type"
-                id="typeOutcome"
+                v-model="activeTransaction.action"
+                name="action"
+                id="actionOutcome"
                 value="2"
                 autocomplete="off"
                 required
               />
-              <label class="btn btn-outline-dark" for="typeOutcome"
+              <label class="btn btn-outline-dark" for="actionOutcome"
                 >Outcome</label
               >
             </div>
+
+            <div
+              class="btn-group mb-3 w-100"
+              role="group"
+              aria-label="Basic radio toggle button group"
+            >
+              <template
+                v-for="actionType in actionTypes"
+                :key="actionType.value"
+              >
+                <input
+                  type="radio"
+                  class="btn-check"
+                  v-model="activeTransaction.action_type"
+                  name="action_type"
+                  :id="`actionType${actionType.name}`"
+                  :value="actionType.value"
+                  autocomplete="off"
+                  required
+                />
+
+                <label
+                  class="btn btn-outline-dark"
+                  :for="`actionType${actionType.name}`"
+                  >{{ actionType.name }}</label
+                >
+              </template>
+            </div>
+
             <div class="form-floating mb-3">
               <input
                 type="number"
@@ -80,7 +109,7 @@
                 id="categorySelect"
                 v-model="activeTransaction.category_id"
               >
-                <option selected value>Select Category</option>
+                <option selected :value="undefined">Select Category</option>
                 <option
                   v-for="category in categories"
                   :key="category.id"
@@ -99,7 +128,7 @@
                 v-model="activeTransaction.account_id"
                 required
               >
-                <option selected value>Select Account</option>
+                <option selected :value="undefined">Select Account</option>
 
                 <option
                   v-for="account in accounts"
@@ -131,7 +160,6 @@
 </template>
 
 <script>
-import { Modal } from "bootstrap";
 import { mapActions, mapState } from "vuex";
 export default {
   props: {
@@ -143,27 +171,45 @@ export default {
     },
   },
 
+  data() {
+    return {
+      actionTypes: [
+        {
+          name: "Income",
+          value: "1",
+        },
+        {
+          name: "Outcome",
+          value: "2",
+        },
+        {
+          name: "Loan",
+          value: "4",
+        },
+        {
+          name: "Debit",
+          value: "5",
+        },
+      ],
+
+      activeTransaction: {},
+    };
+  },
+
+  watch: {
+    transaction: {
+      immediate: true,
+      handler(to) {
+        this.activeTransaction = this.getTransaction(to);
+      },
+    },
+  },
+
   computed: {
     ...mapState({
       accounts: (state) => state.accounts.data,
       categories: (state) => state.categories.categories,
     }),
-
-    activeTransaction() {
-      const transaction = this.transaction ?? {};
-      const defaultProps = {
-        type: "2",
-        account_id: "",
-        category_id: "",
-        created_at: this.$date().format("YYYY-MM-DD"),
-      };
-
-      for (const key in defaultProps) {
-        transaction[key] = transaction[key] ?? defaultProps[key];
-      }
-
-      return transaction;
-    },
 
     isUpdating() {
       return !!this.activeTransaction.id;
@@ -174,6 +220,23 @@ export default {
     ...mapActions({
       saveTransaction: "transactions/save",
     }),
+
+    getTransaction(t) {
+      console.log(t);
+
+      const transaction = t ?? {};
+      const defaultProps = {
+        action: "2",
+        action_type: "2",
+        created_at: this.$date().format("YYYY-MM-DD"),
+      };
+
+      for (const key in defaultProps) {
+        transaction[key] = transaction[key] ?? defaultProps[key];
+      }
+
+      return transaction;
+    },
 
     save() {
       this.saveTransaction({

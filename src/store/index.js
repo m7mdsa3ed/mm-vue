@@ -38,18 +38,38 @@ store.subscribe((mutation, state) => {
   }
 
   const events = [
-    "transactions/saveTransaction",
-    "transactions/removeTransaction",
-    "accounts/saveAccount",
-    "accounts/removeAccount",
-    "categories/saveCategory",
-    "categories/removeCategory",
+    {
+      type: "transactions/saveTransaction",
+      listeners: [],
+    },
+    {
+      type: "transactions/removeTransaction",
+      listeners: [],
+    },
+    {
+      type: "accounts/saveAccount",
+      listeners: [],
+    },
+    {
+      type: "accounts/removeAccount",
+      listeners: [],
+    },
+    {
+      type: "categories/saveCategory",
+      listeners: [],
+    },
+    {
+      type: "categories/removeCategory",
+      listeners: [],
+    },
   ];
 
-  events.forEach((evt) => {
-    if (evt == mutation.type) {
-      ["fetchStats", "loadChartData"].forEach((action) =>
-        store.dispatch("app/" + action)
+  const globalListener = ["app/fetchStats"];
+
+  events.forEach(({ type, listeners }) => {
+    if (type == mutation.type) {
+      [...globalListener, ...listeners].forEach((action) =>
+        store.dispatch(action)
       );
     }
   });

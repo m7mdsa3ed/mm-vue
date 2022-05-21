@@ -33,7 +33,7 @@
 
             <div class="mb-2">
               <span class="text-muted small"> Description </span>
-              <p>
+              <p class="white-space-pre-wrap">
                 {{ transaction?.description }}
               </p>
             </div>

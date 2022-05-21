@@ -86,6 +86,16 @@
               </div>
             </div>
 
+            <div class="form-floating mb-3">
+              <textarea
+                class="form-control mb-3"
+                placeholder="Description"
+                style="height: 100px"
+                v-model="move.description"
+              ></textarea>
+              <label>Description</label>
+            </div>
+
             <button class="btn btn-dark w-100">Save</button>
           </form>
         </div>
