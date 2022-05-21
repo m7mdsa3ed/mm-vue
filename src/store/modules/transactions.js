@@ -39,7 +39,7 @@ export default {
       let { url, filter } = payload || {};
 
       // Reset Before Fetch
-      if (typeof filter.rbf != "undefined") {
+      if (filter?.rbf || false) {
         commit("setTransactions", []);
       }
 
