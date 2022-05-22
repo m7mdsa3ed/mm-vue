@@ -23,7 +23,7 @@ const routes = [
             name: "transactions",
             component: () =>
               import(
-                /* webpackChunkName: "views-transactions-index */ "../views/Transactions/Index.vue"
+                /* webpackChunkName: "views-transactions-index" */ "../views/Transactions/Index.vue"
               ),
           },
         ],
@@ -37,7 +37,7 @@ const routes = [
             name: "accounts",
             component: () =>
               import(
-                /* webpackChunkName: "views-accounts-index */ "../views/Accounts/Index.vue"
+                /* webpackChunkName: "views-accounts-index" */ "../views/Accounts/Index.vue"
               ),
           },
         ],
@@ -51,7 +51,7 @@ const routes = [
             name: "categories",
             component: () =>
               import(
-                /* webpackChunkName: "views-categories-Index */ "../views/Categories/Index.vue"
+                /* webpackChunkName: "views-categories-Index" */ "../views/Categories/Index.vue"
               ),
           },
         ],
@@ -65,7 +65,7 @@ const routes = [
             name: "tags",
             component: () =>
               import(
-                /* webpackChunkName: "views-tags-index */ "../views/Tags/Index.vue"
+                /* webpackChunkName: "views-tags-index" */ "../views/Tags/Index.vue"
               ),
           },
         ],
@@ -83,7 +83,7 @@ const routes = [
         name: "backup",
         component: () =>
           import(
-            /* webpackChunkName: "views-common-backup */ "../views/Common/Backup.vue"
+            /* webpackChunkName: "views-common-backup" */ "../views/Common/Backup.vue"
           ),
       },
     ],
