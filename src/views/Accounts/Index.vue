@@ -126,9 +126,9 @@
 
 <script>
 import { mapState } from "vuex";
-import AccountModal from "@/components/AccountModal";
-import AccountEditModal from "@/components/AccountEditModal";
-import MoveMoneyModal from "@/components/MoveMoneyModal";
+import AccountModal from "@/components/Accounts/AccountModal";
+import AccountEditModal from "@/components/Accounts/AccountEditModal";
+import MoveMoneyModal from "@/components/Accounts/MoveMoneyModal";
 import { Modal } from "bootstrap";
 export default {
   components: {

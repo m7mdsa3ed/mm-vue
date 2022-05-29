@@ -173,9 +173,9 @@
 
 <script>
 import Paginator from "@/components/Paginator";
-import TransactionsFilter from "@/components/TransactionsFilter";
-import TransactionModal from "@/components/TransactionModal";
-import TransactionDetailsModal from "@/components/TransactionDetailsModal";
+import TransactionsFilter from "@/components/Transactions/TransactionsFilter";
+import TransactionModal from "@/components/Transactions/TransactionModal";
+import TransactionDetailsModal from "@/components/Transactions/TransactionDetailsModal";
 import { Modal } from "bootstrap";
 import { mapActions, mapState } from "vuex";
 

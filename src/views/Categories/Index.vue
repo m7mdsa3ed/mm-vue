@@ -103,8 +103,8 @@
 
 <script>
 import { mapState } from "vuex";
-import CategoryModal from "@/components/CategoryModal";
-import CategoryEditModal from "@/components/CategoryEditModal";
+import CategoryModal from "@/components/Categories/CategoryModal";
+import CategoryEditModal from "@/components/Categories/CategoryEditModal";
 import { Modal } from "bootstrap";
 export default {
   components: {
