@@ -128,7 +128,6 @@
                 id="tagsSelect"
                 v-model="activeTransaction.tag_ids"
                 multiple
-                required
               >
                 <option
                   v-for="tag in tags"
