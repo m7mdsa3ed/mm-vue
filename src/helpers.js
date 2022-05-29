@@ -3,18 +3,24 @@ export const money = (number, suffix = "EGP") =>
     .toFixed(2)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,")} ${suffix}`;
 
-export const JSON2FD = json => {
+export const JSON2FD = (json) => {
   const fd = new FormData();
 
-  for (const key in json) {
-    const value = json[key];
+  for (let key in json) {
+    let value = json[key];
 
     if (value) {
       if (Array.isArray(value)) {
-        value = JSON.stringify(value);
-      }
+        value = Array.from(value);
 
-      fd.append(key, value);
+        key = `${key}[]`;
+
+        for (const item of value) {
+          fd.append(key, item);
+        }
+      } else {
+        fd.append(key, value);
+      }
     }
   }
 

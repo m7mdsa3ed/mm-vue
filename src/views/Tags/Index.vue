@@ -31,6 +31,10 @@
                 <p class="mb-0">
                   {{ tag.name }}
                 </p>
+
+                <span class="text-muted small">
+                  Transactions: {{ tag.transactions_count }}
+                </span>
               </td>
               <td width="1">
                 <div class="dropdown">
@@ -49,12 +53,26 @@
                       <a
                         class="dropdown-item"
                         href=""
+                        @click="
+                          toRoute('transactions', { query: { tag_id: tag.id } })
+                        "
+                      >
+                        <span> Details </span>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href=""
                         @click.prevent="setTagOpenModal(tag, 'edit')"
                       >
                         <span> Edit </span>
                       </a>
                     </li>
+
                     <li><hr class="dropdown-divider" /></li>
+
                     <li>
                       <a
                         class="dropdown-item text-danger"

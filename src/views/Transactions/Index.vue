@@ -49,6 +49,7 @@
                   ></i>
                 </span>
               </td>
+
               <td>
                 <p class="mb-0 small">
                   <span>
@@ -58,6 +59,18 @@
                   <span class="text-muted small">
                     {{ transaction.account?.name }}
                   </span>
+
+                  <template v-for="tag in transaction.tags" :key="tag.id">
+                    <span
+                      role="button"
+                      class="small bg-light px-2 py-1 mt-1"
+                      @click="
+                        toRoute('transactions', { query: { tag_id: tag.id } })
+                      "
+                    >
+                      #{{ tag.name }}
+                    </span>
+                  </template>
                 </p>
                 <span
                   class="

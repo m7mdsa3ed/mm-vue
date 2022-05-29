@@ -124,6 +124,28 @@
             <div class="form-floating mb-3">
               <select
                 class="form-select"
+                style="min-height: 100px"
+                id="tagsSelect"
+                v-model="activeTransaction.tag_ids"
+                multiple
+                required
+              >
+                <option
+                  v-for="tag in tags"
+                  :key="tag.id"
+                  :value="tag.id"
+                  :selected="activeTransaction.tag_ids?.indexOf(tag.id) != -1"
+                >
+                  {{ tag.name }}
+                </option>
+              </select>
+
+              <label for="tagsSelect">Tag</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
                 id="accountSelect"
                 v-model="activeTransaction.account_id"
                 required
@@ -207,6 +229,7 @@ export default {
 
   computed: {
     ...mapState({
+      tags: (state) => state.tags.tags,
       accounts: (state) => state.accounts.data,
       categories: (state) => state.categories.categories,
     }),
@@ -222,13 +245,13 @@ export default {
     }),
 
     getTransaction(t) {
-      console.log(t);
-
       const transaction = t ?? {};
+
       const defaultProps = {
         action: "2",
         action_type: "2",
         created_at: this.$date().format("YYYY-MM-DD"),
+        tag_ids: transaction.tags?.map((tag) => tag.id) ?? [],
       };
 
       for (const key in defaultProps) {

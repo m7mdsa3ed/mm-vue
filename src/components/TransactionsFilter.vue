@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="setFilter">
     <div class="row g-2">
-      <div class="col-sm-6 col-lg-3">
+      <div class="col-sm-6 col-md-4 col-lg-2">
         <div class="form-floating">
           <select
             placeholder="Category"
@@ -21,7 +21,8 @@
           <label> Category </label>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-3">
+
+      <div class="col-sm-6 col-md-4 col-lg-2">
         <div class="form-floating">
           <select
             placeholder="Account"
@@ -41,7 +42,23 @@
         </div>
       </div>
 
-      <div class="col-sm-4 col-lg-2">
+      <div class="col-sm-6 col-md-4 col-lg-2">
+        <div class="form-floating">
+          <select
+            placeholder="Tag"
+            class="form-control"
+            v-model="filter.tag_id"
+          >
+            <option value selected>Select Tag</option>
+            <option v-for="tag in tags" :key="tag.id" :value="tag.id">
+              {{ tag.name }}
+            </option>
+          </select>
+          <label> Tag </label>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-2">
         <div class="form-floating">
           <select class="form-select" v-model="filter.period">
             <option selected value="">Select Period</option>
@@ -54,7 +71,7 @@
         </div>
       </div>
 
-      <div class="col-sm-4 col-lg-2" v-if="filter.period == 0">
+      <div class="col-sm-6 col-md-4 col-lg-2" v-if="filter.period == 0">
         <div class="form-floating">
           <input
             type="date"
@@ -66,7 +83,7 @@
         </div>
       </div>
 
-      <div class="col-sm-4 col-lg-2" v-if="filter.period == 0">
+      <div class="col-sm-6 col-md-4 col-lg-2" v-if="filter.period == 0">
         <div class="form-floating">
           <input
             type="date"
@@ -103,6 +120,7 @@ export default {
       filterDefault: {
         category_id: "",
         account_id: "",
+        tag_id: "",
         period: "",
       },
     };
@@ -122,6 +140,7 @@ export default {
 
   computed: {
     ...mapState({
+      tags: (state) => state.tags.tags,
       accounts: (state) => state.accounts.data,
       categories: (state) => state.categories.categories,
     }),
