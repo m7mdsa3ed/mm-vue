@@ -63,12 +63,11 @@
                   <template v-for="tag in transaction.tags" :key="tag.id">
                     <span
                       role="button"
-                      class="small bg-light px-2 py-1 mt-1"
+                      class="small fw-bold bg-light px-1 ms-2"
                       @click="
                         toRoute('transactions', { query: { tag_id: tag.id } })
                       "
-                    >
-                      #{{ tag.name }}
+                      >#{{ tag.name.toUpperCase() }}
                     </span>
                   </template>
                 </p>
