@@ -26,40 +26,6 @@
               role="group"
               aria-label="Basic radio toggle button group"
             >
-              <input
-                type="radio"
-                class="btn-check"
-                v-model="activeTransaction.action"
-                name="action"
-                id="actionIncome"
-                value="1"
-                autocomplete="off"
-                required
-              />
-              <label class="btn btn-outline-dark" for="actionIncome"
-                >Income</label
-              >
-
-              <input
-                type="radio"
-                class="btn-check"
-                v-model="activeTransaction.action"
-                name="action"
-                id="actionOutcome"
-                value="2"
-                autocomplete="off"
-                required
-              />
-              <label class="btn btn-outline-dark" for="actionOutcome"
-                >Outcome</label
-              >
-            </div>
-
-            <div
-              class="btn-group mb-3 w-100"
-              role="group"
-              aria-label="Basic radio toggle button group"
-            >
               <template
                 v-for="actionType in actionTypes"
                 :key="actionType.value"
@@ -247,7 +213,6 @@ export default {
       const transaction = t ?? {};
 
       const defaultProps = {
-        action: "2",
         action_type: "2",
         created_at: this.$date().format("YYYY-MM-DD"),
         tag_ids: transaction.tags?.map((tag) => tag.id) ?? [],
