@@ -163,7 +163,6 @@
     <TransactionModal
       :modal="modals.TransactionModal.instance"
       :transaction="modals.TransactionModal.transaction"
-      @newTransaction="pushOrUpdate"
     />
     <TransactionDetailsModal
       :transaction="modals.TransactionDetailsModal.transaction"
@@ -269,30 +268,7 @@ export default {
     },
 
     removeTransaction(transaction) {
-      this.deleteTransaction({ transaction }).then(() => {
-        const transactionIndex = this.transactions.data.findIndex(
-          (x) => (x.id = transaction.id)
-        );
-        this.transactions.data.splice(transactionIndex, 1);
-      });
-    },
-
-    pushOrUpdate(transaction) {
-      if (!transaction) return;
-
-      // If transactions exists => update it
-      const transactionIndex = this.transactions.data.findIndex(
-        (x) => x.id == transaction.id
-      );
-
-      if (transactionIndex != -1) {
-        this.transactions.data[transactionIndex] = transaction;
-      }
-
-      // Push it
-      else {
-        this.transactions.data.unshift(transaction);
-      }
+      this.deleteTransaction({ transaction });
     },
   },
 };
