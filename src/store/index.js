@@ -64,7 +64,7 @@ store.subscribe((mutation, state) => {
     },
   ];
 
-  const globalListener = ["app/fetchStats"];
+  const globalListener = [];
 
   events.forEach(({ type, listeners }) => {
     if (type == mutation.type) {
