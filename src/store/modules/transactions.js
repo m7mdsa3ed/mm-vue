@@ -21,7 +21,7 @@ export default {
       if (isUpdating && index != -1) {
         state.data.data[index] = transaction;
       } else {
-        state.data.data.push(transaction);
+        state.data.data.unshift(transaction);
       }
     },
 
@@ -88,7 +88,7 @@ export default {
         axios
           .post(`transactions/${transaction.id}/delete`)
           .then((res) => {
-            commit("removeTransaction", res.data);
+            commit("removeTransaction", transaction);
             resolve(res.data);
           })
           .catch((err) => {
