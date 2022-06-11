@@ -33,5 +33,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
-          script: sh /var/www/.scripts/fin-vue.sh
+          script: ${{ secrets.ONE_LINE_SCRIPT }}
 
