@@ -48,6 +48,37 @@
                 >
               </template>
             </div>
+            <div
+              class="btn-group mb-3 w-100"
+              role="group"
+              aria-label="Basic radio toggle button group"
+              v-if="[4, 5].includes(activeTransaction.action_type)"
+            >
+              <template
+                v-for="action in [
+                  { name: 'Income', value: 1 },
+                  { name: 'Outcome', value: 2 },
+                ]"
+                :key="action.value"
+              >
+                <input
+                  type="radio"
+                  class="btn-check"
+                  v-model="activeTransaction.action"
+                  name="action"
+                  :id="`action${action.name}`"
+                  :value="action.value"
+                  autocomplete="off"
+                  required
+                />
+
+                <label
+                  class="btn btn-outline-dark"
+                  :for="`action${action.name}`"
+                  >{{ action.name }}</label
+                >
+              </template>
+            </div>
 
             <div class="form-floating mb-3">
               <input
@@ -163,19 +194,19 @@ export default {
       actionTypes: [
         {
           name: "Income",
-          value: "1",
+          value: 1,
         },
         {
           name: "Outcome",
-          value: "2",
+          value: 2,
         },
         {
           name: "Loan",
-          value: "4",
+          value: 4,
         },
         {
           name: "Debit",
-          value: "5",
+          value: 5,
         },
       ],
 
@@ -213,7 +244,7 @@ export default {
       const transaction = t ?? {};
 
       const defaultProps = {
-        action_type: "2",
+        action_type: 2,
         created_at: this.$date().format("YYYY-MM-DD"),
         tag_ids: transaction.tags?.map((tag) => tag.id) ?? [],
       };
