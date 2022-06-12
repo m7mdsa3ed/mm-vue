@@ -76,6 +76,11 @@ export default {
           icon: `<i class="icon fas fa-tags"></i>`,
         },
         {
+          name: "Subscriptions",
+          routeName: "Subscriptions",
+          icon: `<i class="icon fas fa-check-double"></i>`,
+        },
+        {
           name: "Profile",
           routeName: "Profile",
           icon: `<i class="icon fas fa-user"></i>`,

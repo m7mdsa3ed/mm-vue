@@ -71,6 +71,20 @@ const routes = [
         ],
       },
       {
+        path: "subscriptions",
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            name: "subscriptions",
+            component: () =>
+              import(
+                /* webpackChunkName: "views-subscriptions-index" */ "../views/Subscriptions/Index.vue"
+              ),
+          },
+        ],
+      },
+      {
         path: "profile",
         name: "profile",
         component: () =>
