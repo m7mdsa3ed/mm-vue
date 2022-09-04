@@ -36,7 +36,6 @@
                 id="floatingSelect"
                 v-model="data.currency_id"
                 aria-label="Floating label select example"
-                form="accountForm"
                 required
               >
                 <option selected>Open this select menu</option>
