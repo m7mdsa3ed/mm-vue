@@ -99,9 +99,15 @@
                 </span>
               </td>
               <td class="text-nowrap d-none d-lg-table-cell text-end">
-                <p class="mb-0 small">
-                  {{ $date(transaction.created_at).format("YYYY-MM-DD") }}
-                </p>
+                <div class="mb-0 small d-flex flex-column">
+                  <span class="fw-bold">
+                    {{ $date(transaction.created_at).format("dddd") }}
+                  </span>
+
+                  <span class="text-muted">
+                    {{ $date(transaction.created_at).format("YYYY-MM-DD") }}
+                  </span>
+                </div>
               </td>
               <td width="1">
                 <div class="dropdown">
