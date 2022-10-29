@@ -1,14 +1,10 @@
-@import "bs_vars";
+@import "../../modules/bootstrap/scss/functions";
+@import "../../modules/bootstrap/scss/variables";
+@import "../../modules/bootstrap/scss/mixins";
+
 @import "scrolbar";
 @import "vue";
-
-:root {
-  --bg-main: #fff;
-  --bg-main-color: #000;
-
-  --body-bg: #f1f1f7;
-  --body-bg-color: #000;
-}
+@import "vars";
 
 body {
   font-family: "Nunito", sans-serif;
@@ -37,7 +33,7 @@ body {
 
   @each $name, $color in $theme-colors {
     &-bg-#{$name} {
-      background-color: rgba($color, 15%);
+      background-color: rgba($color, 25%);
       color: $color;
     }
   }

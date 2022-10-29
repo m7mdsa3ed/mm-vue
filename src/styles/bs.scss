@@ -1,3 +1,7 @@
-@import "bs_vars";
+$border-radius: 0.5rem;
+$border-radius-sm: 0.375rem;
+$border-radius-lg: 0.73rem;
 
-@import "../../node_modules/bootstrap/scss/bootstrap";
+$link-decoration: none;
+
+@import "../../modules/bootstrap/scss/bootstrap";

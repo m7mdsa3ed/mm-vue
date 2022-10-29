@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light mb-3">
+  <nav class="navbar navbar-expand-lg bg-main mb-3">
     <div class="container-xxl">
       <a class="navbar-brand" href="#" @click.prevent="$router.push('/')">
         Home

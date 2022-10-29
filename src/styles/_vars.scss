@@ -1,0 +1,15 @@
+:root {
+  --bg-main: #fff;
+  --bg-main-color: #000;
+
+  --body-bg: #eee;
+  --body-bg-color: #000;
+}
+
+[data-bs-theme="dark"] {
+  --bg-main: #2a2e32;
+  --bg-main-color: #fff;
+
+  --body-bg: #212529;
+  --body-bg-color: #fff;
+}

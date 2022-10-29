@@ -10,7 +10,7 @@ import helperJS from "./plugins/helperJS";
 import axios from "axios";
 import VueAxios from "vue-axios";
 
-import "bootstrap";
+import "../modules/bootstrap";
 
 import "./styles/bs.scss";
 import "./styles/fa.scss";
