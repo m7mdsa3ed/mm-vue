@@ -42,7 +42,7 @@
                 />
 
                 <label
-                  class="btn btn-outline-dark"
+                  class="btn btn-dark"
                   :for="`actionType${actionType.name}`"
                   >{{ actionType.name }}</label
                 >
@@ -73,7 +73,7 @@
                 />
 
                 <label
-                  class="btn btn-outline-dark"
+                  class="btn btn-dark"
                   :for="`action${action.name}`"
                   >{{ action.name }}</label
                 >

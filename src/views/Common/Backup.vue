@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column gap-3">
-    <div class="box bg-white">
+    <div class="box bg-main">
       <button
         class="btn btn-dark w-100"
         :disabled="!this.backupNowUrl"
@@ -17,7 +17,7 @@
         justify-content-between
         align-content-center
         box
-        bg-white
+        bg-main
         shadow-sm
       "
     >

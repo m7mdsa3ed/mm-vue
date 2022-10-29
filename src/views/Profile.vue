@@ -11,7 +11,7 @@
     <template v-if="$store.state.auth.user?.id == 1">
       <hr />
 
-      <div class="box bg-white">
+      <div class="box bg-main">
         <button
           class="btn btn-dark"
           type="button"
