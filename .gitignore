@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 /dist
-/modules/bootstrap
 
 # local env files
 .env.local
