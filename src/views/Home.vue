@@ -51,7 +51,15 @@
                 <div class="accordion-body">
                   <template v-for="row in category.data">
                     <div class="d-flex gap-1 justify-content-between">
-                      <p class="mb-0 text-truncate" :title="row.name">{{ row.name }}</p>
+                      <div :title="row.name" class="text-truncate ">
+                        <p class="mb-0 text-truncate">
+                          {{ row.name }}
+                        </p>
+
+                        <span class="small text-muted fw-light">
+                          {{ row.date }}
+                        </span>
+                      </div>
                       <p class="mb-0 text-nowrap">
                         {{ $fn.money(row.amount) }}
 
