@@ -6,7 +6,7 @@
       </a>
 
       <button
-        class="navbar-toggler"
+        class="navbar-toggler bg-main"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent"
@@ -14,7 +14,7 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="fas fa-bars"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
