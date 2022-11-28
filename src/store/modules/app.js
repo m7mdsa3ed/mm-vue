@@ -19,14 +19,6 @@ export default {
       });
     },
 
-    async loadChartData({ state }) {
-      return new Promise((resolve, reject) => {
-        axios.get("charts").then((res) => {
-          state.charts = res.data;
-        });
-      });
-    },
-
     async fetchAll() {
       [
         "accounts/fetch",
@@ -35,6 +27,7 @@ export default {
         "tags/fetch",
         "currencies/fetch",
         "subscriptions/fetch",
+        "app/fetchStats",
       ].forEach((dispatchName) => {
         store.dispatch(dispatchName);
       });

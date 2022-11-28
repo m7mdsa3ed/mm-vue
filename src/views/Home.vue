@@ -1,5 +1,33 @@
 <template>
   <div class="col-12 col-lg-4">
+    <div class="mb-3">
+      <p class="lead fw-bold">
+        Balances
+      </p>
+
+      <div class="box bg-main d-flex flex-column gap-3">
+        <template v-for="balance in dashboardStats?.balance_summary">
+          <div class="d-flex flex-wrap gap-1">
+            <div>
+              <p class="mb-0">
+                {{ $fn.money(balance.amount_in_same_currency) }}
+              </p>
+
+              <ul class="list-unstyled text-muted mb-0">
+                <li v-if="balance.loan_amount != 0"> Loans: <span class="fw-bold text-success"> {{ $fn.money(balance.loan_amount) }} </span> </li>
+                <li v-if="balance.debit_amount != 0"> Debits: <span class="fw-bold text-danger"> {{ $fn.money(balance.debit_amount) }} </span> </li>
+              </ul>
+
+            </div>
+
+            <span class="text-muted" v-if="balance.amount_in_same_currency != balance.amount">
+              ( {{ $fn.money(balance.amount, balance.currency_name) }} - {{ $date(balance.currency_rate_last_update).format('LL') }} )
+            </span>
+          </div>
+        </template>
+      </div>
+    </div>
+
     <div>
       <p class="lead fw-bold">
         Month Report
@@ -79,25 +107,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
-  data() {
-    return {
-      dashboardStats: null,
-    }
+  computed: {
+    ...mapState({
+      dashboardStats: state => state.app.stats
+    })
   },
-
-  mounted() {
-    this.getDashboardStats();
-  },
-
-  methods: {
-    getDashboardStats() {
-      this.$http.get('/stats')
-        .then(res => {
-
-          this.dashboardStats = res.data
-        })
-    }
-  }
 };
 </script>
