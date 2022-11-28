@@ -2120,7 +2120,7 @@ boolbase@^1.0.0:
 
 bootstrap@twbs/bootstrap#new-masthead-darkmode:
   version "5.2.2"
-  resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/c59f429b34ef395f184c3f7de9b755b8b7d70f70"
+  resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/cde601e2c477c87ed902cd1c353a51d32bab3a48"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
