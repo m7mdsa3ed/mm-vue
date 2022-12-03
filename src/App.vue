@@ -1,14 +1,11 @@
 <template>
   <div>
-    <div
-      v-if="updateExists"
-      class="
+    <div v-if="updateExists" class="
         alert alert-primary
         d-flex
         align-items-center
         justify-content-center
-      "
-    >
+      ">
       <p class="mb-0 me-2 fw-bold">An update is available</p>
       <button class="btn btn-dark btn-sm" @click="refreshApp">Update</button>
     </div>
@@ -43,17 +40,7 @@ export default {
         this.$router.push({ name: "login" });
       });
 
-    // Ctrl + Enter to submit the form
-    window.addEventListener("keydown", (e) => {
-      if (e.ctrlKey && e.key == "Enter") {
-        const element = e.target;
-
-        // Get form from [form] attribute or the closest one
-        const form = element.form || element.closest("form");
-
-        form.dispatchEvent(new Event("submit"));
-      }
-    });
+      this.submitFormShortcut()
   },
 
   methods: {
@@ -77,6 +64,20 @@ export default {
         changeSchema("dark");
       }
     },
+
+    submitFormShortcut() {
+      // Ctrl + Enter to submit the form
+      window.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key == "Enter") {
+          const element = e.target;
+
+          // Get form from [form] attribute or the closest one
+          const form = element.form || element.closest("form");
+
+          form.dispatchEvent(new Event("submit"));
+        }
+      });
+    }
   },
 };
 </script>
