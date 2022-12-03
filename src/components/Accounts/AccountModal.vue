@@ -39,7 +39,7 @@
                 form="accountForm"
                 required
               >
-                <option selected>Open this select menu</option>
+                <option selected :value="undefined">Open this select menu</option>
                 <option
                   v-for="currency in currencies"
                   :key="currency.id"
@@ -66,7 +66,9 @@ export default {
 
   data() {
     return {
-      account: {},
+      account: {
+        currency_id: undefined
+      },
     };
   },
 
