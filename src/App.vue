@@ -1,13 +1,8 @@
 <template>
   <div>
-    <div v-if="updateExists" class="
-        alert alert-primary
-        d-flex
-        align-items-center
-        justify-content-center
-      ">
+    <div v-if="updateExists" class="mb-1 bg-main box d-flex align-items-center justify-content-center">
       <p class="mb-0 me-2 fw-bold">An update is available</p>
-      <button class="btn btn-dark btn-sm" @click="refreshApp">Update</button>
+      <button class="btn btn-primary px-4 btn-sm" @click="refreshApp">Update</button>
     </div>
 
     <RouterView />
