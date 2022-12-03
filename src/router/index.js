@@ -1,18 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
 import auth from "./auth";
 import RouterView from "@/components/RouterView";
+import store from '../store'
 
 const routes = [
   {
     path: "/",
-    component: () =>
-      import(/* webpackChunkName: "views-layout" */ "../views/Layout.vue"),
+    component: () => import(/* webpackChunkName: "views-layout" */ "../views/Layout.vue"),
+    meta: {
+      auth: {
+        required: true
+      }
+    },
     children: [
       {
         path: "",
         name: "home",
-        component: () =>
-          import(/* webpackChunkName: "views-home" */ "../views/Home.vue"),
+        component: () => import(/* webpackChunkName: "views-home" */ "../views/Home.vue"),
       },
       {
         path: "transactions",
@@ -21,10 +25,7 @@ const routes = [
           {
             path: "",
             name: "transactions",
-            component: () =>
-              import(
-                /* webpackChunkName: "views-transactions-index" */ "../views/Transactions/Index.vue"
-              ),
+            component: () => import(/* webpackChunkName: "views-transactions-index" */ "../views/Transactions/Index.vue"),
           },
         ],
       },
@@ -35,10 +36,7 @@ const routes = [
           {
             path: "",
             name: "accounts",
-            component: () =>
-              import(
-                /* webpackChunkName: "views-accounts-index" */ "../views/Accounts/Index.vue"
-              ),
+            component: () => import(/* webpackChunkName: "views-accounts-index" */ "../views/Accounts/Index.vue"),
           },
         ],
       },
@@ -49,10 +47,7 @@ const routes = [
           {
             path: "",
             name: "categories",
-            component: () =>
-              import(
-                /* webpackChunkName: "views-categories-Index" */ "../views/Categories/Index.vue"
-              ),
+            component: () => import(/* webpackChunkName: "views-categories-Index" */ "../views/Categories/Index.vue"),
           },
         ],
       },
@@ -63,10 +58,7 @@ const routes = [
           {
             path: "",
             name: "tags",
-            component: () =>
-              import(
-                /* webpackChunkName: "views-tags-index" */ "../views/Tags/Index.vue"
-              ),
+            component: () => import(/* webpackChunkName: "views-tags-index" */ "../views/Tags/Index.vue"),
           },
         ],
       },
@@ -77,37 +69,25 @@ const routes = [
           {
             path: "",
             name: "subscriptions",
-            component: () =>
-              import(
-                /* webpackChunkName: "views-subscriptions-index" */ "../views/Subscriptions/Index.vue"
-              ),
+            component: () => import(/* webpackChunkName: "views-subscriptions-index" */ "../views/Subscriptions/Index.vue"),
           },
         ],
       },
       {
         path: "profile",
         name: "profile",
-        component: () =>
-          import(
-            /* webpackChunkName: "views-profile" */ "../views/Profile.vue"
-          ),
+        component: () => import(/* webpackChunkName: "views-profile" */ "../views/Profile.vue"),
       },
       {
         path: "/backup",
         name: "backup",
-        component: () =>
-          import(
-            /* webpackChunkName: "views-common-backup" */ "../views/Common/Backup.vue"
-          ),
+        component: () => import(/* webpackChunkName: "views-common-backup" */ "../views/Common/Backup.vue"),
       },
     ],
   },
   {
-    path: "/a",
-    component: () =>
-      import(
-        /* webpackChunkName: "components-router" */ "../components/RouterView"
-      ),
+    path: "/auth",
+    component: () => import(/* webpackChunkName: "components-router" */ "../components/RouterView"),
     children: [...auth],
   },
 ];
@@ -122,5 +102,32 @@ const router = createRouter({
     };
   },
 });
+
+router.beforeEach(async (to, from, next) => {
+  if (!store.state.auth.user) {
+      try {
+        await store.dispatch('auth/getUser')
+      } catch (error) {}
+  }
+
+  const isLoggedIn = !! store.state.auth.user
+
+  const authRequired = to.meta?.auth?.required ?? false
+
+  if (authRequired && !isLoggedIn) {
+    return next({ name: 'login' })
+  }
+
+  const authRoutes = [
+    'login',
+    'register'
+  ];
+
+  if (isLoggedIn && authRoutes.includes(to.name)) {
+    return next({ name: "home" })
+  }
+
+  next()
+})
 
 export default router;

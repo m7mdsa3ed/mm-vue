@@ -32,15 +32,11 @@ export default {
   },
 
   mounted() {
-    this.getUser()
-      .then((res) => {
-        this.$store.dispatch("app/fetchAll");
-      })
-      .catch(() => {
-        this.$router.push({ name: "login" });
-      });
+    if (this.$store.state.auth.user) {
+      this.$store.dispatch("app/fetchAll");
+    }
 
-      this.submitFormShortcut()
+    this.submitFormShortcut()
   },
 
   methods: {
