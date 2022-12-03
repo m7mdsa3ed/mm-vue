@@ -25,7 +25,9 @@ export default {
   mixins: [ServiceWorkerUpdate],
 
   beforeCreate() {
-    this.$store.commit("restoreState");
+    if (eval(process.env.VUE_APP_ENABLE_VUEX_CACHE ?? 'false')) {
+      this.$store.commit("restoreState");
+    }
   },
 
   created() {
