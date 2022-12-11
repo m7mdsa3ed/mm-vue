@@ -7,22 +7,25 @@
 
       <div class="box bg-main d-flex flex-column gap-3">
         <template v-for="balance in dashboardStats?.balance_summary">
-          <div class="d-flex flex-wrap gap-1">
-            <div>
-              <p class="mb-0">
-                {{ $fn.money(balance.amount_in_same_currency) }}
-              </p>
+          <div class="w-100">
+            <div class="d-flex justify-content-between align-items-center ">
+              <span>
+                {{ $fn.money(balance.amount, balance.currency_name) }}
+              </span>
 
-              <ul class="list-unstyled text-muted mb-0">
-                <li v-if="balance.loan_amount != 0"> Loans: <span class="fw-bold text-success"> {{ $fn.money(balance.loan_amount) }} </span> </li>
-                <li v-if="balance.debit_amount != 0"> Debits: <span class="fw-bold text-danger"> {{ $fn.money(balance.debit_amount) }} </span> </li>
-              </ul>
-
+              <i 
+                role="button"
+                class="icon icon-bg-info rounded-circle fas fa-exclamation"
+                data-bs-toggle="modal" 
+                data-bs-target="#BalanceInfoModal" 
+                @click="balanceInfo = { balance: balance.amount, currencyId: balance.currency_id }"
+              ></i>
             </div>
 
-            <span class="text-muted" v-if="balance.amount_in_same_currency != balance.amount">
-              ( {{ $fn.money(balance.amount, balance.currency_name) }} - {{ $date(balance.currency_rate_last_update).format('LL') }} )
-            </span>
+            <ul class="list-unstyled text-muted mb-0">
+              <li v-if="balance.loan_amount != 0"> Loans: <span class="fw-bold text-success"> {{ $fn.money(balance.loan_amount) }} </span> </li>
+              <li v-if="balance.debit_amount != 0"> Debits: <span class="fw-bold text-danger"> {{ $fn.money(balance.debit_amount) }} </span> </li>
+            </ul>
           </div>
         </template>
       </div>
@@ -103,13 +106,25 @@
         </div>
       </div>
     </div>
+
+    <BalanceInfoModal :balance="balanceInfo.balance" :currencyId="balanceInfo.currencyId" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-
+import BalanceInfoModal from '@/components/BalanceInfoModal'
 export default {
+  data() {
+    return {
+      balanceInfo: {}
+    }
+  },
+
+  components: {
+    BalanceInfoModal,
+  },
+
   computed: {
     ...mapState({
       dashboardStats: state => state.app.stats
