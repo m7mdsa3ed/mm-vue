@@ -1,25 +1,21 @@
 <template>
   <div>
-    <div v-if="updateExists" class="mb-1 bg-main box d-flex align-items-center justify-content-center">
-      <p class="mb-0 me-2 fw-bold">An update is available</p>
-      <button class="btn btn-primary px-4 btn-sm" @click="refreshApp">Update</button>
-    </div>
-
+    <ReloadServiceWorkerVue />
     <RouterView />
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import ServiceWorkerUpdate from "@/mixins/swUpdate";
+import ReloadServiceWorkerVue from "./components/ReloadServiceWorker.vue";
 
 export default {
-  mixins: [ServiceWorkerUpdate],
+  components: {
+    ReloadServiceWorkerVue
+  },
 
   beforeCreate() {
-    if (eval(process.env.VUE_APP_ENABLE_VUEX_CACHE ?? 'false')) {
-      this.$store.commit("restoreState");
-    }
+    this.$store.commit("restoreState");
   },
 
   created() {

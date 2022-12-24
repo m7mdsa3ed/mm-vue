@@ -116,8 +116,8 @@
 
 <script>
 import { mapState } from "vuex";
-import Paginator from "@/components/Paginator";
-import SubscriptionModal from "@/components/Subscriptions/SubscriptionModal";
+import Paginator from "@/components/Paginator.vue";
+import SubscriptionModal from "@/components/Subscriptions/SubscriptionModal.vue";
 
 import { Modal } from "bootstrap";
 export default {

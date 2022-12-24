@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "..";
 import router from "../../router";
 
-const LSItemName = (process.env.VUE_APP_NSP ?? "VUE") + ".ACCESS_TOKEN";
+const LSItemName = (import.meta.env.VITE_LOCALSTORAGE_NAMESPACE ?? "VUE") + ".ACCESS_TOKEN";
 
 export default {
   namespaced: true,

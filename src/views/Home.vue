@@ -113,7 +113,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import BalanceInfoModal from '@/components/BalanceInfoModal'
+import BalanceInfoModal from '@/components/BalanceInfoModal.vue'
 export default {
   data() {
     return {

@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
+import RouterView from "../components/RouterView.vue";
 import auth from "./auth";
-import RouterView from "@/components/RouterView";
 import store from '../store'
 
 const routes = [
   {
     path: "/",
-    component: () => import(/* webpackChunkName: "views-layout" */ "../views/Layout.vue"),
+    component: () => import("../views/Layout.vue"),
     meta: {
       auth: {
         required: true
@@ -16,7 +16,7 @@ const routes = [
       {
         path: "",
         name: "home",
-        component: () => import(/* webpackChunkName: "views-home" */ "../views/Home.vue"),
+        component: () => import("../views/Home.vue"),
       },
       {
         path: "transactions",
@@ -25,7 +25,7 @@ const routes = [
           {
             path: "",
             name: "transactions",
-            component: () => import(/* webpackChunkName: "views-transactions-index" */ "../views/Transactions/Index.vue"),
+            component: () => import("../views/Transactions/Index.vue"),
           },
         ],
       },
@@ -36,7 +36,7 @@ const routes = [
           {
             path: "",
             name: "accounts",
-            component: () => import(/* webpackChunkName: "views-accounts-index" */ "../views/Accounts/Index.vue"),
+            component: () => import("../views/Accounts/Index.vue"),
           },
         ],
       },
@@ -47,7 +47,7 @@ const routes = [
           {
             path: "",
             name: "categories",
-            component: () => import(/* webpackChunkName: "views-categories-Index" */ "../views/Categories/Index.vue"),
+            component: () => import("../views/Categories/Index.vue"),
           },
         ],
       },
@@ -58,7 +58,7 @@ const routes = [
           {
             path: "",
             name: "tags",
-            component: () => import(/* webpackChunkName: "views-tags-index" */ "../views/Tags/Index.vue"),
+            component: () => import("../views/Tags/Index.vue"),
           },
         ],
       },
@@ -69,31 +69,31 @@ const routes = [
           {
             path: "",
             name: "subscriptions",
-            component: () => import(/* webpackChunkName: "views-subscriptions-index" */ "../views/Subscriptions/Index.vue"),
+            component: () => import("../views/Subscriptions/Index.vue"),
           },
         ],
       },
       {
         path: "profile",
         name: "profile",
-        component: () => import(/* webpackChunkName: "views-profile" */ "../views/Profile.vue"),
+        component: () => import("../views/Profile.vue"),
       },
       {
         path: "/backup",
         name: "backup",
-        component: () => import(/* webpackChunkName: "views-common-backup" */ "../views/Common/Backup.vue"),
+        component: () => import("../views/Common/Backup.vue"),
       },
     ],
   },
   {
     path: "/auth",
-    component: () => import(/* webpackChunkName: "components-router" */ "../components/RouterView"),
+    component: () => import("../components/RouterView.vue"),
     children: [...auth],
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
     return {

@@ -9,6 +9,8 @@ import transactions from "./modules/transactions";
 import currencies from "./modules/currencies";
 import subscriptions from "./modules/subscriptions";
 
+const cacheEnabled = eval(import.meta.env.VITE_ENABLE_VUEX_CACHE ?? 'false');
+
 const store = createStore({
   modules: {
     app,
@@ -23,6 +25,10 @@ const store = createStore({
 
   mutations: {
     restoreState(state) {
+      if (!cacheEnabled) {
+        return;
+      }
+
       // Check if the ID exists
       if (localStorage.getItem("store")) {
         // Replace the state object with the stored item
@@ -35,46 +41,9 @@ const store = createStore({
 });
 
 store.subscribe((mutation, state) => {
-  if (process.env.VUE_APP_ENABLE_VUEX_CACHE ?? false) {
+  if (cacheEnabled) {
     localStorage.setItem("store", JSON.stringify(state));
   }
-
-  const events = [
-    {
-      type: "transactions/saveTransaction",
-      listeners: [],
-    },
-    {
-      type: "transactions/removeTransaction",
-      listeners: [],
-    },
-    {
-      type: "accounts/saveAccount",
-      listeners: [],
-    },
-    {
-      type: "accounts/removeAccount",
-      listeners: [],
-    },
-    {
-      type: "categories/saveCategory",
-      listeners: [],
-    },
-    {
-      type: "categories/removeCategory",
-      listeners: [],
-    },
-  ];
-
-  const globalListener = [];
-
-  events.forEach(({ type, listeners }) => {
-    if (type == mutation.type) {
-      [...globalListener, ...listeners].forEach((action) =>
-        store.dispatch(action)
-      );
-    }
-  });
 });
 
 export default store;

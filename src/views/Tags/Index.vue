@@ -100,8 +100,8 @@
 
 <script>
 import { mapState } from "vuex";
-import TagModal from "@/components/Tags/TagModal";
-import TagEditModal from "@/components/Tags/TagEditModal";
+import TagModal from "@/components/Tags/TagModal.vue";
+import TagEditModal from "@/components/Tags/TagEditModal.vue";
 import { Modal } from "bootstrap";
 export default {
   components: {
