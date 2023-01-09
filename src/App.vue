@@ -38,6 +38,10 @@ export default {
     syncColorSchema() {
       const changeSchema = (schema = "light") => {
         document.documentElement.setAttribute("data-bs-theme", schema);
+        
+        const bodyBackgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--body-bg')
+
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", bodyBackgroundColor.trim());
       };
 
       const systemDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
