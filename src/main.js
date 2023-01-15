@@ -9,6 +9,8 @@ import helperJS from "./plugins/helperJS";
 import axios from "axios";
 import VueAxios from "vue-axios";
 
+import Bugsnag from '@bugsnag/js'
+
 import "bootstrap";
 
 import "./styles/bs.scss";
@@ -23,6 +25,10 @@ const baseURL =
 // Axios configuration
 axios.defaults.baseURL = baseURL + "/api";
 axios.defaults.headers.Authorization = `Bearer ${store.state.auth.token}`;
+
+if (import.meta.env.VITE_BUGSNAG_ENABLED) {
+  Bugsnag.start(import.meta.env.VITE_BUGSNAG_API_KEY)
+}
 
 createApp(App)
   .use(store)
