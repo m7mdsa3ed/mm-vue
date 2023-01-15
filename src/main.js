@@ -9,26 +9,7 @@ import helperJS from "./plugins/helperJS";
 import axios from "axios";
 import VueAxios from "vue-axios";
 
-import Bugsnag from '@bugsnag/js'
-
-import "bootstrap";
-
-import "./styles/bs.scss";
-import "./styles/fa.scss";
-import "./styles/app.scss";
-
-const baseURL =
-  import.meta.env.MODE == "development"
-    ? import.meta.env.VITE_API_BASEURL_LOCAL
-    : import.meta.env.VITE_API_BASEURL;
-
-// Axios configuration
-axios.defaults.baseURL = baseURL + "/api";
-axios.defaults.headers.Authorization = `Bearer ${store.state.auth.token}`;
-
-if (import.meta.env.VITE_BUGSNAG_ENABLED) {
-  Bugsnag.start(import.meta.env.VITE_BUGSNAG_API_KEY)
-}
+import './configs';
 
 createApp(App)
   .use(store)
