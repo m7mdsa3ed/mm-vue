@@ -221,6 +221,12 @@ export default {
         this.activeTransaction = this.getTransaction(to);
       },
     },
+
+    "transaction.action_type"(action_type) {
+      if (action_type == 1 || action_type == 2) {
+        this.transaction.action = action_type
+      }
+    }
   },
 
   computed: {
