@@ -5,25 +5,37 @@ const pwaOptions = {
   manifest: {
     name: 'Money Man',
     short_name: 'MM',
-    theme_color: '#ffffff',
+    theme_color: '#000000',
     icons: [
       {
-        src: 'img/icons/android-chrome-192x192.png', // <== don't add slash, for testing
+        src: 'img/icons/android-chrome-192x192.png',
         sizes: '192x192',
         type: 'image/png',
       },
       {
-        src: '/img/icons/android-chrome-192x192.png', // <== don't remove slash, for testing
+        src: 'img/icons/android-chrome-512x512.png',
         sizes: '512x512',
         type: 'image/png',
       },
       {
-        src: 'img/icons/android-chrome-192x192.png', // <== don't add slash, for testing
+        src: 'img/icons/android-chrome-512x512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'any maskable',
       },
     ],
+    "shortcuts": [
+      {
+        "name": "Transactions",
+        "short_name": "Transactions",
+        "url": "/transactions",
+      },
+      {
+        "name": "Accounts",
+        "short_name": "Accounts",
+        "url": "/accounts",
+      },
+    ]
   },
   devOptions: {
     enabled: process.env.SW_DEV === 'true',
