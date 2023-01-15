@@ -26,7 +26,6 @@ export default {
         "transactions/fetch",
         "tags/fetch",
         "currencies/fetch",
-        "subscriptions/fetch",
         "app/fetchStats",
       ].forEach((dispatchName) => {
         store.dispatch(dispatchName);

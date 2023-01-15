@@ -62,27 +62,6 @@ const routes = [
           },
         ],
       },
-      {
-        path: "subscriptions",
-        component: RouterView,
-        children: [
-          {
-            path: "",
-            name: "subscriptions",
-            component: () => import("../views/Subscriptions/Index.vue"),
-          },
-        ],
-      },
-      {
-        path: "profile",
-        name: "profile",
-        component: () => import("../views/Profile.vue"),
-      },
-      {
-        path: "/backup",
-        name: "backup",
-        component: () => import("../views/Common/Backup.vue"),
-      },
     ],
   },
   {

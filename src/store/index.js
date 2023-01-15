@@ -7,7 +7,6 @@ import categories from "./modules/categories";
 import tags from "./modules/tags";
 import transactions from "./modules/transactions";
 import currencies from "./modules/currencies";
-import subscriptions from "./modules/subscriptions";
 
 const cacheEnabled = eval(import.meta.env.VITE_ENABLE_VUEX_CACHE ?? 'false');
 
@@ -20,7 +19,6 @@ const store = createStore({
     tags,
     transactions,
     currencies,
-    subscriptions,
   },
 
   mutations: {
