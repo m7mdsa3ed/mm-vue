@@ -20,61 +20,54 @@ export default {
     };
   },
 
-  computed: {
-    chartOptions() {
+  mounted() {
+    this.renderChart();
+  },
+
+  updated() {
+    this.renderChart();
+  },
+
+  methods: {
+    async createChartInstance(defaultOptions) {
+      if (!this.chart) {
+        const chart = new ApexCharts(
+          document.querySelector("#chart-pie"),
+          defaultOptions
+        );
+
+        await chart.render();
+
+        this.chart = chart;
+      }
+
+      return this.chart;
+    },
+
+    async renderChart() {
+      if (!this.chartData?.length) {
+        return;
+      }
+
       const labels = this.chartData?.map(({ name }) => name) ?? [];
-      
+
       const series = this.chartData?.map(({ expenses }) => expenses * -1) ?? [];
 
       const options = {
         theme: {
           mode: "dark",
         },
-
         series: [...series],
-
         chart: {
           width: 380,
           type: "pie",
         },
         labels: [...labels],
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {},
-            },
-          },
-        ],
-      }
+      };
 
-      return options;
-    },
-  },
+      const chart = await this.createChartInstance(options);
 
-  mounted() {
-    this.init();
-  },
-
-  updated() {
-    this.init();
-  },
-
-  methods: {
-    init() {
-      if (!this.chartData) {
-        return;
-      }
-      
-      this.chart ??= new ApexCharts(
-        document.querySelector("#chart-pie"),
-        this.chartOptions
-      );
-
-      this.chart.render();
+      chart.updateOptions(options);
     },
   },
 };
