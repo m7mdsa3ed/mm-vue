@@ -2,9 +2,7 @@
   <div>
     <template v-if="loading"> Loading... </template>
 
-    <template v-else>
-      <div id="chart-balance"></div>
-    </template>
+    <div id="chart-balance"></div>
   </div>
 </template>
 
@@ -20,8 +18,35 @@ export default {
     };
   },
 
-  computed: {
-    chartOptions() {
+  mounted() {
+    this.renderChart();
+  },
+
+  updated() {
+    this.renderChart();
+  },
+
+  methods: {
+    async createChartInstance(defaultOptions) {
+      if (!this.chart) {
+        const chart = new ApexCharts(
+          document.querySelector("#chart-balance"),
+          defaultOptions
+        );
+
+        await chart.render();
+
+        this.chart = chart;
+      }
+
+      return this.chart;
+    },
+
+    async renderChart() {
+      if (!this.chartData?.length) {
+        return;
+      }
+
       const data = this.chartData?.map(({ balance, timestamp }) => [
         timestamp * 1000,
         parseFloat(balance),
@@ -31,14 +56,7 @@ export default {
         theme: {
           mode: "dark",
         },
-
-        series: [
-          {
-            data: [...data],
-          },
-        ],
         chart: {
-          id: "area-datetime",
           type: "area",
           height: 450,
           zoom: {
@@ -48,42 +66,21 @@ export default {
         dataLabels: {
           enabled: false,
         },
+        series: [
+          {
+            data: [...data],
+          },
+        ],
         xaxis: {
           type: "datetime",
           min: data[0]?.timestamp,
           tickAmount: 6,
         },
-        tooltip: {
-          x: {
-            format: "dd MMM yyyy",
-          },
-        },
       };
 
-      return options;
-    },
-  },
+      const chart = await this.createChartInstance(options);
 
-  mounted() {
-    this.init();
-  },
-
-  updated() {
-    this.init();
-  },
-
-  methods: {
-    init() {
-      if (!this.chartData) {
-        return;
-      }
-
-      this.chart ??= new ApexCharts(
-        document.querySelector("#chart-balance"),
-        this.chartOptions
-      );
-
-      this.chart.render();
+      chart.updateOptions(options);
     },
   },
 };
