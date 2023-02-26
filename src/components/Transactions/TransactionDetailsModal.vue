@@ -28,7 +28,7 @@
 
             <div class="mb-2">
               <span class="text-muted small"> Amount </span>
-              <p>{{ $fn.money(transaction?.amount) }}</p>
+              <p>{{ $fn.money(transaction?.amount, transaction?.account?.currency?.name) }}</p>
             </div>
 
             <div class="mb-2">

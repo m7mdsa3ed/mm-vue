@@ -90,7 +90,7 @@
                 >
                   <span>
                     {{ transaction.action == 2 ? "-" : "+" }}
-                    {{ $fn.money(transaction.amount) }}
+                    {{ $fn.money(transaction.amount, transaction.account?.currency?.name) }}
                   </span>
 
                   <span class="badge bg-secondary rounded-0 mt-1">
