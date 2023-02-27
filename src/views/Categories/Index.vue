@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div class="mb-3">
-      <p class="display-6">Categories</p>
+    <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
+      <p class="display-6 mb-0">Categories</p>
+
+      <button class="btn btn-outline-danger" @click="$store.dispatch('categories/fetch')">
+        <i class="fa-fw fas fa-refresh"></i>
+      </button>
     </div>
 
     <div class="box bg-main mb-3">

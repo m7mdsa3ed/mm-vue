@@ -1,4 +1,14 @@
 <template>
+  <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
+    <p class="display-6 mb-0">Dashboard</p>
+
+    <button
+      class="btn btn-outline-danger" @click="$store.dispatch('app/fetchStats')"
+    >
+      <i class="fa-fw fas fa-refresh"></i>
+    </button>
+  </div>
+
   <div class="row g-4">
     <div class="col-12 col-lg-4">
       <div class="mb-3">
@@ -53,14 +63,7 @@
 
         <div class="d-flex gap-3 w-100 mb-3">
           <div
-            class="
-              d-flex
-              justify-content-between
-              align-items-center
-              w-100
-              bg-main
-              box
-            "
+            class="d-flex justify-content-between align-items-center w-100 bg-main box"
           >
             <i class="icon icon-bg-success fas fa-arrow-up"></i>
             <p class="mb-0">
@@ -69,14 +72,7 @@
           </div>
 
           <div
-            class="
-              d-flex
-              justify-content-between
-              align-items-center
-              w-100
-              bg-main
-              box
-            "
+            class="d-flex justify-content-between align-items-center w-100 bg-main box"
           >
             <i class="icon icon-bg-danger fas fa-arrow-down"></i>
             <p class="mb-0">

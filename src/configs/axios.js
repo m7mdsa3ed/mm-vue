@@ -9,8 +9,6 @@ axios.defaults.headers.Authorization = `Bearer ${store.state.auth.token}`;
 
 axios.interceptors.request.use(
   (requestConfig) => {
-    console.log({ requestConfig });
-
     store.dispatch("app/loading", true);
     store.dispatch("app/stopActions", requestConfig.method == 'post');
 

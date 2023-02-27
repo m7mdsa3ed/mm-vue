@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div class="mb-3">
-      <p class="display-6">Transactions</p>
+    <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
+      <p class="display-6 mb-0">Transactions</p>
+      
+      <button class="btn btn-outline-danger" @click="fetch">
+        <i class="fa-fw fas fa-refresh"></i>
+      </button>
     </div>
 
     <div class="box bg-main mb-3">
@@ -14,6 +18,7 @@
         <i class="icon fas fa-plus"></i>
         Transaction
       </button>
+
     </div>
 
     <div class="mb-3 box bg-main">
