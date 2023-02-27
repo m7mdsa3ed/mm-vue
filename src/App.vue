@@ -1,6 +1,15 @@
 <template>
   <div>
     <ReloadServiceWorkerVue />
+    <div
+      v-if="$store.state.app.loading && $store.state.app.stopActions"
+      class="position-absolute top-0 bottom-0 end-0 start-0 user-select-none d-flex justify-content-center align-items-center fade show"
+      style="z-index: 2000; background-color: #00000030"
+    >
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <RouterView />
   </div>
 </template>
@@ -11,7 +20,7 @@ import ReloadServiceWorkerVue from "./components/ReloadServiceWorker.vue";
 
 export default {
   components: {
-    ReloadServiceWorkerVue
+    ReloadServiceWorkerVue,
   },
 
   beforeCreate() {
@@ -27,7 +36,7 @@ export default {
       this.$store.dispatch("app/fetchAll");
     }
 
-    this.submitFormShortcut()
+    this.submitFormShortcut();
   },
 
   methods: {
@@ -38,10 +47,14 @@ export default {
     syncColorSchema() {
       const changeSchema = (schema = "light") => {
         document.documentElement.setAttribute("data-bs-theme", schema);
-        
-        const bodyBackgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--body-bg')
 
-        document.querySelector('meta[name="theme-color"]').setAttribute("content", bodyBackgroundColor.trim());
+        const bodyBackgroundColor = getComputedStyle(
+          document.documentElement
+        ).getPropertyValue("--body-bg");
+
+        document
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute("content", bodyBackgroundColor.trim());
       };
 
       const systemDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
@@ -68,7 +81,7 @@ export default {
           form.dispatchEvent(new Event("submit"));
         }
       });
-    }
+    },
   },
 };
 </script>

@@ -1,8 +1,11 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-main mb-3">
     <div class="container-xxl">
-      <a class="navbar-brand" href="#" @click.prevent="$router.push('/')">
+      <a class="navbar-brand d-flex gap-3 align-items-center" href="#" @click.prevent="$router.push('/')">
         Home
+        <div class="spinner-border spinner-border-sm" role="status" v-if="$store.state.app.loading">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </a>
 
       <button

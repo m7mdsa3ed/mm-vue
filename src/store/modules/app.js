@@ -7,6 +7,8 @@ export default {
   state: {
     stats: null,
     charts: null,
+    loading: false,
+    stopActions: false,
   },
 
   actions: {
@@ -30,6 +32,22 @@ export default {
       ].forEach((dispatchName) => {
         store.dispatch(dispatchName);
       });
+    },
+
+    loading({ state }, payload) {
+      return payload == true
+        ? (state.loading = payload)
+        : setTimeout(() => {
+            state.loading = payload;
+          }, 500);
+    },
+
+    stopActions({ state }, payload) {
+      return payload == true
+        ? (state.stopActions = payload)
+        : setTimeout(() => {
+            state.stopActions = payload;
+          }, 500);
     },
   },
 };
