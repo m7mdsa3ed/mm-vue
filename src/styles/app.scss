@@ -10,6 +10,7 @@ body {
   font-family: "Nunito", sans-serif;
   background-color: var(--body-bg);
   color: var(--body-bg-color);
+  overscroll-behavior-y: contain;
 }
 
 .box {
