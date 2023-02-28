@@ -55,7 +55,7 @@
                 </span>
               </td>
 
-              <td>
+              <td >
                 <p class="mb-0 small">
                   <span>
                     {{ transaction.category?.name || "No Category" }}
@@ -86,7 +86,7 @@
                   {{ transaction.description }}
                 </span>
               </td>
-              <td class="text-end">
+              <td class="text-nowrap text-end">
                 <span
                   class="small d-flex flex-column align-items-end"
                   :class="
@@ -103,7 +103,7 @@
                   </span>
                 </span>
               </td>
-              <td class="text-nowrap d-none d-lg-table-cell text-end">
+              <td class="text-nowrap text-end">
                 <div class="mb-0 small d-flex flex-column">
                   <span class="fw-bold">
                     {{ $date(transaction.created_at).format("dddd") }}
