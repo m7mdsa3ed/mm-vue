@@ -43,7 +43,6 @@
             <tr>
               <td>
                 <p class="mb-0">
-                  
                   {{ account.name }}
                 </p>
                 

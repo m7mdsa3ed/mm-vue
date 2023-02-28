@@ -18,7 +18,12 @@ export default {
       const index = state.data.findIndex((x) => x.id == account.id);
 
       if (isUpdating && index != -1) {
-        state.data[index] = account;
+        const currentAccount = state.data[index];
+
+        state.data[index] = {
+          ...currentAccount,
+          ...account
+        };
       } else {
         state.data.push(account);
       }
