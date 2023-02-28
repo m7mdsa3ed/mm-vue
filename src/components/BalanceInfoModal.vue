@@ -48,10 +48,14 @@
             </div>
           </div>
 
-          <div v-if="balanceDetailsByAccountType.length">
+          <div >
             <p class="fw-bold mb-2">Balance Details By Account Type</p>
 
-            <div class="d-flex flex-column gap-3">
+            <div v-if="$store.state.app.loading">
+              Loading...
+            </div>
+
+            <div class="d-flex flex-column gap-3" v-else>
               <div
                 v-for="accountTypeBalance in balanceDetailsByAccountType || []"
                 :key="accountTypeBalance.account_type_id"
@@ -139,6 +143,8 @@ export default {
   methods: {
     async updateBalanceDetails(id) {
       try {
+        this.balanceDetailsByAccountType = [];
+
         const response = await this.$http.get("balance-details", {
           params: {
             currencyId: id,
