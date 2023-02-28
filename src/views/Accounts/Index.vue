@@ -43,16 +43,17 @@
             <tr>
               <td>
                 <p class="mb-0">
+                  
                   {{ account.name }}
-
-                  <span class="badge">
-                    {{ account.type }}
-                  </span>
+                </p>
+                
+                <p class="fw-bolder small mb-0">
+                  {{ account.type }}
                 </p>
 
-                <span class="text-muted small">
+                <p class="text-muted small mb-0">
                   Transactions: {{ account.transactions_count }}
-                </span>
+                </p>
               </td>
               <td class="text-end d-flex flex-column">
                 {{ $fn.money(account.balance, account.currency?.name) }}
