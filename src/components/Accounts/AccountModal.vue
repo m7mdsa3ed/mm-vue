@@ -30,6 +30,29 @@
               />
               <label> Account Name </label>
             </div>
+
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                id="floatingSelect"
+                v-model="account.type_id"
+                aria-label="Floating label select example"
+                form="accountForm"
+                required
+              >
+                <option selected :value="undefined">Open this select menu</option>
+                <option
+                  v-for="accountType in accountTypes"
+                  :key="accountType.id"
+                  :value="accountType.id"
+                >
+                  {{ accountType.name }}
+                </option>
+              </select>
+
+              <label> Type </label>
+            </div>
+
             <div class="form-floating mb-3">
               <select
                 class="form-select"
@@ -75,6 +98,7 @@ export default {
   computed: {
     ...mapState({
       currencies: (state) => state.currencies.data,
+      accountTypes: (state) => state.app.info?.accountTypes
     }),
   },
 

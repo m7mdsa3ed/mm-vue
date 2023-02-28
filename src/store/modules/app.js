@@ -5,6 +5,7 @@ export default {
   namespaced: true,
 
   state: {
+    info: null,
     stats: null,
     charts: null,
     loading: false,
@@ -20,6 +21,15 @@ export default {
         });
       });
     },
+    
+    async fetchAppInfo({ state }) {
+      return new Promise((resolve, reject) => {
+        axios.get("appInfo").then((response) => {
+          state.info = response.data;
+          resolve(response.data);
+        });
+      });
+    },
 
     async fetchAll() {
       [
@@ -29,6 +39,7 @@ export default {
         "tags/fetch",
         "currencies/fetch",
         "app/fetchStats",
+        "app/fetchAppInfo",
       ].forEach((dispatchName) => {
         store.dispatch(dispatchName);
       });

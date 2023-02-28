@@ -44,7 +44,12 @@
               <td>
                 <p class="mb-0">
                   {{ account.name }}
+
+                  <span class="badge">
+                    {{ account.type }}
+                  </span>
                 </p>
+
                 <span class="text-muted small">
                   Transactions: {{ account.transactions_count }}
                 </span>
