@@ -118,7 +118,7 @@
               <label for="categorySelect">Category</label>
             </div>
 
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3" v-if="tags.length">
               <select
                 class="form-select"
                 style="min-height: 100px"
