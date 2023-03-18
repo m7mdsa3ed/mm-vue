@@ -145,7 +145,7 @@
                             </span>
                           </div>
                           <p class="mb-0 text-nowrap">
-                            {{ $fn.money(row.amount) }}
+                            {{ $fn.money(row.amount, row.currency_name) }}
 
                             <i
                               v-if="row.type == 1"
