@@ -1,3 +1,5 @@
+import routes from './api-routes.json'
+
 export const money = (number, suffix = "EGP") =>
   `${Number(number ?? 0)
     .toFixed(2)
@@ -26,3 +28,12 @@ export const JSON2FD = (json) => {
 
   return fd;
 };
+
+export const route = (name) => {
+  const route = routes[name]
+
+  return {
+    url: () => route.url ?? route,
+    method: () => route.method ?? 'GET'
+  }
+}

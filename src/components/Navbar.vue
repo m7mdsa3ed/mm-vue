@@ -78,6 +78,11 @@ export default {
           routeName: "Tags",
           icon: `<i class="icon fas fa-tags"></i>`,
         },
+        {
+          name: "Settings",
+          routeName: "Settings",
+          icon: `<i class="icon fas fa-gear"></i>`,
+        },
       ],
     };
   },

@@ -1,0 +1,7 @@
+{
+  "roles": "roles",
+  "roles.save": {
+    "method": "POST",
+    "url": "roles/syncRoles"
+  }
+}
