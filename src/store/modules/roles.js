@@ -1,6 +1,6 @@
 import axios from "axios";
-import {route} from '../../helpers'
-import { getRoles, saveRoles } from '../../api/roles'
+import { route } from "../../helpers";
+import { getRoles, saveRoles } from "../../api/roles";
 
 export default {
   namespaced: true,
@@ -22,9 +22,9 @@ export default {
       commit("setLoading", true);
 
       try {
-        commit('setData', await getRoles())
+        commit("setData", await getRoles());
       } catch (error) {
-        commit('setErrors', err.response.data)
+        commit("setErrors", err.response.data);
       }
 
       commit("setLoading", false);
@@ -34,12 +34,12 @@ export default {
       commit("setLoading", true);
 
       try {
-        commit('setData', await saveRoles(fd))
+        commit("setData", await saveRoles(fd));
       } catch (error) {
         commit("setErrors", err.response.data);
       }
 
       commit("setLoading", false);
-    }
+    },
   },
 };

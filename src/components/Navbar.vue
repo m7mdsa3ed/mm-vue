@@ -1,9 +1,17 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-main mb-3">
     <div class="container-xxl">
-      <a class="navbar-brand d-flex gap-3 align-items-center" href="#" @click.prevent="$router.push('/')">
+      <a
+        class="navbar-brand d-flex gap-3 align-items-center"
+        href="#"
+        @click.prevent="$router.push('/')"
+      >
         Home
-        <div class="spinner-border spinner-border-sm" role="status" v-if="$store.state.app.loading">
+        <div
+          class="spinner-border spinner-border-sm"
+          role="status"
+          v-if="$store.state.app.loading"
+        >
           <span class="visually-hidden">Loading...</span>
         </div>
       </a>
@@ -22,17 +30,23 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item" v-for="(link, index) in navLinks" :key="index">
-            <span
-              role="button"
-              class="nav-link"
-              aria-current="page"
-              @click="goto(link.routeName)"
+          <template v-for="(link, index) in navLinks" :key="index">
+            <template
+              v-if="link.roles?.length ? havePrivilege(link.roles) : true"
             >
-              <span v-html="link.icon"></span>
-              <span>{{ link.name }}</span>
-            </span>
-          </li>
+              <li class="nav-item">
+                <span
+                  role="button"
+                  class="nav-link"
+                  aria-current="page"
+                  @click="goto(link.routeName)"
+                >
+                  <span v-html="link.icon"></span>
+                  <span>{{ link.name }}</span>
+                </span>
+              </li>
+            </template>
+          </template>
 
           <li class="nav-item">
             <span
@@ -82,6 +96,7 @@ export default {
           name: "Settings",
           routeName: "Settings",
           icon: `<i class="icon fas fa-gear"></i>`,
+          roles: ["manager"],
         },
       ],
     };
@@ -109,8 +124,16 @@ export default {
       }
     },
 
-    logout() {
-      console.log("Bye");
+    havePrivilege(roles) {
+      if (roles && roles.length) {
+        const userRoles = this.$store.state.auth.user?.roles.map((roleObj) => roleObj.name) || [];
+
+        if (roles.filter((role) => userRoles.includes(role)).length) {
+          return true;
+        }
+      }
+
+      return false;
     },
   },
 };

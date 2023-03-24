@@ -8,13 +8,8 @@
       </button>
     </div>
 
-    <div>
-      <form id="rolesFrom" @submit.prevent="saveRoles">
-        <button class="btn btn-primary">
-          Save
-        </button>
-      </form>
-
+    <div class="box bg-main">
+      <h2>Permissions Settings</h2>
       <template v-for="role in roles" :key="role.id">
         <div class="col-12 col-sm-6 mb-3">
           <p class="lead fw-bold">
@@ -22,10 +17,7 @@
           </p>
 
           <div class="row">
-            <template
-              v-for="permission in permissions"
-              :key="permission.id"
-            >
+            <template v-for="permission in permissions" :key="permission.id">
               <div class="col-12 col-sm-6">
                 <div class="form-check">
                   <input
@@ -34,7 +26,7 @@
                     form="rolesFrom"
                     :name="`roles[${role.id}][]`"
                     :value="permission.id"
-                    :checked="role.permissions.includes(permission.id)"                    
+                    :checked="role.permissions.includes(permission.id)"
                   />
 
                   <label class="form-check-label">
@@ -46,6 +38,34 @@
           </div>
         </div>
       </template>
+
+      <form id="rolesFrom" @submit.prevent="saveRoles">
+        <button class="btn btn-primary">Save</button>
+      </form>
+    </div>
+
+    <hr />
+
+    <div class="box bg-main">
+      <h2>Currencies Settings</h2>
+
+      <table class="table table-borderless table-striped">
+        <thead>
+          <tr>
+            <th>Currency Name</th>
+            <th style="width: 1px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="currency in currencies" :key="currency.id">
+            <tr>
+              <td>
+                <input type="text" :value="currency.name" class="form-control bg-transparent border-0" @change="(evt) => updateCurrency(evt, currency)">
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -56,20 +76,19 @@ export default {
   components: {},
 
   data() {
-    return {
-      
-    };
+    return {};
   },
 
   computed: {
     ...mapState({
       roles: (state) => state.roles.data?.roles,
       permissions: (state) => state.roles.data?.permissions,
+      currencies: (state) => state.currencies.data,
     }),
   },
 
   mounted() {
-    this.load()
+    this.load();
   },
 
   methods: {
@@ -85,10 +104,24 @@ export default {
     },
 
     async saveRoles({ target }) {
-      await this.$store.dispatch('roles/save', {
-        fd: new FormData(target)
+      await this.$store.dispatch("roles/save", {
+        fd: new FormData(target),
+      });
+    },
+
+    updateCurrency(evt, currency) {
+      const name = evt.target.value;
+      
+      const fd = new FormData();
+
+      fd.append('id', currency.id);
+      
+      fd.append('name', name);
+
+      this.$store.dispatch('currencies/update', {
+        fd
       })
-    },  
+    }
   },
 };
 </script>

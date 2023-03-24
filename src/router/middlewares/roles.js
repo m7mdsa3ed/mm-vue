@@ -9,7 +9,7 @@ export default (roles) => async ({ next }) => {
 
   const matchedRoles = userRoles.filter( role => roles.includes(role))
 
-  if (!matchedRoles.length) {
+  if (matchedRoles.length) {
     return next();
   }
   
