@@ -126,7 +126,7 @@ export default {
 
     havePrivilege(roles) {
       if (roles && roles.length) {
-        const userRoles = this.$store.state.auth.user?.roles.map((roleObj) => roleObj.name) || [];
+        const userRoles = this.$store.state.auth.user?.roles?.map((roleObj) => roleObj.name) || [];
 
         if (roles.filter((role) => userRoles.includes(role)).length) {
           return true;
