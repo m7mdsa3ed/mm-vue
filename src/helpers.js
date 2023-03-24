@@ -1,3 +1,7 @@
+import routes from './api-routes.json'
+import axios from 'axios';
+import { compile } from 'path-to-regexp';
+
 export const money = (number, suffix = "EGP") =>
   `${Number(number ?? 0)
     .toFixed(2)
@@ -25,4 +29,25 @@ export const JSON2FD = (json) => {
   }
 
   return fd;
+};
+
+export const route = (name, params) => {
+  const route = routes[name]
+
+  return {
+    url: () => compile(route.url ?? route)(params),
+    method: () => route.method ?? 'GET'
+  }
+}
+
+export const caller = async (method, url, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await axios({ method, url, data });
+
+      resolve(response.data);
+    } catch (error) {
+      reject(error);
+    }
+  });
 };

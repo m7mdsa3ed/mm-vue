@@ -1,0 +1,11 @@
+{
+  "roles": "roles",
+  "roles.save": {
+    "method": "POST",
+    "url": "roles/syncRoles"
+  },
+  "currencies.update": {
+    "method": "POST",
+    "url": "currencies/update/:id"
+  }
+}

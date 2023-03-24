@@ -1,16 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 import RouterView from "../components/RouterView.vue";
 import auth from "./auth";
-import store from '../store'
+import authentication from "./middlewares/authentication";
+import roles from "./middlewares/roles";
 
 const routes = [
   {
     path: "/",
     component: () => import("../views/Layout.vue"),
     meta: {
-      auth: {
-        required: true
-      }
+      middleware: [authentication],
     },
     children: [
       {
@@ -62,6 +61,29 @@ const routes = [
           },
         ],
       },
+      {
+        path: "settings",
+        component: RouterView,
+        meta: {
+          middleware: [
+            roles(['manager'])
+          ],
+        },
+        children: [
+          {
+            path: "",
+            name: "settings",
+            component: () => import("../views/Settings/Index.vue"),
+          },
+        ],
+      },
+      
+      {
+        path: "error/:code",
+        name: 'error',
+        component: () => import("../views/Error.vue"),
+      },
+
     ],
   },
   {
@@ -82,31 +104,37 @@ const router = createRouter({
   },
 });
 
-router.beforeEach(async (to, from, next) => {
-  if (!store.state.auth.user) {
-      try {
-        await store.dispatch('auth/getUser')
-      } catch (error) {}
+function middlewarePipeline(context, middleware, index) {
+  const nextMiddleware = middleware[index];
+
+  if (!nextMiddleware) {
+    return context.next;
   }
 
-  const isLoggedIn = !! store.state.auth.user
+  return () => {
+    const nextPipeline = middlewarePipeline(context, middleware, index + 1);
 
-  const authRequired = to.meta?.auth?.required ?? false
+    nextMiddleware({ ...context, next: nextPipeline });
+  };
+}
 
-  if (authRequired && !isLoggedIn) {
-    return next({ name: 'login' })
+router.beforeEach((to, from, next) => {
+  if (!to.meta.middleware) {
+    return next();
   }
 
-  const authRoutes = [
-    'login',
-    'register'
-  ];
+  const middleware = to.meta.middleware;
 
-  if (isLoggedIn && authRoutes.includes(to.name)) {
-    return next({ name: "home" })
-  }
+  const context = {
+    to,
+    from,
+    next,
+  };
 
-  next()
-})
+  return middleware[0]({
+    ...context,
+    next: middlewarePipeline(context, middleware, 1),
+  });
+});
 
 export default router;

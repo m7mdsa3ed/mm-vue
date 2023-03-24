@@ -1,4 +1,5 @@
 import axios from "axios";
+import { updateCurrency } from '../../api/currencies'
 
 export default {
   namespaced: true,
@@ -35,5 +36,13 @@ export default {
           });
       });
     },
+
+    async update({ commit }, { fd }) {
+      commit("setLoading", true);
+
+      commit("setData", await updateCurrency(fd));
+
+      commit("setLoading", false);
+    }
   },
 };
