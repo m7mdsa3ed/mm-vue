@@ -9,9 +9,7 @@ export default async ({ to, next }) => {
 
   const isLoggedIn = !!store.state.auth.user;
 
-  const authRequired = to.meta?.auth?.required ?? false;
-
-  if (authRequired && !isLoggedIn) {
+  if (!isLoggedIn) {
     return next({ name: "login" });
   }
 
