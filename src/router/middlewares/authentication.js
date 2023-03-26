@@ -1,6 +1,4 @@
-import store from "../../store";
-
-export default async ({ to, next }) => {
+export default async ({ to, next, store }) => {
   if (!store.state.auth.user) {
     try {
       await store.dispatch("auth/getUser");

@@ -1,17 +1,14 @@
-import store from '../../store'
+export default (roles) =>
+  async ({ next, store }) => {
+    const user = await store.getters["auth/user"];
 
-export default (roles) => async ({ next }) => {
-  const response = await store.dispatch("auth/getUser");
+    const userRoles = user.roles.map((role) => role.name);
 
-  const user = response.data
+    const matchedRoles = userRoles.filter((role) => roles.includes(role));
 
-  const userRoles = user.roles.map((role) => role.name);
+    if (!matchedRoles.length) {
+      return next({ name: "error", params: { code: 401 } });
+    }
 
-  const matchedRoles = userRoles.filter( role => roles.includes(role))
-
-  if (matchedRoles.length) {
     return next();
-  }
-  
-  return next({ name: 'error', params: { code: 401 } })
-}
+  };

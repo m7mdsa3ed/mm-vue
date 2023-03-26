@@ -2,7 +2,8 @@ import axios from "axios";
 import store from "..";
 import router from "../../router";
 
-const LSItemName = (import.meta.env.VITE_LOCALSTORAGE_NAMESPACE ?? "VUE") + ".ACCESS_TOKEN";
+const LSItemName =
+  (import.meta.env.VITE_LOCALSTORAGE_NAMESPACE ?? "VUE") + ".ACCESS_TOKEN";
 
 export default {
   namespaced: true,
@@ -111,4 +112,8 @@ export default {
       router.push({ name: "login" });
     },
   },
+
+  getters: {
+    user: (state) => state.user
+  }
 };
