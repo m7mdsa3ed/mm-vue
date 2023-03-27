@@ -42,6 +42,30 @@ store.subscribe((mutation, state) => {
   if (cacheEnabled) {
     localStorage.setItem("store", JSON.stringify(state));
   }
-});
 
+  const globalListener = [];
+
+  const vuexEventListeners = [
+    {
+      events: "transactions/saveTransaction",
+      listeners: ["accounts/fetch", "app/fetchStats"],
+    },
+  ];
+  
+  vuexEventListeners.forEach(({ events, listeners }) => {
+    events = Array.isArray(events) ? events : [events];
+
+    if (events.includes(mutation.type)) {
+      [...globalListener, ...listeners].forEach((action) => {
+        if (typeof action == "string") {
+          store.dispatch(action);
+        }
+
+        if (typeof action == "function") {
+          action();
+        }
+      });
+    }
+  });
+});
 export default store;
