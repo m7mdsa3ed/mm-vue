@@ -1,5 +1,9 @@
-import axios from "axios";
-import { JSON2FD } from "../../helpers";
+import { mergeRow, removeRow } from "../../helpers";
+import {
+  deleteTransaction,
+  getTransactions,
+  saveTransaction,
+} from "../../api/transactions";
 
 export default {
   namespaced: true,
@@ -15,87 +19,67 @@ export default {
     setErrors: (state, errors) => (state.errors = errors),
     setLoading: (state, status) => (state.loading = status),
 
-    saveTransaction: (state, { transaction, isUpdating }) => {
-      const index = state.data.data.findIndex((x) => x.id == transaction.id);
-
-      if (isUpdating && index != -1) {
-        state.data.data[index] = transaction;
-      } else {
-        state.data.data.unshift(transaction);
-      }
+    saveTransaction: (state, row) => {
+      mergeRow({
+        row,
+        target: state.data.data,
+        key: "id",
+      });
     },
 
-    removeTransaction: (state, transaction) => {
-      const index = state.data.data.findIndex((x) => x.id == transaction.id);
-
-      if (index != -1) {
-        state.data.data.splice(index, 1);
-      }
+    removeTransaction: (state, row) => {
+      removeRow({
+        row,
+        target: state.data.data,
+        key: "id",
+      });
     },
   },
 
   actions: {
     async fetch({ commit }, payload) {
-      let { url, filter } = payload || {};
+      let { url, filter, refreshBeforeFetch } = payload || {};
 
-      // Reset Before Fetch
-      if (filter?.rbf || false) {
+      if (refreshBeforeFetch) {
         commit("setTransactions", []);
       }
 
       commit("setLoading", true);
 
-      return new Promise((resolve, reject) => {
-        axios
-          .get(url ?? "transactions", {
-            params: filter,
-          })
-          .then((response) => {
-            commit("setTransactions", response.data);
-            resolve(response);
-          })
-          .catch((err) => {
-            commit("setErrors", err.response.data);
-            reject(err);
-          })
-          .finally(() => commit("setLoading", false));
-      });
+      try {
+        commit("setTransactions", await getTransactions(url, filter));
+      } catch (error) {
+        commit("setErrors", error);
+      }
+
+      commit("setLoading", false);
     },
 
-    async save({ commit }, { data, isUpdating }) {
-      const fd = JSON2FD(data);
+    async save({ commit }, { data }) {
+      commit("setLoading", true);
 
-      const url = isUpdating
-        ? `transactions/${data.id}/update`
-        : "transactions";
+      try {
+        commit("saveTransaction", await saveTransaction(data, data.id));
+      } catch (error) {
+        commit("setErrors", error);
+      }
 
-      return new Promise((resolve, reject) => {
-        axios
-          .post(url, fd)
-          .then((res) => {
-            commit("saveTransaction", { transaction: res.data, isUpdating });
-            resolve(res.data);
-          })
-          .catch((err) => {
-            commit("setErrors", err.response.data);
-            reject(err);
-          });
-      });
+      commit("setLoading", false);
     },
 
     async delete({ commit }, { transaction }) {
-      return new Promise((resolve, reject) => {
-        axios
-          .post(`transactions/${transaction.id}/delete`)
-          .then((res) => {
-            commit("removeTransaction", transaction);
-            resolve(res.data);
-          })
-          .catch((err) => {
-            commit("setErrors", err.response?.data);
-            reject(err);
-          });
-      });
+      commit("setLoading", true);
+
+      try {
+        await deleteTransaction(transaction.id)
+
+        commit("removeTransaction", transaction);
+      } catch (error) {
+
+        commit("setErrors", error);
+      }
+
+      commit("setLoading", false);
     },
   },
 };

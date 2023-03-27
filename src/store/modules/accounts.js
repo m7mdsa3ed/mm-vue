@@ -1,4 +1,5 @@
-import axios from "axios";
+import { mergeRow, removeRow } from "../../helpers";
+import { deleteAccount, getAccounts, saveAccount } from '../../api/accounts'
 
 export default {
   namespaced: true,
@@ -14,87 +15,63 @@ export default {
     setErrors: (state, errors) => (state.errors = errors),
     setLoading: (state, status) => (state.loading = status),
 
-    saveAccount: (state, { account, isUpdating }) => {
-      const index = state.data.findIndex((x) => x.id == account.id);
-
-      if (isUpdating && index != -1) {
-        const currentAccount = state.data[index];
-
-        state.data[index] = {
-          ...currentAccount,
-          ...account
-        };
-      } else {
-        state.data.push(account);
-      }
+    saveAccount: (state, row) => {
+       mergeRow({
+        row,
+        target: state.data,
+        key: "id",
+      });
     },
 
-    removeAccount: (state, account) => {
-      const index = state.data.findIndex((x) => x.id == account.id);
-
-      if (index != -1) {
-        state.data.splice(index, 1);
-      }
+    removeAccount: (state, row) => {
+      removeRow({
+        row,
+        target: state.data,
+        key: "id",
+      });
     },
   },
 
   actions: {
     async fetch({ commit }) {
       commit("setLoading", true);
+      
+      try {
+        commit("setAccounts", await getAccounts());
+      } catch (error) {
+        commit("setErrors", error);
+      }
 
-      return new Promise((resolve, reject) => {
-        axios
-          .get("accounts")
-          .then((response) => {
-            commit("setAccounts", response.data);
-            resolve(response);
-          })
-          .catch((err) => {
-            commit("setErrors", err.response.data);
-            reject(err);
-          })
-          .finally(() => {
-            commit("setLoading", false);
-          });
-      });
+      commit("setLoading", false);
     },
 
-    async save({ commit }, payload) {
-      const { account, data } = payload;
+    async save({ commit }, { data }) {
+      commit("setLoading", true);
 
-      const isUpdating = !!account;
+      console.log(data);
 
-      const url = isUpdating ? `accounts/${account.id}/update` : "accounts";
+      try {
+        commit("saveAccount", await saveAccount(data, data.get('id')));
+      } catch (error) {
+        commit("setErrors", error);
+      }
 
-      return new Promise((resolve, reject) => {
-        axios
-          .post(url, data)
-          .then((response) => {
-            commit("saveAccount", { account: response.data, isUpdating });
-            resolve(response.data);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
+      commit("setLoading", false);
     },
 
-    async delete({ commit }, payload) {
-      const { account } = payload;
+    async delete({ commit }, { account }) {
+      commit("setLoading", true);
 
-      const url = `accounts/${account.id}/delete`;
+      try {
+        await deleteAccount(account.id)
 
-      return new Promise((resolve, reject) => {
-        axios
-          .post(url)
-          .then((response) => {
-            commit("removeAccount", { account: account });
-            resolve(response.data);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
+        commit("removeAccount", account);
+      } catch (error) {
+
+        commit("setErrors", error);
+      }
+
+      commit("setLoading", false);
     },
   },
 };

@@ -1,4 +1,5 @@
-import axios from "axios";
+import { mergeRow, removeRow } from "../../helpers";
+import { deleteCategory, getCategories, saveCategory } from '../../api/categories'
 
 export default {
   namespaced: true,
@@ -14,88 +15,61 @@ export default {
     setErrors: (state, errors) => (state.errors = errors),
     setLoading: (state, status) => (state.loading = status),
 
-    saveCategory: (state, { category, isUpdating }) => {
-      const index = state.categories.findIndex((x) => x.id == category.id);
-
-      if (isUpdating && index != -1) {
-        state.categories[index] = category;
-      } else {
-        state.categories.push(category);
-      }
+    saveCategory: (state, row) => {
+       mergeRow({
+        row,
+        target: state.categories,
+        key: "id",
+      });
     },
 
-    removeCategory: (state, { category }) => {
-      const index = state.categories.findIndex((x) => x.id == category.id);
-
-      if (index != -1) {
-        state.categories.splice(index, 1);
-      }
+    removeCategory: (state, row) => {
+      removeRow({
+        row,
+        target: state.categories,
+        key: "id",
+      });
     },
   },
 
   actions: {
     async fetch({ commit }) {
       commit("setLoading", true);
+      
+      try {
+        commit("setCategories", await getCategories());
+      } catch (error) {
+        commit("setErrors", error);
+      }
 
-      return new Promise((resolve, reject) => {
-        axios
-          .get("categories", {
-            params: {
-              all: true,
-            },
-          })
-          .then((response) => {
-            commit("setCategories", response.data);
-            resolve(response);
-          })
-          .catch((err) => {
-            commit("setErrors", err.response.data);
-            reject(err);
-          })
-          .finally(() => {
-            commit("setLoading", false);
-          });
-      });
+      commit("setLoading", false);
     },
 
-    async save({ commit }, payload) {
-      const { category, data } = payload;
+    async save({ commit }, { data }) {
+      commit("setLoading", true);
 
-      const isUpdating = !!category;
+      try {
+        commit("saveCategory", await saveCategory(data, data.get('id')));
+      } catch (error) {
+        commit("setErrors", error);
+      }
 
-      const url = isUpdating
-        ? `categories/${category.id}/update`
-        : "categories";
-
-      return new Promise((resolve, reject) => {
-        axios
-          .post(url, data)
-          .then((response) => {
-            commit("saveCategory", { category: response.data, isUpdating });
-            resolve(response.data);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
+      commit("setLoading", false);
     },
 
-    async delete({ commit }, payload) {
-      const { category } = payload;
+    async delete({ commit }, { category }) {
+      commit("setLoading", true);
 
-      const url = `categories/${category.id}/delete`;
+      try {
+        await deleteCategory(category.id)
 
-      return new Promise((resolve, reject) => {
-        axios
-          .post(url)
-          .then((response) => {
-            commit("removeCategory", { category });
-            resolve(response.data);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
+        commit("removeCategory", category);
+      } catch (error) {
+
+        commit("setErrors", error);
+      }
+
+      commit("setLoading", false);
     },
   },
 };

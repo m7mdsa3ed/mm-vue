@@ -1,0 +1,81 @@
+{
+  "roles": {
+    "index": "roles",
+    "save": {
+      "method": "POST",
+      "url": "roles/syncRoles"
+    }
+  },
+
+  "currencies": {
+    "index": "currencies",
+    "update": {
+      "method": "POST",
+      "url": "currencies/update/:id"
+    }
+  },
+
+  "transactions": {
+    "index": "transactions",
+    "create": {
+      "method": "POST",
+      "url": "transactions"
+    },
+    "update": {
+      "method": "POST",
+      "url": "transactions/:id/update"
+    },
+    "delete": {
+      "method": "POST",
+      "url": "transactions/:id/delete"
+    }
+  },
+  
+  "accounts": {
+    "index": "accounts",
+    "create": {
+      "method": "POST",
+      "url": "accounts"
+    },
+    "update": {
+      "method": "POST",
+      "url": "accounts/:id/update"
+    },
+    "delete": {
+      "method": "POST",
+      "url": "accounts/:id/delete"
+    }
+  },
+  
+  "categories": {
+    "index": "categories",
+    "create": {
+      "method": "POST",
+      "url": "categories"
+    },
+    "update": {
+      "method": "POST",
+      "url": "categories/:id/update"
+    },
+    "delete": {
+      "method": "POST",
+      "url": "categories/:id/delete"
+    }
+  },
+  
+  "tags": {
+    "index": "tags",
+    "create": {
+      "method": "POST",
+      "url": "tags"
+    },
+    "update": {
+      "method": "POST",
+      "url": "tags/:id/update"
+    },
+    "delete": {
+      "method": "POST",
+      "url": "tags/:id/delete"
+    }
+  }
+}

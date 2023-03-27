@@ -1474,7 +1474,7 @@ binary-extensions@^2.0.0:
 
 bootstrap@twbs/bootstrap#main:
   version "5.3.0-alpha2"
-  resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/d533e6f33de2a26a0b7bf5a577eb5c120e51face"
+  resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/d76ee2846f420768a8a3fb70a0eefc37df2d951e"
 
 brace-expansion@^1.1.7:
   version "1.1.11"

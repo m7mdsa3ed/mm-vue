@@ -1,6 +1,6 @@
-import routes from './api-routes.json'
-import axios from 'axios';
-import { compile } from 'path-to-regexp';
+import routes from "./api/routes.json";
+import axios from "axios";
+import { compile } from "path-to-regexp";
 
 export const money = (number, suffix = "EGP") =>
   `${Number(number ?? 0)
@@ -31,23 +31,64 @@ export const JSON2FD = (json) => {
   return fd;
 };
 
-export const route = (name, params) => {
-  const route = routes[name]
+export const route = (name, configs) => {
+  const { params, url } = configs || {};
+
+  const route = routes[name] ?? name.split(".").reduce((a, c) => a[c], routes);
 
   return {
-    url: () => compile(route.url ?? route)(params),
-    method: () => route.method ?? 'GET'
-  }
+    url: () => url ?? compile(route.url ?? route)(params),
+    method: () => route.method ?? "GET",
+  };
+};
+
+export const httpRequest = async (route, configs) => {
+  const response = await axios({
+    method: route.method(),
+    url: route.url(),
+    ...configs,
+  });
+
+  return response.data;
+};
+
+export const errorParser = (error) => {
+  return {
+    error,
+    isNetworkError: !(error.response || error.request),
+    isServerError: !!(error.response || error.request),
+    validationErrors: () => {
+      if (error.response) {
+        const { data } = error.response;
+
+        if (data.errors || []) {
+          return data.errors;
+        }
+      }
+
+      return [];
+    },
+  };
+};
+
+const findIndexByKey = (array, row, key) => {
+  return array.findIndex(
+    (r) => r[key] == row[key]
+  )
 }
 
-export const caller = async (method, url, data) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const response = await axios({ method, url, data });
+export const mergeRow = ({ row, target, key }) => {
+  const index = findIndexByKey(target, row, key);
 
-      resolve(response.data);
-    } catch (error) {
-      reject(error);
-    }
-  });
+  index != -1 ? (target[index] = row) : target.unshift(row);
+};
+
+export const removeRow = ({ row, target, key }) => {
+  const index = findIndexByKey(target, row, key);
+
+  console.log({ index });
+
+  if (index != -1) {
+    target.splice(index, 1);
+  }
 };

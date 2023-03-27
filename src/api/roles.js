@@ -1,13 +1,11 @@
-import { route, caller } from '../helpers'
+import { route, httpRequest } from '../helpers'
 
 export const getRoles = async () => {
-  const r = route('roles');
-
-  return await caller(r.method(), r.url());
+  return await httpRequest(route('roles.index'));
 };
 
 export const saveRoles = async (data) => {
-  const r = route('roles.save');
-
-  return await caller(r.method(), r.url(), data);
+  return await httpRequest(route('roles.save'), {
+    data: data
+  });
 }

@@ -2,7 +2,7 @@
   <div>
     <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
       <p class="display-6 mb-0">Transactions</p>
-      
+
       <button class="btn btn-outline-danger" @click="fetch">
         <i class="fa-fw fas fa-refresh"></i>
       </button>
@@ -18,7 +18,6 @@
         <i class="icon fas fa-plus"></i>
         Transaction
       </button>
-
     </div>
 
     <div class="mb-3 box bg-main">
@@ -77,11 +76,7 @@
                   </template>
                 </p>
                 <span
-                  class="
-                    small
-                    text-muted text-multi-truncate text-multi-truncate-2
-                    white-space-pre-wrap
-                  "
+                  class="small text-muted text-multi-truncate text-multi-truncate-2 white-space-pre-wrap"
                 >
                   {{ transaction.description }}
                 </span>
@@ -95,7 +90,12 @@
                 >
                   <span>
                     {{ transaction.action == 2 ? "-" : "+" }}
-                    {{ $fn.money(transaction.amount, transaction.account?.currency?.name) }}
+                    {{
+                      $fn.money(
+                        transaction.amount,
+                        transaction.account?.currency?.name
+                      )
+                    }}
                   </span>
 
                   <span class="badge bg-secondary rounded-0 mt-1">
@@ -121,10 +121,7 @@
                   </span>
 
                   <ul
-                    class="
-                      dropdown-menu dropdown-menu-end dropdown-menu-custom
-                      mx-0
-                    "
+                    class="dropdown-menu dropdown-menu-end dropdown-menu-custom mx-0"
                     style="width: 220px"
                   >
                     <li>
@@ -254,7 +251,11 @@ export default {
     }),
 
     fetch(url = null) {
-      this.$store.dispatch("transactions/fetch", { url, filter: this.filter });
+      this.$store.dispatch("transactions/fetch", {
+        url,
+        filter: this.filter,
+        refreshBeforeFetch: !!this.$route.query.rbf,
+      });
     },
 
     setTransactionOpenModal(transaction, modal) {

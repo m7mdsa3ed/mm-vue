@@ -1,4 +1,5 @@
-import axios from "axios";
+import { mergeRow, removeRow } from "../../helpers";
+import { deleteTag, getTags, saveTag } from '../../api/tags'
 
 export default {
   namespaced: true,
@@ -10,26 +11,24 @@ export default {
   },
 
   mutations: {
-    setTags: (state, tags) => (state.tags = tags),
+    setData: (state, tags) => (state.tags = tags),
     setErrors: (state, errors) => (state.errors = errors),
     setLoading: (state, status) => (state.loading = status),
 
-    saveTag: (state, { tag, isUpdating }) => {
-      const index = state.tags.findIndex((x) => x.id == tag.id);
-
-      if (isUpdating && index != -1) {
-        state.tags[index] = tag;
-      } else {
-        state.tags.push(tag);
-      }
+    saveTag: (state, row) => {
+      mergeRow({
+        row,
+        target: state.tags,
+        key: "id",
+      });
     },
 
-    removeTag: (state, { tag }) => {
-      const index = state.tags.findIndex((x) => x.id == tag.id);
-
-      if (index != -1) {
-        state.tags.splice(index, 1);
-      }
+    removeTag: (state, row) => {
+       removeRow({
+        row,
+        target: state.tags,
+        key: "id",
+      });
     },
   },
 
@@ -37,63 +36,40 @@ export default {
     async fetch({ commit }) {
       commit("setLoading", true);
 
-      return new Promise((resolve, reject) => {
-        axios
-          .get("tags", {
-            params: {
-              all: true,
-            },
-          })
-          .then((response) => {
-            commit("setTags", response.data);
-            resolve(response);
-          })
-          .catch((err) => {
-            commit("setErrors", err.response.data);
-            reject(err);
-          })
-          .finally(() => {
-            commit("setLoading", false);
-          });
-      });
+      try {
+        commit("setData", await getTags());
+      } catch (error) {
+        commit("setErrors", error);
+      }
+
+      commit("setLoading", false);
     },
 
-    async save({ commit }, payload) {
-      const { tag, data } = payload;
+    async save({ commit }, { data }) {
+      commit("setLoading", true);
 
-      const isUpdating = !!tag;
+      try {
+        commit("saveTag", await saveTag(data, data.get('id')));
+      } catch (error) {
+        commit("setErrors", error);
+      }
 
-      const url = isUpdating ? `tags/${tag.id}/update` : "tags";
-
-      return new Promise((resolve, reject) => {
-        axios
-          .post(url, data)
-          .then((response) => {
-            commit("saveTag", { tag: response.data, isUpdating });
-            resolve(response.data);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
+      commit("setLoading", false);
     },
 
-    async delete({ commit }, payload) {
-      const { tag } = payload;
+    async delete({ commit }, { tag }) {
+      commit("setLoading", true);
 
-      const url = `tags/${tag.id}/delete`;
+      try {
+        await deleteTag(tag.id)
 
-      return new Promise((resolve, reject) => {
-        axios
-          .post(url)
-          .then((response) => {
-            commit("removeTag", { tag });
-            resolve(response.data);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
+        commit("removeTag", tag);
+      } catch (error) {
+
+        commit("setErrors", error);
+      }
+
+      commit("setLoading", false);
     },
   },
 };

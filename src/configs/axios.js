@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "./../store";
+import { errorParser } from '../helpers'
 
 const baseURL = import.meta.env.VITE_API_BASEURL;
 
@@ -18,7 +19,7 @@ axios.interceptors.request.use(
     store.dispatch("app/loading", false);
     store.dispatch("app/stopActions", false);
 
-    return error;
+    return Promise.reject(errorParser(error));
   }
 );
 
@@ -33,6 +34,6 @@ axios.interceptors.response.use(
     store.dispatch("app/loading", false);
     store.dispatch("app/stopActions", false);
 
-    return error;
+    return Promise.reject(errorParser(error));
   }
 );
