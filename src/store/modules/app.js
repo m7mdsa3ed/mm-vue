@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "..";
+import { getSettings, saveSettings } from '../../api/settings'
 
 export default {
   namespaced: true,
@@ -60,5 +61,13 @@ export default {
             state.stopActions = payload;
           }, 500);
     },
+
+    async getSettings({}) {
+      return await getSettings()
+    },
+
+    async saveSettings({}, { key, value }) {
+      return await saveSettings(key, value)
+    }
   },
 };

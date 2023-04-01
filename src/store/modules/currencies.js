@@ -1,4 +1,8 @@
-import { updateCurrency, getCurrencies } from "../../api/currencies";
+import {
+  updateCurrency,
+  getCurrencies,
+  updateCurrencyRate,
+} from "../../api/currencies";
 import { mergeRow } from "../../helpers";
 
 export default {
@@ -15,10 +19,10 @@ export default {
     setErrors: (state, errors) => (state.errors = errors),
     setLoading: (state, status) => (state.loading = status),
     updateRow: (state, row) => {
-      mergeRow({ 
-        row, 
-        target: state.data, 
-        key: 'id'
+      mergeRow({
+        row,
+        target: state.data,
+        key: "id",
       });
     },
   },
@@ -48,6 +52,20 @@ export default {
       }
 
       commit("setLoading", false);
+    },
+
+    async updateRate({ commit, state }, { id, rate, fromCurrencyId }) {
+      const currencyRates = await updateCurrencyRate(id, rate);
+
+      const currencyIndex = state.data.findIndex((c) => c.id == fromCurrencyId);
+
+      const currency = state.data[currencyIndex];
+
+      if (currency) {
+        currency.rates = currencyRates;
+
+        commit("updateRow", currency);
+      }
     },
   },
 };

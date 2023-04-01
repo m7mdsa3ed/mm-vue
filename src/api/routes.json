@@ -12,6 +12,10 @@
     "update": {
       "method": "POST",
       "url": "currencies/update/:id"
+    },
+    "updateRate": {
+      "method": "POST",
+      "url": "currencies/update/:id/rate"
     }
   },
 
@@ -30,7 +34,7 @@
       "url": "transactions/:id/delete"
     }
   },
-  
+
   "accounts": {
     "index": "accounts",
     "create": {
@@ -46,7 +50,7 @@
       "url": "accounts/:id/delete"
     }
   },
-  
+
   "categories": {
     "index": "categories",
     "create": {
@@ -62,7 +66,7 @@
       "url": "categories/:id/delete"
     }
   },
-  
+
   "tags": {
     "index": "tags",
     "create": {
@@ -76,6 +80,14 @@
     "delete": {
       "method": "POST",
       "url": "tags/:id/delete"
+    }
+  },
+
+  "settings": {
+    "get": "settings",
+    "save": {
+      "method": "POST",
+      "url": "settings/save"
     }
   }
 }

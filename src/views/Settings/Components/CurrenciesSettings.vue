@@ -2,7 +2,7 @@
   <div class="box bg-main">
     <h2>Currencies Settings</h2>
 
-    <table class="table table-borderless table-striped">
+    <table class="table table-borderless">
       <thead>
         <tr>
           <th>Currency Name</th>
@@ -16,9 +16,11 @@
               <input
                 type="text"
                 :value="currency.name"
-                class="form-control bg-transparent border-0"
+                class="form-control mb-3"
                 @change="(evt) => updateCurrency(evt, currency)"
               />
+
+              <CurrencyRateSettings :rates="currency.rates"/>
             </td>
           </tr>
         </template>
@@ -28,7 +30,10 @@
 </template>
 
 <script>
+import CurrencyRateSettings from './CurrencyRateSettings.vue';
 export default {
+  components: { CurrencyRateSettings },
+
   props: ["currencies"],
 
   methods: {

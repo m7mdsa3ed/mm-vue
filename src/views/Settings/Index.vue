@@ -8,21 +8,33 @@
       </button>
     </div>
 
-    <PermissionsSettings :roles="roles" :permissions="permissions" />
+    <div class="d-flex flex-column gap-3 mb-3">
+      <GeneralSettings :settings="settings" />
 
-    <CurrenciesSettings :currencies="currencies" />
+      <PermissionsSettings :roles="roles" :permissions="permissions" />
+
+      <CurrenciesSettings :currencies="currencies" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import CurrenciesSettings from './Components/CurrenciesSettings.vue'
-import PermissionsSettings from './Components/PermissionsSettings.vue'
+import CurrenciesSettings from "./Components/CurrenciesSettings.vue";
+import PermissionsSettings from "./Components/PermissionsSettings.vue";
+import GeneralSettings from "./Components/GeneralSettings.vue";
 
 export default {
+  data() {
+    return {
+      settings: [],
+    };
+  },
+
   components: {
     CurrenciesSettings,
     PermissionsSettings,
+    GeneralSettings,
   },
 
   computed: {
@@ -38,8 +50,16 @@ export default {
   },
 
   methods: {
-    load() {
+    async load() {
       this.$store.dispatch("roles/fetch");
+
+      await this.getSettings();
+    },
+
+    async getSettings() {
+      const response = await this.$store.dispatch("app/getSettings");
+
+      this.settings = response.settings
     },
   },
 };

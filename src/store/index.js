@@ -50,6 +50,10 @@ store.subscribe((mutation, state) => {
       events: "transactions/saveTransaction",
       listeners: ["accounts/fetch", "app/fetchStats"],
     },
+    {
+      events: "currencies/updateRow",
+      listeners: ["currencies/fetch"],
+    }
   ];
   
   vuexEventListeners.forEach(({ events, listeners }) => {

@@ -11,3 +11,13 @@ export const updateCurrency = async (data) => {
     params: data,
   });
 };
+
+export const updateCurrencyRate = async (id, rate) => {
+  const routeObject = route("currencies.updateRate", { params: { id } });
+
+  return await httpRequest(routeObject, {
+    data: {
+      rate
+    },
+  });
+};
