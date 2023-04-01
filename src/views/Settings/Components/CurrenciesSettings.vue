@@ -6,7 +6,6 @@
       <thead>
         <tr>
           <th>Currency Name</th>
-          <th style="width: 1px"></th>
         </tr>
       </thead>
       <tbody>
