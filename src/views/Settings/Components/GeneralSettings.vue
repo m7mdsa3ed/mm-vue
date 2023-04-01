@@ -21,12 +21,22 @@
         </template>
       </template>
     </template>
+
+    <hr />
+
+    <DeployButton />
   </div>
 </template>
 
 <script>
+import DeployButton from './DeployButton.vue'
+
 export default {
   props: ["settings"],
+
+  components: {
+    DeployButton
+  },
 
   methods: {
     async saveSettings(key, value) {
@@ -35,6 +45,6 @@ export default {
         value,
       });
     },
-  },
+  }
 };
 </script>

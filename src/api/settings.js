@@ -1,18 +1,22 @@
-import { route, httpRequest } from '../helpers'
+import { route, httpRequest } from "../helpers";
 
 export const getSettings = async (keys) => {
-  return await httpRequest(route('settings.get'), {
+  return await httpRequest(route("settings.get"), {
     params: {
-      keys
-    }
+      keys,
+    },
   });
 };
 
 export const saveSettings = async (key, value) => {
-  return await httpRequest(route('settings.save', {}), {
+  return await httpRequest(route("settings.save", {}), {
     data: {
       key,
-      value
-    }
+      value,
+    },
   });
-}
+};
+
+export const deploy = async (configs) => {
+  return await httpRequest(route("settings.deploy"), configs);
+};

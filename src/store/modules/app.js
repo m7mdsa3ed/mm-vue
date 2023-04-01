@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "..";
-import { getSettings, saveSettings } from '../../api/settings'
+import { getSettings, saveSettings, deploy } from '../../api/settings'
 
 export default {
   namespaced: true,
@@ -22,7 +22,7 @@ export default {
         });
       });
     },
-    
+
     async fetchAppInfo({ state }) {
       return new Promise((resolve, reject) => {
         axios.get("appInfo").then((response) => {
@@ -44,6 +44,10 @@ export default {
       ].forEach((dispatchName) => {
         store.dispatch(dispatchName);
       });
+    },
+
+    async redeploy() {
+      return await deploy();
     },
 
     loading({ state }, payload) {
@@ -68,6 +72,10 @@ export default {
 
     async saveSettings({}, { key, value }) {
       return await saveSettings(key, value)
+    },
+
+    async deploy({}, { requestConfig }) {
+      return await deploy(requestConfig)
     }
   },
 };

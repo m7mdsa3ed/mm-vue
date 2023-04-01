@@ -88,6 +88,10 @@
     "save": {
       "method": "POST",
       "url": "settings/save"
+    },
+    "deploy": {
+      "method": "POST",
+      "url": "deploy"
     }
   }
 }
