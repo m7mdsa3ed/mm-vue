@@ -12,6 +12,9 @@ export default defineConfig({
   server: {
     port: 8080
   },
+  build: {
+    sourcemap: true,
+  },
   resolve: {
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     alias: [
