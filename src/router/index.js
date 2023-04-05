@@ -103,17 +103,21 @@ const router = createRouter({
   },
 });
 
-function middlewarePipeline(context, middleware, index) {
+function middlewarePipeline(middlewareParams, middleware, index) {
   const nextMiddleware = middleware[index];
 
   if (!nextMiddleware) {
-    return context.next
+    return middlewareParams.next
   }
 
   return (...parameters) => {
-    const nextPipeline = middlewarePipeline(context, middleware, index + 1);
+    if (parameters.length) {
+      return parameters
+    }
 
-    nextMiddleware({ ...context, next: nextPipeline, params: parameters });
+    const nextPipeline = middlewarePipeline(middlewareParams, middleware, index + 1);
+
+    nextMiddleware({ ...middlewareParams, next: nextPipeline });
   };
 }
 
@@ -128,7 +132,7 @@ router.beforeEach(async (to, from, next) => {
     .flat(1);
 
   if (middleware.length) {
-    const context = {
+    const middlewareParams = {
       to,
       from,
       store,
@@ -136,10 +140,16 @@ router.beforeEach(async (to, from, next) => {
       next,
     };
 
-    return middleware[0]({
-      ...context,
-      next: middlewarePipeline(context, middleware, 1),
+    const ctx = await middleware[0]({
+      ...middlewareParams,
+      next: middlewarePipeline(middlewareParams, middleware, 1),
     });
+    
+    if (Array.isArray(ctx)) {
+      return next(...ctx)
+    }
+
+    return ctx
   }
 
   return next();
