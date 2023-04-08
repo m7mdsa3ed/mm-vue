@@ -48,6 +48,10 @@
     "delete": {
       "method": "POST",
       "url": "accounts/:id/delete"
+    },
+    "pin": {
+      "method": "POST",
+      "url": "accounts/:id/pin"
     }
   },
 

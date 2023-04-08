@@ -2,8 +2,11 @@
   <div>
     <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
       <p class="display-6 mb-0">Accounts</p>
-      
-      <button class="btn btn-outline-danger" @click="$store.dispatch('accounts/fetch')">
+
+      <button
+        class="btn btn-outline-danger"
+        @click="$store.dispatch('accounts/fetch')"
+      >
         <i class="fa-fw fas fa-refresh"></i>
       </button>
     </div>
@@ -45,7 +48,7 @@
                 <p class="mb-0">
                   {{ account.name }}
                 </p>
-                
+
                 <p class="fw-bolder small mb-0">
                   {{ account.type }}
                 </p>
@@ -76,10 +79,7 @@
                   </span>
 
                   <ul
-                    class="
-                      dropdown-menu dropdown-menu-end dropdown-menu-custom
-                      mx-0
-                    "
+                    class="dropdown-menu dropdown-menu-end dropdown-menu-custom mx-0"
                     style="width: 220px"
                   >
                     <li>
@@ -103,6 +103,15 @@
                         @click.prevent="setAccountOpenModal(account, 'edit')"
                       >
                         <span> Edit </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href=""
+                        @click.prevent="pinAccount(account)"
+                      >
+                        <span> Pin / Unpin </span>
                       </a>
                     </li>
                     <li><hr class="dropdown-divider" /></li>
@@ -139,6 +148,7 @@ import AccountModal from "@/components/Accounts/AccountModal.vue";
 import AccountEditModal from "@/components/Accounts/AccountEditModal.vue";
 import MoveMoneyModal from "@/components/Accounts/MoveMoneyModal.vue";
 import { Modal } from "bootstrap";
+import { pinAccount } from "../../api/accounts";
 export default {
   components: {
     AccountModal,
@@ -195,6 +205,10 @@ export default {
 
     removeAccount(account) {
       this.$store.dispatch("accounts/delete", { account });
+    },
+
+    async pinAccount(account) {
+      await pinAccount(account.id);
     },
   },
 };

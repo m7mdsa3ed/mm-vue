@@ -12,8 +12,8 @@
     </div>
 
     <div class="row g-4">
-      <div class="col-12 col-lg-4">
-        <div class="mb-3">
+      <div class="col-12 col-lg-4 d-flex flex-column gap-3">
+        <div>
           <p class="lead fw-bold">Balances</p>
 
           <div class="box bg-main d-flex flex-column gap-3">
@@ -59,30 +59,16 @@
             </template>
           </div>
         </div>
+        
+        <PinnedAccounts
+          v-if="dashboardStats?.pinned_accounts?.length"
+          :accountIds="dashboardStats?.pinned_accounts"
+        />
 
-        <div>
-          <p class="lead fw-bold">Month Report</p>
-
-          <div class="d-flex gap-3 w-100 mb-3">
-            <div
-              class="d-flex justify-content-between align-items-center w-100 bg-main box"
-            >
-              <i class="icon icon-bg-success fas fa-arrow-up"></i>
-              <p class="mb-0">
-                {{ $fn.money(dashboardStats?.summary?.in_amount) }}
-              </p>
-            </div>
-
-            <div
-              class="d-flex justify-content-between align-items-center w-100 bg-main box"
-            >
-              <i class="icon icon-bg-danger fas fa-arrow-down"></i>
-              <p class="mb-0">
-                {{ $fn.money(dashboardStats?.summary?.out_amount) }}
-              </p>
-            </div>
-          </div>
-        </div>
+        <MonthReport 
+          :inAmount="dashboardStats?.summary?.in_amount" 
+          :outAmount="dashboardStats?.summary?.out_amount"
+        />
 
         <div>
           <p>Categories</p>
@@ -196,10 +182,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapState} from "vuex";
 import BalanceInfoModal from "@/components/BalanceInfoModal.vue";
-import BalanceChart from "../components/Charts/BalanceChart.vue";
-import ExpensesPieChart from "../components/Charts/ExpensesPieChart.vue";
+import BalanceChart from "@/components/Charts/BalanceChart.vue";
+import ExpensesPieChart from "@/components/Charts/ExpensesPieChart.vue";
+import MonthReport from "./Components/MonthReport.vue";
+import PinnedAccounts from "./Components/PinnedAccounts.vue";
 
 export default {
   data() {
@@ -212,6 +200,8 @@ export default {
     BalanceInfoModal,
     BalanceChart,
     ExpensesPieChart,
+    MonthReport,
+    PinnedAccounts
   },
 
   computed: {
