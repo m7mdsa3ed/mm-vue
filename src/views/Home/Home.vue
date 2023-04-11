@@ -29,7 +29,7 @@
 
                   <i
                     role="button"
-                    class="icon icon-bg-info rounded-circle fas fa-exclamation"
+                    class="icon icon-bg-info fas fa-exclamation"
                     data-bs-toggle="modal"
                     data-bs-target="#BalanceInfoModal"
                     @click="
@@ -99,12 +99,12 @@
 
                         <div>
                           <span>
-                            <i class="fas fa-sm fa-arrow-up text-success"></i>
+                            <i class="icon icon-bg-success fas fa-sm fa-arrow-up"></i>
                             {{ category.in_amount }}
                           </span>
                           -
                           <span>
-                            <i class="fas fa-sm fa-arrow-down text-danger"></i>
+                            <i class="icon icon-bg-danger fas fa-sm fa-arrow-down"></i>
                             {{ category.out_amount }}
                           </span>
                         </div>
@@ -136,11 +136,11 @@
 
                               <i
                                 v-if="row.type == 1"
-                                class="fas fa-sm fa-arrow-up text-success"
+                                class="icon icon-bg-success fas fa-sm fa-arrow-up text-success"
                               ></i>
                               <i
                                 v-else
-                                class="fas fa-sm fa-arrow-down text-danger"
+                                class="icon icon-bg-danger fas fa-sm fa-arrow-down text-danger"
                               ></i>
                             </p>
                           </div>

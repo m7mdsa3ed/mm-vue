@@ -41,7 +41,7 @@
                   aria-current="page"
                   @click="goto(link.routeName)"
                 >
-                  <span v-html="link.icon"></span>
+                  <span class="me-1" v-html="link.icon"></span>
                   <span>{{ link.name }}</span>
                 </span>
               </li>
@@ -55,8 +55,8 @@
               aria-current="page"
               @click="$store.dispatch('auth/logout')"
             >
-              <span>
-                <i class="icon fas fa-sign-out-alt"></i>
+              <span class="me-1">
+                <i class="icon icon-bg-danger fas fa-sign-out-alt"></i>
               </span>
               <span>Logout</span>
             </span>
@@ -75,27 +75,27 @@ export default {
         {
           name: "Transactions",
           routeName: "Transactions",
-          icon: `<i class="icon fas fa-dollar-sign"></i>`,
+          icon: `<i class="icon icon-bg-success fas fa-dollar-sign"></i>`,
         },
         {
           name: "Accounts",
           routeName: "Accounts",
-          icon: `<i class="icon fas fa-file-alt"></i>`,
+          icon: `<i class="icon icon-bg-primary fas fa-file-alt"></i>`,
         },
         {
           name: "Categories",
           routeName: "Categories",
-          icon: `<i class="icon fas fa-th"></i>`,
+          icon: `<i class="icon icon-bg-secondary fas fa-th"></i>`,
         },
         {
           name: "Tags",
           routeName: "Tags",
-          icon: `<i class="icon fas fa-tags"></i>`,
+          icon: `<i class="icon icon-bg-warning fas fa-tags"></i>`,
         },
         {
           name: "Settings",
           routeName: "Settings",
-          icon: `<i class="icon fas fa-gear"></i>`,
+          icon: `<i class="icon icon-bg-info fas fa-gear"></i>`,
           roles: ["manager"],
         },
       ],
