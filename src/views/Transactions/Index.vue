@@ -67,7 +67,7 @@
                   <template v-for="tag in transaction.tags" :key="tag.id">
                     <span
                       role="button"
-                      class="small fw-bold bg-light px-1 ms-2"
+                      class="small fw-bold bg-body px-1 ms-2"
                       @click="
                         toRoute('transactions', { query: { tag_id: tag.id } })
                       "
