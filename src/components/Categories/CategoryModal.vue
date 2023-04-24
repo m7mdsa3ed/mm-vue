@@ -30,6 +30,25 @@
               />
               <label> Category Name </label>
             </div>
+
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                id="categorySelect"
+                v-model="category.parent_id"
+              >
+                <option selected :value="undefined">Parent Category</option>
+                <option
+                  v-for="category in categories"
+                  :key="category.id"
+                  :value="category.id"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
+              <label for="categorySelect">Category</label>
+            </div>
+
             <button class="btn btn-dark w-100">Save</button>
           </form>
         </div>
@@ -39,6 +58,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: ["modal"],
 
@@ -46,6 +67,12 @@ export default {
     return {
       category: {},
     };
+  },
+
+  computed: {
+    ...mapState({
+      categories: (state) => state.categories.categories,
+    }),
   },
 
   methods: {
