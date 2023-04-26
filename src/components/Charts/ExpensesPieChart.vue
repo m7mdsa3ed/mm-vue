@@ -74,7 +74,7 @@ export default {
           }
         },
         legend: {
-          position: 'left',
+          position: 'bottom',
           horizontalAlign: 'center'
         },
       };
