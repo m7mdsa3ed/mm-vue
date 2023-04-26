@@ -58,7 +58,15 @@ export default {
           mode: "dark",
         },
         series: [...series],
-        chart: {
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: '100%'
+            }
+          }
+        }],
+        chart: {          
           width: 380,
           type: "pie",
         },
