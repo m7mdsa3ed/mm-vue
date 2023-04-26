@@ -49,7 +49,7 @@ export default {
 
       const data = this.chartData?.map(({ balance, timestamp }) => [
         timestamp * 1000,
-        parseFloat(balance),
+        parseFloat(balance).toFixed(2),
       ]);
 
       const options = {
@@ -58,10 +58,26 @@ export default {
         },
         chart: {
           type: "area",
-          height: 450,
+          height: 350,
           zoom: {
-            autoScaleYaxis: true,
+            enabled: false,
           },
+        },
+        colors: ['#008FFB'],
+        fill: {
+          type: 'gradient',
+          gradient: {
+            opacityFrom: 1,
+            opacityTo: .5,
+          }
+        },
+        title: {
+          text: 'Balance Chart',
+          align: 'left'
+        },
+        subtitle: {
+          text: 'Balance Movements',
+          align: 'left'
         },
         dataLabels: {
           enabled: false,
@@ -69,12 +85,16 @@ export default {
         series: [
           {
             data: [...data],
+            name: 'Balance'
           },
         ],
         xaxis: {
           type: "datetime",
           min: data[0]?.timestamp,
           tickAmount: 6,
+        },
+        yaxis: {
+          opposite: true,
         },
       };
 

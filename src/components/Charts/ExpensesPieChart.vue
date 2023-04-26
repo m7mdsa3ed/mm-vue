@@ -63,6 +63,20 @@ export default {
           type: "pie",
         },
         labels: [...labels],
+        title: {
+          text: "Balance Per Category"
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            opacityFrom: 1,
+            opacityTo: .5,
+          }
+        },
+        legend: {
+          position: 'left',
+          horizontalAlign: 'center'
+        },
       };
 
       const chart = await this.createChartInstance(options);
