@@ -97,7 +97,7 @@ export default {
 
     ...mapState({
       currencies: (state) => state.currencies.data,
-      accountTypes: (state) => state.app.info?.accountTypes
+      accountTypes: (state) => state.accounts.types
     }),
   },
 

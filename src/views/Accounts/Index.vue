@@ -50,7 +50,7 @@
                 </p>
 
                 <p class="fw-bolder small mb-0">
-                  {{ account.type }}
+                  {{ account.type?.name }}
                 </p>
 
                 <p class="text-muted small mb-0">

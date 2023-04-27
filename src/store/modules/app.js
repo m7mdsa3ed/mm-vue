@@ -11,6 +11,11 @@ export default {
     charts: null,
     loading: false,
     stopActions: false,
+    schema: null,
+  },
+
+  mutations: {
+    changeSchema: (state, schema) => (state.schema = schema)
   },
 
   actions: {
@@ -35,6 +40,7 @@ export default {
     async fetchAll() {
       [
         "accounts/fetch",
+        "accounts/fetchTypes",
         "categories/fetch",
         "transactions/fetch",
         "tags/fetch",
@@ -76,6 +82,14 @@ export default {
 
     async deploy({}, { requestConfig }) {
       return await deploy(requestConfig)
-    }
+    },
+
+    changeAppSchema({ commit }, schema) {
+      commit('changeSchema', schema)
+    },
   },
+
+  getters: {
+    appSchema: (state) => (state.schema)
+  }
 };

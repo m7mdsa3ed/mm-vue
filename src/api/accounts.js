@@ -29,3 +29,7 @@ export const deleteAccount = async (id) => {
 export const pinAccount = async (id) => {
   return await httpRequest(route("accounts.pin", { params: { id } }));
 };
+
+export const getAccountTypes = async () => {
+  return await httpRequest(route("accounts.types"));
+}

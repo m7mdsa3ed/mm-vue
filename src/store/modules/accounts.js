@@ -1,5 +1,10 @@
 import { mergeRow, removeRow } from "../../helpers";
-import { deleteAccount, getAccounts, saveAccount } from '../../api/accounts'
+import {
+  deleteAccount,
+  getAccountTypes,
+  getAccounts,
+  saveAccount,
+} from "../../api/accounts";
 
 export default {
   namespaced: true,
@@ -8,15 +13,17 @@ export default {
     loading: false,
     data: [],
     errors: [],
+    types: [],
   },
 
   mutations: {
     setAccounts: (state, accounts) => (state.data = accounts),
     setErrors: (state, errors) => (state.errors = errors),
     setLoading: (state, status) => (state.loading = status),
+    setAccountTypes: (state, types) => (state.types = types),
 
     saveAccount: (state, row) => {
-       mergeRow({
+      mergeRow({
         row,
         target: state.data,
         key: "id",
@@ -35,7 +42,7 @@ export default {
   actions: {
     async fetch({ commit }) {
       commit("setLoading", true);
-      
+
       try {
         commit("setAccounts", await getAccounts());
       } catch (error) {
@@ -51,7 +58,7 @@ export default {
       console.log(data);
 
       try {
-        commit("saveAccount", await saveAccount(data, data.get('id')));
+        commit("saveAccount", await saveAccount(data, data.get("id")));
       } catch (error) {
         commit("setErrors", error);
       }
@@ -63,11 +70,24 @@ export default {
       commit("setLoading", true);
 
       try {
-        await deleteAccount(account.id)
+        await deleteAccount(account.id);
 
         commit("removeAccount", account);
       } catch (error) {
+        commit("setErrors", error);
+      }
 
+      commit("setLoading", false);
+    },
+
+    async fetchTypes({ commit }) {
+      commit("setLoading", true);
+
+      try {
+        const types = await getAccountTypes();
+
+        commit("setAccountTypes", types);
+      } catch (error) {
         commit("setErrors", error);
       }
 

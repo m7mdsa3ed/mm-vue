@@ -37,6 +37,7 @@
 
   "accounts": {
     "index": "accounts",
+    "types": "accounts/account-types",
     "create": {
       "method": "POST",
       "url": "accounts"
