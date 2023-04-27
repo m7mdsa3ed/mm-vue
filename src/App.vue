@@ -48,6 +48,8 @@ export default {
       const changeSchema = (schema = "light") => {
         document.documentElement.setAttribute("data-bs-theme", schema);
 
+        this.$store.dispatch('app/changeAppSchema', schema)
+
         const bodyBackgroundColor = getComputedStyle(
           document.documentElement
         ).getPropertyValue("--body-bg");

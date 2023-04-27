@@ -55,7 +55,7 @@ export default {
 
       const options = {
         theme: {
-          mode: "dark",
+          mode: this.$store.getters['app/appSchema'],
         },
         series: [...series],
         responsive: [{
