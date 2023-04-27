@@ -16,6 +16,10 @@
         <div>
           <p class="lead fw-bold">Balances</p>
 
+          <div class="box bg-main mb-3">
+            {{ $fn.money(dashboardStats?.balanceByMainCurrency.amount) }}
+          </div> 
+
           <div class="box bg-main d-flex flex-column gap-3">
             <template
               v-for="(balance, index) in dashboardStats?.balance_summary"
