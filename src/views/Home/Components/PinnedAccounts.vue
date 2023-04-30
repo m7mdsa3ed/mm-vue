@@ -3,7 +3,7 @@
     <p class="lead fw-bold">Pinned Accounts</p>
 
     <div class="box bg-main">
-      <template v-for="pinnedAccount in pinnedAccounts">
+      <template v-for="pinnedAccount in pinnedAccounts" :key="pinnedAccount.name">
         <div class="d-flex justify-content-between">
           <span> {{ pinnedAccount.name }} </span>
           <span> {{ $fn.money(pinnedAccount.balance) }} </span>
