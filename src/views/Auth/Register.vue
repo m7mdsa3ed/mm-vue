@@ -45,7 +45,7 @@
               role="button"
               @click="$router.push({ name: 'login' })"
             >
-              <i class="icon icon-bg-dark fas fa-arrow-left fa-sm me-2"></i>
+              <i class="fas fa-arrow-left fa-sm me-2"></i>
               Already have an account?
             </p>
           </form>

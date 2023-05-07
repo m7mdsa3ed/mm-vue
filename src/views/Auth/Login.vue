@@ -37,7 +37,7 @@
               role="button"
               @click="$router.push({ name: 'register' })"
             >
-              <i class="icon icon-bg-dark fas fa-arrow-right fa-sm me-2"></i>
+              <i class="fas fa-arrow-right fa-sm me-2"></i>
               Create your account
             </p>
           </form>
