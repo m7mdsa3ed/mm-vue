@@ -12,16 +12,6 @@
           <form @submit.prevent="register">
             <div class="form-floating mb-3">
               <input
-                type="text"
-                v-model="user.name"
-                placeholder="Full Name"
-                class="form-control mb-3"
-              />
-              <label> Full Name </label>
-            </div>
-            <hr />
-            <div class="form-floating mb-3">
-              <input
                 type="email"
                 v-model="user.email"
                 placeholder="Email"
@@ -29,6 +19,7 @@
               />
               <label> Email </label>
             </div>
+
             <div class="form-floating mb-3">
               <input
                 type="password"
@@ -37,6 +28,28 @@
                 class="form-control mb-3"
               />
               <label> Password </label>
+            </div>
+
+            <hr />
+
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                v-model="user.name"
+                placeholder="Full Name"
+                class="form-control mb-3"
+              />
+              <label> Full Name </label>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                v-model="user.phone"
+                placeholder="Phone"
+                class="form-control mb-3"
+              />
+              <label> Phone </label>
             </div>
 
             <button class="btn btn-dark mb-3 w-100">Signup</button>
