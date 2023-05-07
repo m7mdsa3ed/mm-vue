@@ -2,6 +2,10 @@ import store from "../store";
 
 export default [
   {
+    path: "",
+    redirect: { name: 'login' },
+  },
+  {
     path: "login",
     name: "login",
     meta: {

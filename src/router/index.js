@@ -90,6 +90,10 @@ const routes = [
     component: () => import("../components/RouterView.vue"),
     children: [...auth],
   },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
+  },
 ];
 
 const router = createRouter({
