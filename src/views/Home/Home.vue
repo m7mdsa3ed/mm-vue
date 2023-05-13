@@ -58,8 +58,8 @@
 
 <script>
 import {mapState} from "vuex";
-import BalanceChart from "@/components/Charts/BalanceChart.vue";
-import ExpensesPieChart from "@/components/Charts/ExpensesPieChart.vue";
+import BalanceChart from "./Components/Charts/BalanceChart.vue";
+import ExpensesPieChart from "./Components/Charts/ExpensesPieChart.vue";
 import Balances from "./Components/Balances.vue";
 import MonthReport from "./Components/MonthReport.vue";
 import PinnedAccounts from "./Components/PinnedAccounts.vue";
