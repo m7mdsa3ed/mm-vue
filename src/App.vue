@@ -65,10 +65,8 @@ export default {
         "change",
         (e) => e.matches && changeSchema("dark")
       );
-
-      if (systemDarkMode.matches) {
-        changeSchema("dark");
-      }
+      
+      changeSchema(systemDarkMode.matches ? "dark" : "light");
     },
 
     submitFormShortcut() {

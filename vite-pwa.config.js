@@ -5,7 +5,8 @@ const pwaOptions = {
   manifest: {
     name: 'Money Man',
     short_name: 'MM',
-    theme_color: '#FFFFFF',
+    theme_color: '#000000',
+    background_color: '#000000',
     icons: [
       {
         src: 'img/icons/icon.png',
