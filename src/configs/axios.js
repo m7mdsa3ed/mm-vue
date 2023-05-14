@@ -1,17 +1,17 @@
 import axios from "axios";
 import store from "./../store";
-import { errorParser } from '../helpers'
+import { errorParser } from "../helpers";
 
-const baseURL = import.meta.env.VITE_API_BASEURL;
+const { VITE_API_BASEURL, VITE_API_PATH } = import.meta.env;
 
 // Axios configuration
-axios.defaults.baseURL = baseURL;
+axios.defaults.baseURL = `${VITE_API_BASEURL}/${VITE_API_PATH}`;
 axios.defaults.headers.Authorization = `Bearer ${store.state.auth.token}`;
 
 axios.interceptors.request.use(
   (requestConfig) => {
     store.dispatch("app/loading", true);
-    store.dispatch("app/stopActions", requestConfig.method == 'post');
+    store.dispatch("app/stopActions", requestConfig.method == "post");
 
     return requestConfig;
   },
