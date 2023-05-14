@@ -1,6 +1,7 @@
 import routes from "./api/routes.json";
 import axios from "axios";
 import { compile } from "path-to-regexp";
+import router from "./router";
 
 export const money = (number, suffix = "EGP") =>
   `${Number(number ?? 0)
@@ -57,7 +58,7 @@ export const errorParser = (error) => {
     error,
     isNetworkError: !(error.response || error.request),
     isServerError: !!(error.response || error.request),
-    validationErrors: function() {
+    validationErrors: function () {
       if (error.response) {
         const { data } = error.response;
 
@@ -68,25 +69,23 @@ export const errorParser = (error) => {
 
       return [];
     },
-    toString: function() {
-      const errors = this.validationErrors()
+    toString: function () {
+      const errors = this.validationErrors();
 
       const errorMessages = [];
 
-      for(const key in errors) {
-        errorMessages.push(...errors[key])
+      for (const key in errors) {
+        errorMessages.push(...errors[key]);
       }
 
-      return errorMessages.join(', ') ?? this.error.error.message;
-    }
+      return errorMessages.join(", ") ?? this.error.error.message;
+    },
   };
 };
 
 const findIndexByKey = (array, row, key) => {
-  return array.findIndex(
-    (r) => r[key] == row[key]
-  )
-}
+  return array.findIndex((r) => r[key] == row[key]);
+};
 
 export const mergeRow = ({ row, target, key }) => {
   const index = findIndexByKey(target, row, key);
@@ -102,4 +101,18 @@ export const removeRow = ({ row, target, key }) => {
   if (index != -1) {
     target.splice(index, 1);
   }
+};
+
+export const getPath = (routeName) => {
+  const routes = router.getRoutes().filter((route) => route.name == routeName);
+
+  return routes[0]?.path;
+};
+
+export const url = (path) => {
+  const { origin } = window.location;
+
+  const trimmedPath = path.replace(/\//, "").replace(/\/+$/, "");
+
+  return `${origin}/${trimmedPath}`;
 };

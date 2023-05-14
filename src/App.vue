@@ -17,6 +17,7 @@
 <script>
 import { mapActions } from "vuex";
 import ReloadServiceWorkerVue from "./components/ReloadServiceWorker.vue";
+import { getPath, url } from './helpers';
 
 export default {
   components: {
@@ -29,6 +30,10 @@ export default {
 
   created() {
     this.syncColorSchema();
+
+    console.log(
+      url(getPath('reset'))
+    );
   },
 
   mounted() {

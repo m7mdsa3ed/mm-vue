@@ -6,7 +6,7 @@
           <p class="fs-4 fw-light">Forget Password</p>
 
           <p class="alert bg-dark" v-if="message">
-            {{  message }}
+            {{ message }}
           </p>
 
           <form @submit.prevent="requestForgetPassword">
@@ -30,6 +30,7 @@
 
 <script>
 import { forgetPassword } from "../../api/authentication";
+import { getPath, url } from "../../helpers";
 
 export default {
   data() {
@@ -52,12 +53,12 @@ export default {
       try {
         const response = await forgetPassword({
           email: this.email,
-          redirectUrl: "",
+          redirectUrl: url(getPath("reset")),
         });
 
         this.message = response.message;
       } catch (error) {
-        this.message = error.toString()
+        this.message = error.toString();
       }
     },
   },
