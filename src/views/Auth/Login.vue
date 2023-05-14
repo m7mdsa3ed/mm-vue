@@ -32,14 +32,26 @@
             </div>
 
             <button class="btn btn-dark mb-3 w-100">Login</button>
-            <p
-              class="mb-0 small"
-              role="button"
-              @click="$router.push({ name: 'register' })"
-            >
-              <i class="fas fa-arrow-right fa-sm me-2"></i>
-              Create your account
-            </p>
+
+            <div class="d-flex flex-wrap justify-content-between">
+              <p
+                class="mb-0 small"
+                role="button"
+                @click="$router.push({ name: 'register' })"
+              >
+                <i class="fas fa-arrow-right fa-sm me-2"></i>
+                Create your account
+              </p>
+              
+              <p
+                class="mb-0 small"
+                role="button"
+                @click="$router.push({ name: 'forget' })"
+              >
+                <i class="fas fa-question fa-sm me-2"></i>
+                Forget Password
+              </p>
+            </div>
           </form>
         </div>
       </div>

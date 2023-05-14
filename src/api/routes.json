@@ -1,4 +1,15 @@
 {
+  "authentication": {
+    "forgetPassword": {
+      "method": "post",
+      "url": "forget-password"
+    },
+    "resetPassword": {
+      "method": "post",
+      "url": "reset-password"
+    }
+  },
+
   "roles": {
     "index": "roles",
     "save": {

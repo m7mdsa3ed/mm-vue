@@ -57,7 +57,7 @@ export const errorParser = (error) => {
     error,
     isNetworkError: !(error.response || error.request),
     isServerError: !!(error.response || error.request),
-    validationErrors: () => {
+    validationErrors: function() {
       if (error.response) {
         const { data } = error.response;
 
@@ -68,6 +68,17 @@ export const errorParser = (error) => {
 
       return [];
     },
+    toString: function() {
+      const errors = this.validationErrors()
+
+      const errorMessages = [];
+
+      for(const key in errors) {
+        errorMessages.push(...errors[key])
+      }
+
+      return errorMessages.join(', ') ?? this.error.error.message;
+    }
   };
 };
 

@@ -27,7 +27,7 @@ export default [
     component: () => import("../views/Auth/Forget.vue"),
   },
   {
-    path: "reset/:token",
+    path: "reset",
     name: "reset",
     component: () => import("../views/Auth/Reset.vue"),
   },
