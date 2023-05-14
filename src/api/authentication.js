@@ -15,3 +15,13 @@ export const resetPassword = async (data) => {
     data,
   });
 };
+
+export const oauthLogin = async (provider) => {
+  const routeObject = route('authentication.oauth.login', {
+    params: {
+      provider
+    },
+  })
+
+  return await httpRequest(routeObject)
+}

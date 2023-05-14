@@ -1,6 +1,7 @@
 import axios from "axios";
 import store from "..";
 import { getSettings, saveSettings, deploy } from '../../api/settings'
+import { appInfo } from '../../api/app'
 
 export default {
   namespaced: true,
@@ -15,7 +16,13 @@ export default {
   },
 
   mutations: {
-    changeSchema: (state, schema) => (state.schema = schema)
+    changeSchema: (state, schema) => (state.schema = schema),
+  
+    setAppState: (state, payload) => {
+      for (const key in payload) {
+        state[key] = payload[key]
+      }
+    }
   },
 
   actions: {
@@ -28,13 +35,14 @@ export default {
       });
     },
 
-    async fetchAppInfo({ state }) {
-      return new Promise((resolve, reject) => {
-        axios.get("appInfo").then((response) => {
-          state.info = response.data;
-          resolve(response.data);
-        });
-      });
+    async fetchAppInfo({ commit }) {
+      try {
+        const info = await appInfo()
+
+        commit('setAppState', { info })
+      } catch (error) {
+        console.log({ error });
+      }
     },
 
     async fetchAll() {

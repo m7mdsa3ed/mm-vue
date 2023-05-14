@@ -30,13 +30,11 @@ export default {
 
   created() {
     this.syncColorSchema();
-
-    console.log(
-      url(getPath('reset'))
-    );
   },
 
   mounted() {
+    this.$store.dispatch("app/fetchAppInfo");
+
     if (this.$store.state.auth.user) {
       this.$store.dispatch("app/fetchAll");
     }
