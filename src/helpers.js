@@ -32,13 +32,55 @@ export const JSON2FD = (json) => {
   return fd;
 };
 
+export const removeSlashes = (string) => {
+  return string.replace(/^\/|\/$/g, '');
+}
+
+export const isURL = (string) => {
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+  
+  return url.protocol === "http:" || url.protocol === "https:";
+};
+
+export const parseRouteUrl = (url) => {
+  if (typeof url == "object") {
+    let { path, base } = url;
+
+    if (!isURL(base)) {
+      const { VITE_API_BASEURL } = import.meta.env;
+
+      base = `${removeSlashes(VITE_API_BASEURL)}/${removeSlashes(base)}`
+    }
+    
+    return {
+      path: removeSlashes(path),
+      base: removeSlashes(base)
+    }
+  }
+
+  return {
+    path: url,
+    base: null
+  };
+};
+
 export const route = (name, configs) => {
   const { params, url } = configs || {};
 
   const route = routes[name] ?? name.split(".").reduce((a, c) => a[c], routes);
 
   return {
-    url: () => url ?? compile(route.url ?? route)(params),
+    url: () => {
+      let { path, base } = parseRouteUrl(route.url ?? route);
+
+      path = url ?? compile(path)(params)
+
+      return `${base ?? ''}/${path}`
+    },
     method: () => route.method ?? "GET",
   };
 };
@@ -112,7 +154,5 @@ export const getPath = (routeName) => {
 export const url = (path) => {
   const { origin } = window.location;
 
-  const trimmedPath = path.replace(/\//, "").replace(/\/+$/, "");
-
-  return `${origin}/${trimmedPath}`;
+  return `${origin}/${removeSlashes(path)}`;
 };
