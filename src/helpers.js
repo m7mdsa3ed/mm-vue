@@ -77,9 +77,9 @@ export const route = (name, configs) => {
     url: () => {
       let { path, base } = parseRouteUrl(route.url ?? route);
 
-      path = url ?? compile(path)(params)
+      path = compile(path)(params)
 
-      return `${base ?? ''}/${path}`
+      return url ?? `${base ?? ''}/${path}`
     },
     method: () => route.method ?? "GET",
   };
