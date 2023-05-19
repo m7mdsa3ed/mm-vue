@@ -11,6 +11,14 @@
     "resetPassword": {
       "method": "post",
       "url": "reset-password"
+    },
+    "oauth": {
+      "login": {
+        "url": {
+          "base": "/",
+          "path": "oauth2/login/:provider"
+        }
+      }
     }
   },
 

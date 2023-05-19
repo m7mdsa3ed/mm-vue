@@ -33,6 +33,8 @@
 
             <button class="btn btn-dark mb-3 w-100">Login</button>
 
+            <OAuthLogin />
+
             <div class="d-flex flex-wrap justify-content-between">
               <p
                 class="mb-0 small"
@@ -60,8 +62,14 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
+import OAuthLogin from './Components/OAuthLogin.vue'
+
 export default {
+  components: {
+    OAuthLogin
+  },
+
   computed: {
     ...mapState({
       loading: (state) => state.auth.loginLoading,
