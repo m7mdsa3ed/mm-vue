@@ -156,3 +156,9 @@ export const url = (path) => {
 
   return `${origin}/${removeSlashes(path)}`;
 };
+
+export const ucfirst = (str) => {
+  const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
+
+  return capitalized;
+}

@@ -15,9 +15,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import ReloadServiceWorkerVue from "./components/ReloadServiceWorker.vue";
-import { getPath, url } from './helpers';
 
 export default {
   components: {
@@ -32,7 +30,7 @@ export default {
     this.syncColorSchema();
   },
 
-  mounted() {
+  async mounted() {
     this.$store.dispatch("app/fetchAppInfo");
 
     if (this.$store.state.auth.user) {
@@ -43,15 +41,11 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      getUser: "auth/getUser",
-    }),
-
     syncColorSchema() {
       const changeSchema = (schema = "light") => {
         document.documentElement.setAttribute("data-bs-theme", schema);
 
-        this.$store.dispatch('app/changeAppSchema', schema)
+        this.$store.dispatch("app/changeAppSchema", schema);
 
         const bodyBackgroundColor = getComputedStyle(
           document.documentElement
@@ -68,7 +62,7 @@ export default {
         "change",
         (e) => e.matches && changeSchema("dark")
       );
-      
+
       changeSchema(systemDarkMode.matches ? "dark" : "light");
     },
 

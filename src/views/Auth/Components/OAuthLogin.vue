@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex gap-3 align-items-center justify-content-start">
     <template v-for="provider in loginProviders" :key="provider">
-      <button type="button" class="p-3 box bg-dark" @click="login(provider)">
-        {{ provider }}
+      <button type="button" class="btn btn-sm btn-dark" @click="login(provider)">
+        <i class="icon fa-fw" :class="`${providers[provider].icon}`"></i>
       </button>
     </template>
   </div>
@@ -13,6 +13,16 @@ import { mapState } from "vuex";
 import { oauthLogin } from "../../../api/authentication";
 
 export default {
+  data() {
+    return {
+      providers: {
+        github: {
+          icon: "fab fa-github"
+        }
+      }
+    }
+  },
+
   computed: {
     ...mapState({
       loginProviders: (state) => state.app.info?.services,
