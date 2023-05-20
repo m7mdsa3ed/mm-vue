@@ -41,9 +41,9 @@ export default {
     },
 
     handlePayload(payload) {
-      // Get token and user
-
-      // login
+      this.$store.dispatch('auth/_login', payload).then(() => {
+        this.$router.push({ name: "home" });
+      })
     },
 
     addMessageListener() {
