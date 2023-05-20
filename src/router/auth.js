@@ -11,7 +11,7 @@ export default [
     meta: {
       middleware: [
         ({ next }) =>
-          store.state.auth.token ? next({ name: "home" }) : next(),
+          eval(store.state.auth.token) ? next({ name: "home" }) : next(),
       ],
     },
     component: () => import("../views/Auth/Login.vue"),
