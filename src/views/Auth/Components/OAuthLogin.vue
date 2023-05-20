@@ -2,7 +2,7 @@
   <div class="d-flex gap-3 align-items-center justify-content-start">
     <template v-for="provider in loginProviders" :key="provider">
       <button type="button" class="btn btn-sm btn-dark" @click="login(provider)">
-        <i class="icon fa-fw" :class="`${providers[provider].icon}`"></i>
+        <i class="icon fa-fw" :class="getProviderIcon(provider)"></i>
       </button>
     </template>
   </div>
@@ -15,11 +15,7 @@ import { oauthLogin } from "../../../api/authentication";
 export default {
   data() {
     return {
-      providers: {
-        github: {
-          icon: "fab fa-github"
-        }
-      }
+      providers: {}
     }
   },
 
@@ -56,6 +52,10 @@ export default {
 
       }, false);
     },
+
+    getProviderIcon(provider) {
+      return this.providers[provider]?.icon ?? `fab fa-${provider}`
+    }
   },
 };
 </script>
