@@ -91,8 +91,8 @@ const routes = [
     children: [...auth],
   },
   {
-    path: '/:pathMatch(.*)*',
-    redirect: '/',
+    path: "/:pathMatch(.*)*",
+    redirect: "/",
   },
 ];
 
@@ -111,15 +111,19 @@ function middlewarePipeline(middlewareParams, middleware, index) {
   const nextMiddleware = middleware[index];
 
   if (!nextMiddleware) {
-    return middlewareParams.next
+    return middlewareParams.next;
   }
 
   return (...parameters) => {
     if (parameters.length) {
-      return parameters
+      return parameters;
     }
 
-    const nextPipeline = middlewarePipeline(middlewareParams, middleware, index + 1);
+    const nextPipeline = middlewarePipeline(
+      middlewareParams,
+      middleware,
+      index + 1
+    );
 
     nextMiddleware({ ...middlewareParams, next: nextPipeline });
   };
@@ -148,12 +152,12 @@ router.beforeEach(async (to, from, next) => {
       ...middlewareParams,
       next: middlewarePipeline(middlewareParams, middleware, 1),
     });
-    
+
     if (Array.isArray(ctx)) {
-      return next(...ctx)
+      return next(...ctx);
     }
 
-    return ctx
+    return ctx;
   }
 
   return next();
