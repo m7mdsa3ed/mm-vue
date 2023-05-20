@@ -30,7 +30,7 @@ export default {
     this.syncColorSchema();
   },
 
-  async mounted() {
+  mounted() {
     this.$store.dispatch("app/fetchAppInfo");
 
     if (this.$store.state.auth.user) {
