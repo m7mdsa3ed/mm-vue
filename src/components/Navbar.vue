@@ -93,6 +93,11 @@ export default {
           icon: `<i class="icon icon-bg-warning fas fa-tags"></i>`,
         },
         {
+          name: "Profile",
+          routeName: "Profile",
+          icon: `<i class="icon icon-bg-light fas fa-user"></i>`,
+        },
+        {
           name: "Settings",
           routeName: "Settings",
           icon: `<i class="icon icon-bg-info fas fa-gear"></i>`,

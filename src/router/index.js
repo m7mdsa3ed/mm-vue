@@ -64,6 +64,17 @@ const routes = [
         ],
       },
       {
+        path: "profile",
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            name: "profile",
+            component: () => import("../views/Profile/Index.vue"),
+          },
+        ],
+      },
+      {
         path: "settings",
         component: RouterView,
         meta: {

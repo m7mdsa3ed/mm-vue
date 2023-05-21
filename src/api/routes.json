@@ -4,6 +4,7 @@
   },
 
   "authentication": {
+    "profile": "me",
     "forgetPassword": {
       "method": "post",
       "url": "forget-password"

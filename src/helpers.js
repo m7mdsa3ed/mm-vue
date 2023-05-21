@@ -33,8 +33,8 @@ export const JSON2FD = (json) => {
 };
 
 export const removeSlashes = (string) => {
-  return string.replace(/^\/|\/$/g, '');
-}
+  return string.replace(/^\/|\/$/g, "");
+};
 
 export const isURL = (string) => {
   try {
@@ -42,7 +42,7 @@ export const isURL = (string) => {
   } catch (_) {
     return false;
   }
-  
+
   return url.protocol === "http:" || url.protocol === "https:";
 };
 
@@ -53,18 +53,18 @@ export const parseRouteUrl = (url) => {
     if (!isURL(base)) {
       const { VITE_API_BASEURL } = import.meta.env;
 
-      base = `${removeSlashes(VITE_API_BASEURL)}/${removeSlashes(base)}`
+      base = `${removeSlashes(VITE_API_BASEURL)}/${removeSlashes(base)}`;
     }
-    
+
     return {
       path: removeSlashes(path),
-      base: removeSlashes(base)
-    }
+      base: removeSlashes(base),
+    };
   }
 
   return {
     path: url,
-    base: null
+    base: null,
   };
 };
 
@@ -77,9 +77,9 @@ export const route = (name, configs) => {
     url: () => {
       let { path, base } = parseRouteUrl(route.url ?? route);
 
-      path = compile(path)(params)
+      path = compile(path)(params);
 
-      return url ?? `${base ?? ''}/${path}`
+      return url ?? `${base ?? ""}/${path}`;
     },
     method: () => route.method ?? "GET",
   };
@@ -161,4 +161,11 @@ export const ucfirst = (str) => {
   const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
 
   return capitalized;
-}
+};
+
+export const notationToReadable = (notationString) => {
+  return notationString
+    .replace(".", " ")
+    .toLowerCase()
+    .replace(/(?<= )[^\s]|^./g, (a) => a.toUpperCase());
+};
