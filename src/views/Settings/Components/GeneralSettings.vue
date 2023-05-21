@@ -40,7 +40,7 @@ export default {
 
   methods: {
     async saveSettings(key, value) {
-      await this.$store.dispatch("app/saveSettings", {
+      await this.$store.dispatch("settings/save", {
         key,
         value,
       });

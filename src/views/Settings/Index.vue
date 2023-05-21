@@ -25,12 +25,6 @@ import PermissionsSettings from "./Components/PermissionsSettings.vue";
 import GeneralSettings from "./Components/GeneralSettings.vue";
 
 export default {
-  data() {
-    return {
-      settings: [],
-    };
-  },
-
   components: {
     CurrenciesSettings,
     PermissionsSettings,
@@ -42,6 +36,7 @@ export default {
       roles: (state) => state.roles.data?.roles,
       permissions: (state) => state.roles.data?.permissions,
       currencies: (state) => state.currencies,
+      settings: (state) => state.settings.data,
     }),
   },
 
@@ -52,14 +47,7 @@ export default {
   methods: {
     async load() {
       this.$store.dispatch("roles/fetch");
-
-      await this.getSettings();
-    },
-
-    async getSettings() {
-      const response = await this.$store.dispatch("app/getSettings");
-
-      this.settings = response.settings
+      this.$store.dispatch("settings/fetch");
     },
   },
 };
