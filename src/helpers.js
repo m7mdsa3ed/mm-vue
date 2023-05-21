@@ -38,7 +38,7 @@ export const removeSlashes = (string) => {
 
 export const isURL = (string) => {
   try {
-    url = new URL(string);
+    new URL(string);
   } catch (_) {
     return false;
   }
