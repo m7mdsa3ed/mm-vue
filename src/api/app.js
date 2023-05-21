@@ -5,3 +5,11 @@ export const appInfo = async () => {
 
   return await httpRequest(routeObject);
 };
+
+export const getEstimate = async (data) => {
+  const routeObject = route("app.estimate");
+
+  return await httpRequest(routeObject, {
+    data,
+  });
+};

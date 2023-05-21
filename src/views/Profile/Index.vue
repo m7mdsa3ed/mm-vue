@@ -19,7 +19,7 @@
     <div class="d-flex flex-column gap-3">
       <div class="box bg-main">
         <div class="d-flex flex-column gap-3">
-          <div>
+          <div v-if="profile.phone">
             <p class="mb-0">
               <i class="fa-fw fas fa-phone me-2"></i>
               Phone
@@ -40,9 +40,17 @@
               <i class="fa-fw fas fa-clock me-2"></i>
               Joined Date
             </p>
-            <p class="mb-0 lead">{{ $date(profile.created_at).format("LL") }}</p>
+            <p class="mb-0 lead">
+              {{ $date(profile.created_at).format("LL") }}
+            </p>
           </div>
         </div>
+      </div>
+
+      <div class="box bg-main">
+        <h3 class="mb-3">Estimate</h3>
+
+        <EstimateCalculator />
       </div>
     </div>
   </div>
@@ -51,16 +59,16 @@
 <script>
 import { mapState } from "vuex";
 import { notationToReadable } from "../../helpers";
+import EstimateCalculator from '@/components/EstimateCalculator.vue'
 
 export default {
-  data() {
-    return {};
+  components: {
+    EstimateCalculator
   },
-
   computed: {
     ...mapState({
       profile: (state) => state.auth.user,
-      currencies: (state) => state.currencies.data
+      currencies: (state) => state.currencies.data,
     }),
 
     roles() {
@@ -78,14 +86,6 @@ export default {
           .flat(1) ?? []
       );
     },
-  },
-
-  mounted() {
-    this.load();
-  },
-
-  methods: {
-    async load() {},
   },
 };
 </script>

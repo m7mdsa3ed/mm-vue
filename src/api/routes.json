@@ -1,6 +1,10 @@
 {
   "app": {
-    "info": "appInfo"
+    "info": "appInfo",
+    "estimate": {
+      "method": "post",
+      "url": "estimate"
+    }
   },
 
   "authentication": {

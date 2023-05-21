@@ -13,42 +13,54 @@
 
     <div class="row g-4">
       <div class="col-12 col-lg-4 d-flex flex-column gap-3">
-        <Balances 
+        <Balances
           v-if="dashboardStats?.balance_summary?.length"
           :balanceSummary="dashboardStats?.balance_summary"
           :balanceByMainCurrency="dashboardStats?.balanceByMainCurrency?.amount"
         />
-        
+
         <PinnedAccounts
           v-if="dashboardStats?.pinned_accounts?.length"
           :accountIds="dashboardStats?.pinned_accounts"
         />
 
-        <MonthReport 
-          :inAmount="dashboardStats?.summary?.in_amount" 
+        <MonthReport
+          :inAmount="dashboardStats?.summary?.in_amount"
           :outAmount="dashboardStats?.summary?.out_amount"
         />
 
-        <CategoryBalanceSummaryDetails 
+        <CategoryBalanceSummaryDetails
           :categoriesSummary="dashboardStats?.categories_summary ?? []"
         />
       </div>
 
       <div class="col-12 col-lg-8">
-        <h2>Charts</h2>
-
         <div class="d-flex flex-column gap-3">
-          <div class="box bg-main p-4">
-            <BalanceChart
-              :loading="!this.dashboardStats"
-              :chartData="this.dashboardStats?.charts?.balance[1]"
-            />
+          <div>
+            <h2>Charts</h2>
+
+            <div class="d-flex flex-column gap-3">
+              <div class="box bg-main p-4">
+                <BalanceChart
+                  :loading="!this.dashboardStats"
+                  :chartData="this.dashboardStats?.charts?.balance[1]"
+                />
+              </div>
+              <div class="box bg-main p-4">
+                <ExpensesPieChart
+                  :loading="!this.dashboardStats"
+                  :chartData="this.dashboardStats?.charts?.expensesPie[1]"
+                />
+              </div>
+            </div>
           </div>
-          <div class="box bg-main p-4">
-            <ExpensesPieChart
-              :loading="!this.dashboardStats"
-              :chartData="this.dashboardStats?.charts?.expensesPie[1]"
-            />
+
+          <div>
+            <h2>Estimate</h2>
+
+            <div class="box bg-main">
+              <EstimateCalculator />
+            </div>
           </div>
         </div>
       </div>
@@ -57,13 +69,14 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 import BalanceChart from "./Components/Charts/BalanceChart.vue";
 import ExpensesPieChart from "./Components/Charts/ExpensesPieChart.vue";
 import Balances from "./Components/Balances.vue";
 import MonthReport from "./Components/MonthReport.vue";
 import PinnedAccounts from "./Components/PinnedAccounts.vue";
 import CategoryBalanceSummaryDetails from "./Components/CategoryBalanceSummaryDetails.vue";
+import EstimateCalculator from "@/components/EstimateCalculator.vue";
 
 export default {
   data() {
@@ -79,6 +92,7 @@ export default {
     MonthReport,
     PinnedAccounts,
     CategoryBalanceSummaryDetails,
+    EstimateCalculator,
   },
 
   computed: {
