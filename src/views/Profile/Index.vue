@@ -46,46 +46,20 @@
           </div>
         </div>
       </div>
-
-      <div class="box bg-main">
-        <h3 class="mb-3">Estimate</h3>
-
-        <EstimateCalculator />
-      </div>
     </div>
   </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
+<script setup>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import { notationToReadable } from "../../helpers";
-import EstimateCalculator from '@/components/EstimateCalculator.vue'
 
-export default {
-  components: {
-    EstimateCalculator
-  },
-  computed: {
-    ...mapState({
-      profile: (state) => state.auth.user,
-      currencies: (state) => state.currencies.data,
-    }),
+const { state } = useStore();
 
-    roles() {
-      return this.profile.roles.map((role) => notationToReadable(role.name));
-    },
+const profile = computed(() => state.auth.user);
 
-    permissions() {
-      return (
-        this.profile?.roles
-          .map((role) =>
-            role.permissions.map((permission) =>
-              notationToReadable(permission.name)
-            )
-          )
-          .flat(1) ?? []
-      );
-    },
-  },
-};
+const roles = computed(() =>
+  profile.value.roles.map((role) => notationToReadable(role.name))
+);
 </script>
