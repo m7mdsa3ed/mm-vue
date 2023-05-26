@@ -1155,10 +1155,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@popperjs/core@^2.11.7":
-  version "2.11.7"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.7.tgz#ccab5c8f7dc557a52ca3288c10075c9ccd37fff7"
-  integrity sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==
+"@popperjs/core@^2.11.8":
+  version "2.11.8"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
+  integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
@@ -1451,7 +1451,7 @@ binary-extensions@^2.0.0:
 
 bootstrap@twbs/bootstrap#main:
   version "5.3.0-alpha3"
-  resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/7d97fdff46718ecbb3fa33d77384d827870c9bc9"
+  resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/f0be063c9792f6fd123d933335efd0d8cc7f6f1f"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -2903,10 +2903,10 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
-vite-plugin-pwa@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/vite-plugin-pwa/-/vite-plugin-pwa-0.15.0.tgz#4e1b87097e97e77e4e4d92743d80606c0345dbcd"
-  integrity sha512-gpmx3BeubsRIXRBkjPToOTJbo8fknNmZFQs24i0TPZyaNVa0n27YHDo0Y72amnO70WvHKGE3e1fn8SYUP7e8SA==
+vite-plugin-pwa@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/vite-plugin-pwa/-/vite-plugin-pwa-0.15.1.tgz#a0deed3ff357e663e6d4d33f1d967420e0096679"
+  integrity sha512-lJVzEYda/Y9AfwxFzX0rV+QCQ2+WdBoEGtR1RBZKWxvrJ4NWEH1VZaHOMyzvRiYhWQsi7aFhewsp1CDvN/R1Og==
   dependencies:
     debug "^4.3.4"
     fast-glob "^3.2.12"
@@ -2914,10 +2914,10 @@ vite-plugin-pwa@^0.15.0:
     workbox-build "^6.5.4"
     workbox-window "^6.5.4"
 
-vite@^4.3.8:
-  version "4.3.8"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-4.3.8.tgz#70cd6a294ab52d7fb8f37f5bc63d117dd19e9918"
-  integrity sha512-uYB8PwN7hbMrf4j1xzGDk/lqjsZvCDbt/JC5dyfxc19Pg8kRm14LinK/uq+HSLNswZEoKmweGdtpbnxRtrAXiQ==
+vite@^4.3.9:
+  version "4.3.9"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-4.3.9.tgz#db896200c0b1aa13b37cdc35c9e99ee2fdd5f96d"
+  integrity sha512-qsTNZjO9NoJNW7KnOrgYwczm0WctJ8m/yqYAMAK9Lxt4SoySUfS5S8ia9K7JHpa3KEeMfyF8LoJ3c5NeBJy6pg==
   dependencies:
     esbuild "^0.17.5"
     postcss "^8.4.23"
