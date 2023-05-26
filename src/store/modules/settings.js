@@ -5,7 +5,7 @@ export default {
 
   state: {
     loading: false,
-    data: null,
+    data: [],
     errors: [],
   },
 
