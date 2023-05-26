@@ -28,23 +28,23 @@
   </div>
 </template>
 
-<script>
-import DeployButton from './DeployButton.vue'
+<script setup>
+import { useStore } from "vuex";
+import DeployButton from "./DeployButton.vue";
 
-export default {
-  props: ["settings"],
-
-  components: {
-    DeployButton
+const props = defineProps({
+  settings: {
+    type: Array,
+    required: true,
   },
+});
 
-  methods: {
-    async saveSettings(key, value) {
-      await this.$store.dispatch("settings/save", {
-        key,
-        value,
-      });
-    },
-  }
+const { dispatch } = useStore();
+
+const saveSettings = (key, value) => {
+  dispatch("settings/save", {
+    key,
+    value,
+  });
 };
 </script>
