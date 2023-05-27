@@ -2,6 +2,7 @@ import routes from "./api/routes.json";
 import axios from "axios";
 import { compile } from "path-to-regexp";
 import router from "./router";
+import CryptoJS from "crypto-js";
 
 export const money = (number, suffix = "EGP") =>
   `${Number(number ?? 0)
@@ -169,3 +170,7 @@ export const notationToReadable = (notationString) => {
     .toLowerCase()
     .replace(/(?<= )[^\s]|^./g, (a) => a.toUpperCase());
 };
+
+export const generateIdempotentKey = (data) => {
+  return CryptoJS.SHA256(data);
+}

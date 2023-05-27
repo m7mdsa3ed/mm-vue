@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "./../store";
-import { errorParser } from "../helpers";
+import { errorParser, generateIdempotentKey } from "../helpers";
 
 const { VITE_API_BASEURL, VITE_API_PATH } = import.meta.env;
 
@@ -12,6 +12,12 @@ axios.interceptors.request.use(
   (requestConfig) => {
     store.dispatch("app/loading", true);
     store.dispatch("app/stopActions", requestConfig.method == "post");
+
+    if (requestConfig.method == "post") {
+      requestConfig.headers["X-Idempotent-Key"] = generateIdempotentKey(
+        requestConfig.data
+      );
+    }
 
     return requestConfig;
   },

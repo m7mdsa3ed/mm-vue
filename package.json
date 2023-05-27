@@ -14,6 +14,7 @@
     "apexcharts": "^3.40.0",
     "axios": "^1.4.0",
     "bootstrap": "twbs/bootstrap#main",
+    "crypto-js": "^4.1.1",
     "dayjs": "^1.11.7",
     "path-to-regexp": "^6.2.1",
     "register-service-worker": "^1.7.2",
