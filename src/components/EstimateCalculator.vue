@@ -1,13 +1,15 @@
 <template>
-  <div v-if="results" class="alert alert-success">
-    You need {{ results.estimatedMonthsNeeded }} month(s) to get this amount
-    {{ money(estimate.neededAmount) }} based on estimated incoming avg per month
-    {{ money(results.estimatedAvgPerMonth) }}.
+  <div v-if="results" class="alert alert-success d-flex flex-column gap-3">
+    <span>
+      You need almost <b class="text-danger"> {{ results.estimatedMonthsNeeded.toFixed() }} month(s) </b> to
+      get this amount {{ money(estimate.neededAmount) }} based on estimated
+      incoming avg per month {{ money(results.estimatedAvgPerMonth) }}.
+    </span>
 
-    <br />
-
-    That's {{ results.estimatedMonthsNeeded }} year(s) with
-    {{ money(results.estimatedAvgPerYear) }} a year.
+    <span>
+      That's almost <b class="text-danger"> {{ results.estimatedYearsNeeded.toFixed() }} year(s) </b> with
+      {{ money(results.estimatedAvgPerYear) }} a year.
+    </span>
   </div>
 
   <div v-if="errors" class="alert alert-danger">
@@ -27,6 +29,8 @@
       <label> Needed Amount </label>
     </div>
 
+    <div class="hr-text"> Incoming Amount </div>
+
     <div class="form-floating">
       <input
         type="number"
@@ -38,9 +42,9 @@
       <label> Average Incoming Amount </label>
     </div>
 
-    <hr />
+    <div class="hr-text"> OR </div>
 
-    <p class="lead mb-0">Calculate Avg Amount Based on Your Transactions</p>
+    <p class="mb-0">Calculate Avg Amount Based on Your Transactions</p>
 
     <div class="d-flex gap-3 just">
       <div class="form-floating w-100">

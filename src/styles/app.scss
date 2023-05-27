@@ -43,6 +43,7 @@ body {
 .c-sidebar {
   li {
     cursor: pointer;
+
     i {
       transition: all 0.2s ease;
       @extend .icon-bg-dark;
@@ -60,6 +61,7 @@ body {
 
 .dropdown-menu-custom {
   padding: map-get($spacers, 2);
+
   .dropdown-item {
     border-radius: $border-radius;
   }
@@ -100,4 +102,25 @@ body {
   white-space: pre-wrap;
 }
 
-svg.apexcharts-svg { background: transparent !important; }
+svg.apexcharts-svg {
+  background: transparent !important;
+}
+
+
+.hr-text {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  margin: 8px 0;
+
+  &:before,
+  &:after {
+    content: "";
+    flex-grow: 1;
+    background: var(--bs-border-color);
+    height: 1px;
+    font-size: 0;
+    line-height: 0;
+    margin: 0 8px;
+  }
+}
