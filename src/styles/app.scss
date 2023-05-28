@@ -4,12 +4,12 @@
 
 @import "scrolbar";
 @import "vue";
+@import "bs-vars";
 @import "vars";
 
 body {
   font-family: "Nunito", sans-serif;
-  background-color: var(--body-bg);
-  color: var(--body-bg-color);
+  
   overscroll-behavior-y: contain;
 }
 
@@ -19,8 +19,7 @@ body {
 }
 
 .bg-main {
-  background-color: var(--bg-main);
-  color: var(--bg-main-color);
+  background-color: var(--bs-secondary-bg);
   overflow: auto;
 }
 
