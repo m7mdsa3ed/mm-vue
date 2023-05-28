@@ -1,14 +1,20 @@
 <template>
   <div v-if="results" class="alert alert-success d-flex flex-column gap-3">
     <span>
-      You need almost <b class="text-danger"> {{ results.estimatedMonthsNeeded.toFixed() }} month(s) </b> to
-      get this amount {{ money(estimate.neededAmount) }} based on estimated
+      You need almost
+      <b class="text-danger">
+        {{ results.estimatedMonthsNeeded.toFixed() }} month(s)
+      </b>
+      to get this amount {{ money(estimate.neededAmount) }} based on estimated
       incoming avg per month {{ money(results.estimatedAvgPerMonth) }}.
     </span>
 
     <span>
-      That's almost <b class="text-danger"> {{ results.estimatedYearsNeeded.toFixed() }} year(s) </b> with
-      {{ money(results.estimatedAvgPerYear) }} a year.
+      That's almost
+      <b class="text-danger">
+        {{ results.estimatedYearsNeeded.toFixed() }} year(s)
+      </b>
+      with {{ money(results.estimatedAvgPerYear) }} a year.
     </span>
   </div>
 
@@ -29,7 +35,7 @@
       <label> Needed Amount </label>
     </div>
 
-    <div class="hr-text"> Incoming Amount </div>
+    <div class="hr-text">Incoming Amount</div>
 
     <div class="form-floating">
       <input
@@ -42,7 +48,7 @@
       <label> Average Incoming Amount </label>
     </div>
 
-    <div class="hr-text"> OR </div>
+    <div class="hr-text">OR</div>
 
     <p class="mb-0">Calculate Avg Amount Based on Your Transactions</p>
 
@@ -114,6 +120,10 @@ const estimate = ref({
 
 const getEstimate = async () => {
   const payload = estimate.value;
+
+  errors.value = null;
+
+  results.value = null;
 
   try {
     const response = await getEstimateRequest(payload);
