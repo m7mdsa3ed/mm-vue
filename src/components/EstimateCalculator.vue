@@ -35,7 +35,9 @@
       <label> Needed Amount </label>
     </div>
 
-    <div class="hr-text">Incoming Amount</div>
+    <p class="mb-0">
+      Incoming Amount
+    </p>
 
     <div class="form-floating">
       <input
@@ -48,9 +50,9 @@
       <label> Average Incoming Amount </label>
     </div>
 
-    <div class="hr-text">OR</div>
+    <div class="hr-text">Or Calculate Avg Amount Based on Your Transactions</div>
 
-    <p class="mb-0">Calculate Avg Amount Based on Your Transactions</p>
+    <p class="mb-0"></p>
 
     <div class="d-flex gap-3 just">
       <div class="form-floating w-100">

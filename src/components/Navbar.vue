@@ -56,7 +56,7 @@
               @click="$store.dispatch('auth/logout')"
             >
               <span class="me-1">
-                <i class="icon icon-bg-danger fas fa-sign-out-alt"></i>
+                <i class="icon fas fa-sign-out-alt"></i>
               </span>
               <span>Logout</span>
             </span>
@@ -75,32 +75,32 @@ export default {
         {
           name: "Transactions",
           routeName: "Transactions",
-          icon: `<i class="icon icon-bg-success fas fa-dollar-sign"></i>`,
+          icon: `<i class="icon fas fa-dollar-sign"></i>`,
         },
         {
           name: "Accounts",
           routeName: "Accounts",
-          icon: `<i class="icon icon-bg-primary fas fa-file-alt"></i>`,
+          icon: `<i class="icon fas fa-file-alt"></i>`,
         },
         {
           name: "Categories",
           routeName: "Categories",
-          icon: `<i class="icon icon-bg-secondary fas fa-th"></i>`,
+          icon: `<i class="icon fas fa-th"></i>`,
         },
         {
           name: "Tags",
           routeName: "Tags",
-          icon: `<i class="icon icon-bg-warning fas fa-tags"></i>`,
+          icon: `<i class="icon fas fa-tags"></i>`,
         },
         {
           name: "Profile",
           routeName: "Profile",
-          icon: `<i class="icon icon-bg-light fas fa-user"></i>`,
+          icon: `<i class="icon fas fa-user"></i>`,
         },
         {
           name: "Settings",
           routeName: "Settings",
-          icon: `<i class="icon icon-bg-info fas fa-gear"></i>`,
+          icon: `<i class="icon fas fa-gear"></i>`,
           roles: ["manager"],
         },
       ],
@@ -131,7 +131,9 @@ export default {
 
     havePrivilege(roles) {
       if (roles && roles.length) {
-        const userRoles = this.$store.state.auth.user?.roles?.map((roleObj) => roleObj.name) || [];
+        const userRoles =
+          this.$store.state.auth.user?.roles?.map((roleObj) => roleObj.name) ||
+          [];
 
         if (roles.filter((role) => userRoles.includes(role)).length) {
           return true;

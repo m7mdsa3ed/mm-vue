@@ -183,8 +183,8 @@
 
 .btn-dark {
   --bs-btn-color: #fff;
-  --bs-btn-bg: var(--bs-body-bg);
-  --bs-btn-border-color: var(--bs-body-bg);
+  --bs-btn-bg: #121212;
+  --bs-btn-border-color: #121212;
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #424649;
   --bs-btn-hover-border-color: #373b3e;
@@ -194,6 +194,6 @@
   --bs-btn-active-border-color: #373b3e;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: var(--bs-body-bg);
-  --bs-btn-disabled-border-color: var(--bs-body-bg);
+  --bs-btn-disabled-bg: #121212;
+  --bs-btn-disabled-border-color: #121212;
 }
