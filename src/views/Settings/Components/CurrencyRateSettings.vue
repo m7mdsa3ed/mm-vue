@@ -1,45 +1,41 @@
 <template>
-  <div class="box bg-body">
-    <table class="table table-borderless table-sm mb-0 align-middle">
-      <template v-if="rates.length">
-        <tbody>
-          <template v-for="currencyRate in rates" :key="currencyRate.id">
-            <tr>
-              <td style="width: 1px" class="text-nowrap">
-                {{ currencyRate.to_currency.name }}
-              </td>
-              <td>
-                <input
-                  type="text"
-                  :value="currencyRate.rate"
-                  class="form-control"
-                  @change="
-                    updateCurrencyRate(currencyRate, $event.target.value)
-                  "
-                />
-              </td>
-            </tr>
-          </template>
-        </tbody>
-      </template>
-    </table>
+  <div class="box border" v-if="rates.length">
+    <template v-for="currencyRate in rates" :key="currencyRate.id">
+      <div class="d-flex align-items-center">
+        <span style="width: 64px">
+          {{ currencyRate.to_currency.name }}
+        </span>
+
+        <input
+          type="text"
+          :value="currencyRate.rate"
+          class="form-control"
+          @change="updateCurrencyRate(currencyRate, $event.target.value)"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
-<script>
-export default {
-  props: ["rates"],
+<script setup>
+import { useStore } from "vuex";
 
-  methods: {
-    async updateCurrencyRate(currencyRate, rate) {
-      const { id, from_currency_id } = currencyRate;
+const { dispatch } = useStore();
 
-      await this.$store.dispatch("currencies/updateRate", {
-        id,
-        rate,
-        fromCurrencyId: from_currency_id
-      });
-    },
+const props = defineProps({
+  rates: {
+    type: Array,
+    required: true,
   },
+});
+
+const updateCurrencyRate = async (currencyRate, rate) => {
+  const { id, from_currency_id } = currencyRate;
+
+  await dispatch("currencies/updateRate", {
+    id,
+    rate,
+    fromCurrencyId: from_currency_id,
+  });
 };
 </script>

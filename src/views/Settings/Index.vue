@@ -13,42 +13,30 @@
 
       <PermissionsSettings :roles="roles" :permissions="permissions" />
 
-      <CurrenciesSettings :currencies="currencies" />
+      <CurrenciesSettings :currencies="currencies" :upstreamCurrencyRatesExcludedIds="upstreamCurrencyRatesExcludedIds" />
     </div>
   </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
+<script setup>
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import CurrenciesSettings from "./Components/CurrenciesSettings.vue";
 import PermissionsSettings from "./Components/PermissionsSettings.vue";
 import GeneralSettings from "./Components/GeneralSettings.vue";
 
-export default {
-  components: {
-    CurrenciesSettings,
-    PermissionsSettings,
-    GeneralSettings,
-  },
+const { dispatch, state } = useStore();
 
-  computed: {
-    ...mapState({
-      roles: (state) => state.roles.data?.roles,
-      permissions: (state) => state.roles.data?.permissions,
-      currencies: (state) => state.currencies,
-      settings: (state) => state.settings.data,
-    }),
-  },
+const roles =  computed(() => state.roles.data?.roles)
+const permissions =  computed(() => state.roles.data?.permissions)
+const currencies =  computed(() => state.currencies)
+const settings =  computed(() => state.settings.data)
+const upstreamCurrencyRatesExcludedIds =  computed(() => {
+  return state.settings.data.filter((setting) => setting.key == 'upstreamCurrencyRatesExcludedIds')[0]?.value || []
+})
 
-  mounted() {
-    this.load();
-  },
-
-  methods: {
-    async load() {
-      this.$store.dispatch("roles/fetch");
-      this.$store.dispatch("settings/fetch");
-    },
-  },
-};
+onMounted(() => {
+  dispatch("roles/fetch");
+  dispatch("settings/fetch");
+})
 </script>
