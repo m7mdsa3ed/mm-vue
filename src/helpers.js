@@ -4,33 +4,10 @@ import { compile } from "path-to-regexp";
 import router from "./router";
 import CryptoJS from "crypto-js";
 
-export const money = (number, suffix = "EGP") =>
-  `${Number(number ?? 0)
+export const money = (number, suffix = "EGP") => {
+  return `${Number(number ?? 0)
     .toFixed(2)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,")} ${suffix}`;
-
-export const JSON2FD = (json) => {
-  const fd = new FormData();
-
-  for (let key in json) {
-    let value = json[key];
-
-    if (value) {
-      if (Array.isArray(value)) {
-        value = Array.from(value);
-
-        key = `${key}[]`;
-
-        for (const item of value) {
-          fd.append(key, item);
-        }
-      } else {
-        fd.append(key, value);
-      }
-    }
-  }
-
-  return fd;
 };
 
 export const removeSlashes = (string) => {
@@ -39,12 +16,12 @@ export const removeSlashes = (string) => {
 
 export const isURL = (string) => {
   try {
-    new URL(string);
+    const url = new URL(string);
+
+    return url.protocol === "http:" || url.protocol === "https:";
   } catch (_) {
     return false;
   }
-
-  return url.protocol === "http:" || url.protocol === "https:";
 };
 
 export const parseRouteUrl = (url) => {
@@ -173,4 +150,4 @@ export const notationToReadable = (notationString) => {
 
 export const generateIdempotentKey = (data) => {
   return CryptoJS.SHA256(data);
-}
+};
