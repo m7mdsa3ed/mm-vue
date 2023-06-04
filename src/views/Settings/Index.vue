@@ -28,15 +28,20 @@ import GeneralSettings from "./Components/GeneralSettings.vue";
 const { dispatch, state } = useStore();
 
 const roles =  computed(() => state.roles.data?.roles)
+
 const permissions =  computed(() => state.roles.data?.permissions)
+
 const currencies =  computed(() => state.currencies)
+
 const settings =  computed(() => state.settings.data)
+
 const upstreamCurrencyRatesExcludedIds =  computed(() => {
   return state.settings.data.filter((setting) => setting.key == 'upstreamCurrencyRatesExcludedIds')[0]?.value || []
 })
 
 onMounted(() => {
   dispatch("roles/fetch");
+
   dispatch("settings/fetch");
 })
 </script>

@@ -9,7 +9,7 @@
         class="form-control"
         @change="(evt) => updateCurrency(evt, currency)"
       />
-
+<!-- 
       <div class="form-check form-switch">
         <input
           class="form-check-input"
@@ -24,9 +24,9 @@
           class="form-check-label"
           :for="`followCurrencyRates-${currency.id}`"
         >
-          Enable Upstream Currency Rates
+          Follow Upstream Currency Rates
         </label>
-      </div>
+      </div> -->
 
       <CurrencyRateSettings :rates="currency.rates" />
     </template>
@@ -52,8 +52,7 @@ const props = defineProps({
 });
 
 const isFollowingCurrencyRates = (currency) => {
-  console.log({ ids: props.upstreamCurrencyRatesExcludedIds });
-  return props.upstreamCurrencyRatesExcludedIds.includes(currency.id);
+  return !props.upstreamCurrencyRatesExcludedIds.includes(currency.id);
 };
 
 const updateCurrency = async (evt, currency) => {
