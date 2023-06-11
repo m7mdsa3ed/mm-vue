@@ -151,3 +151,7 @@ export const notationToReadable = (notationString) => {
 export const generateIdempotentKey = (data) => {
   return CryptoJS.SHA256(data);
 };
+
+export const formDataToJson = (formData) => {
+  return JSON.parse(JSON.stringify(Object.fromEntries(formData)));
+}

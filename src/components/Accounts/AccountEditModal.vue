@@ -8,7 +8,7 @@
     data-bs-backdrop="static"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
+      <div class="modal-content" v-if="account">
         <div class="bg-main box">
           <div class="d-flex align-items-center justify-content-between mb-3">
             <p class="fs-4 fw-light mb-0">Account</p>
@@ -25,7 +25,7 @@
                 type="text"
                 class="form-control"
                 placeholder=" "
-                v-model="data.name"
+                v-model="account.name"
               />
               <label> Account Name </label>
             </div>
@@ -34,12 +34,14 @@
               <select
                 class="form-select"
                 id="floatingSelect"
-                v-model="data.type_id"
+                v-model="account.type_id"
                 aria-label="Floating label select example"
                 form="accountForm"
                 required
               >
-                <option selected :value="undefined">Open this select menu</option>
+                <option selected :value="undefined">
+                  Open this select menu
+                </option>
                 <option
                   v-for="accountType in accountTypes"
                   :key="accountType.id"
@@ -56,11 +58,12 @@
               <select
                 class="form-select"
                 id="floatingSelect"
-                v-model="data.currency_id"
+                v-model="account.currency_id"
                 aria-label="Floating label select example"
                 required
               >
                 <option selected>Open this select menu</option>
+
                 <option
                   v-for="currency in currencies"
                   :key="currency.id"
@@ -73,6 +76,54 @@
               <label> Currency </label>
             </div>
 
+            <div class="mb-3">
+              <p class="lead">Account Information</p>
+
+              <div v-for="detail in account.details ?? []" :key="detail">
+                <div class="input-group">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      v-model="detail.value"
+                      class="form-control"
+                      placeholder=" "
+                    />
+                    <label> {{ detail.key }} </label>
+                  </div>
+
+                  <button
+                    type="button"
+                    @click="removeDetail(detail)"
+                    class="btn btn-dark border"
+                  >
+                    <span role="button" class="btn-close"></span>
+                  </button>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="input-group">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    v-model="detailKey"
+                    class="form-control"
+                    placeholder=" "
+                  />
+                  <label> Key </label>
+                </div>
+
+                <button
+                  type="button"
+                  @click="newDetail"
+                  class="btn btn-dark border"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+
             <button class="btn btn-dark w-100">Save</button>
           </form>
         </div>
@@ -81,46 +132,61 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
-export default {
-  props: ["account", "modal"],
+<script setup>
+import { formToJSON } from "axios";
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
+import { formDataToJson } from "../../helpers";
 
-  computed: {
-    data() {
-      if (this.account) {
-        return this.account;
-      }
+const { state, dispatch } = useStore();
 
-      return {};
-    },
-
-    ...mapState({
-      currencies: (state) => state.currencies.data,
-      accountTypes: (state) => state.accounts.types
-    }),
+const props = defineProps({
+  account: {
+    type: Object,
+    default: null,
   },
 
-  methods: {
-    save() {
-      const fd = new FormData();
-
-      for (const key in this.account) {
-        const value = this.account[key];
-        if (value) {
-          fd.append(key, value);
-        }
-      }
-
-      this.$store
-        .dispatch("accounts/save", {
-          account: this.account,
-          data: fd,
-        })
-        .then(() => {
-          this.modal.hide();
-        });
-    },
+  modal: {
+    type: Object,
+    default: null,
   },
+});
+
+const currencies = computed(() => state.currencies.data);
+
+const accountTypes = computed(() => state.accounts.types);
+
+const detailKey = ref(null);
+
+const newDetail = () => {
+  const { account } = props;
+
+  if (!detailKey.value) {
+    return;
+  }
+
+  account.details = [
+    ...(account.details ?? []),
+    {
+      key: detailKey.value,
+      value: "",
+    },
+  ];
+
+  detailKey.value = null;
+};
+
+const removeDetail = (detail) => {
+  const { account } = props;
+
+  account.details = account.details.filter((d) => d !== detail);
+};
+
+const save = async () => {
+  const { account, modal } = props;
+
+  await dispatch("accounts/save", { account });
+
+  modal.hide();
 };
 </script>

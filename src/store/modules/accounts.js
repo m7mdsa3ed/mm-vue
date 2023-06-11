@@ -52,13 +52,11 @@ export default {
       commit("setLoading", false);
     },
 
-    async save({ commit }, { data }) {
+    async save({ commit }, { account }) {
       commit("setLoading", true);
 
-      console.log(data);
-
       try {
-        commit("saveAccount", await saveAccount(data, data.get("id")));
+        commit("saveAccount", await saveAccount(account, account.id));
       } catch (error) {
         commit("setErrors", error);
       }
