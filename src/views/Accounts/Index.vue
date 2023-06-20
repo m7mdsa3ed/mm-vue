@@ -97,6 +97,14 @@
                           })
                         "
                       >
+                        <span> Transactions </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        @click.prevent="openAccountDetailsModal(account)"
+                      >
                         <span> Details </span>
                       </a>
                     </li>
@@ -143,6 +151,7 @@
       :modal="this.modals.AccountEditModal?.instance"
     />
     <MoveMoneyModal :modal="this.modals.MoveMoneyModal?.instance" />
+    <AccountDetailsModal :account="focusedAccount" />
   </div>
 </template>
 
@@ -151,6 +160,7 @@ import { mapState } from "vuex";
 import AccountModal from "@/components/Accounts/AccountModal.vue";
 import AccountEditModal from "@/components/Accounts/AccountEditModal.vue";
 import MoveMoneyModal from "@/components/Accounts/MoveMoneyModal.vue";
+import AccountDetailsModal from "@/components/Accounts/AccountDetailsModal.vue";
 import { Modal } from "bootstrap";
 import { pinAccount } from "../../api/accounts";
 export default {
@@ -158,6 +168,7 @@ export default {
     AccountModal,
     AccountEditModal,
     MoveMoneyModal,
+    AccountDetailsModal
   },
 
   data() {
@@ -165,6 +176,7 @@ export default {
       modals: {
         activeModal: null,
       },
+      focusedAccount: null,
     };
   },
 
@@ -213,6 +225,16 @@ export default {
 
     async pinAccount(account) {
       await pinAccount(account.id);
+    },
+
+    openAccountDetailsModal(account) {
+      console.log({ account });
+
+      this.focusedAccount = account;
+      
+      const modal = new Modal(document.getElementById("AccountDetailsModal"));
+
+      modal.show();
     },
   },
 };
