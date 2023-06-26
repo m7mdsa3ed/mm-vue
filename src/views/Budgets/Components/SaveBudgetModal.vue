@@ -86,16 +86,20 @@
             <div class="form-floating">
               <select
                 class="form-select"
-                name="category_id"
-                v-model="budget.category_id"
+                name="category_id[]"
+                style="min-height: 150px"
                 required
+                multiple
               >
                 <option value="undefined" disabled selected>
                   Select Category
                 </option>
 
                 <template v-for="category in categories" :key="category.id">
-                  <option :value="category.id">
+                  <option
+                    :value="category.id"
+                    :selected="budgetCategoryIds.includes(category.id)"
+                  >
                     {{ category.name }}
                   </option>
                 </template>
@@ -129,6 +133,14 @@ console.log(props.budget);
 const { dispatch, state } = useStore();
 
 const categories = computed(() => state.categories.categories);
+
+const budgetCategoryIds = computed(() => {
+  if (props.budget.categories) {
+    return props.budget.categories.map((c) => c.id);
+  }
+
+  return [];
+});
 
 const types = ref([
   {

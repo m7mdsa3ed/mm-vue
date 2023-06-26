@@ -153,15 +153,59 @@ export const generateIdempotentKey = (data) => {
 };
 
 export const formDataToJson = (formData) => {
-  return JSON.parse(JSON.stringify(Object.fromEntries(formData)));
-}
+  const  update = (data, keys, value) => {
+    if (keys.length === 0) {
+      return value;
+    }
+  
+    let key = keys.shift();
+
+    if (!key) {
+      data = data || [];
+
+      if (Array.isArray(data)) {
+        key = data.length;
+      }
+    }
+  
+    let index = +key;
+    
+    if (!isNaN(index)) {
+      data = data || [];
+    
+      key = index;
+    }
+    
+    data = data || {};
+  
+    let val = update(data[key], keys, value);
+    
+    data[key] = val;
+  
+    return data;
+  }
+  
+  return Array.from(formData.entries()).reduce((data, [field, value]) => {
+    let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
+
+    if (keys) {
+      keys = Array.from(keys.matchAll(/\[([^\]]*)\]/g), (m) => m[1]);
+
+      value = update(data[prefix], keys, value);
+    }
+
+    data[prefix] = value;
+
+    return data;
+  }, {});
+};
 
 export const formToJson = (formElement) => {
-  const fd = new FormData(formElement)
+  const fd = new FormData(formElement);
 
-  return formDataToJson(fd)
-}
+  return formDataToJson(fd);
+};
 
 export const cloneObject = (object) => {
-  return  Object.assign({}, object);
-}
+  return Object.assign({}, object);
+};
