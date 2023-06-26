@@ -155,3 +155,13 @@ export const generateIdempotentKey = (data) => {
 export const formDataToJson = (formData) => {
   return JSON.parse(JSON.stringify(Object.fromEntries(formData)));
 }
+
+export const formToJson = (formElement) => {
+  const fd = new FormData(formElement)
+
+  return formDataToJson(fd)
+}
+
+export const cloneObject = (object) => {
+  return  Object.assign({}, object);
+}

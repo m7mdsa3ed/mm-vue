@@ -115,6 +115,22 @@
       "url": "tags/:id/delete"
     }
   },
+  
+  "budgets": {
+    "index": "budgets",
+    "create": {
+      "method": "POST",
+      "url": "budgets"
+    },
+    "update": {
+      "method": "POST",
+      "url": "budgets/:id/update"
+    },
+    "delete": {
+      "method": "POST",
+      "url": "budgets/:id/delete"
+    }
+  },
 
   "settings": {
     "get": "settings",

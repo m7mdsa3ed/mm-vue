@@ -93,6 +93,11 @@ export default {
           icon: `<i class="icon fas fa-tags"></i>`,
         },
         {
+          name: "Budget",
+          routeName: "Budget",
+          icon: `<i class="icon fas fa-wallet"></i>`,
+        },
+        {
           name: "Profile",
           routeName: "Profile",
           icon: `<i class="icon fas fa-user"></i>`,

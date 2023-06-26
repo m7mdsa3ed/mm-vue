@@ -10,6 +10,7 @@ import currencies from "./modules/currencies";
 import roles from "./modules/roles";
 import settings from "./modules/settings";
 import profile from "./modules/profile";
+import budgets from "./modules/budgets";
 
 const cacheEnabled = eval(import.meta.env.VITE_ENABLE_VUEX_CACHE ?? "false");
 
@@ -25,6 +26,7 @@ const store = createStore({
     roles,
     settings,
     profile,
+    budgets,
   },
 
   mutations: {

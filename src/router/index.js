@@ -64,6 +64,17 @@ const routes = [
         ],
       },
       {
+        path: "budget",
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            name: "budget",
+            component: () => import("../views/Budgets/Index.vue"),
+          },
+        ],
+      },
+      {
         path: "profile",
         component: RouterView,
         children: [
