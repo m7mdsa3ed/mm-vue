@@ -67,11 +67,32 @@
             <div class="form-floating">
               <select
                 class="form-select"
+                name="type"
+                v-model="budget.type"
+                required
+              >
+                <option value="undefined" disabled selected>Select Type</option>
+
+                <template v-for="t in types" :key="t.id">
+                  <option :value="t.id">
+                    {{ t.name }}
+                  </option>
+                </template>
+              </select>
+
+              <label> Category </label>
+            </div>
+
+            <div class="form-floating">
+              <select
+                class="form-select"
                 name="category_id"
                 v-model="budget.category_id"
                 required
               >
-                <option value="undefined" disabled selected>Select Category</option>
+                <option value="undefined" disabled selected>
+                  Select Category
+                </option>
 
                 <template v-for="category in categories" :key="category.id">
                   <option :value="category.id">
@@ -92,7 +113,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import { formToJson } from "@/helpers";
 import { Modal } from "bootstrap";
@@ -108,6 +129,17 @@ console.log(props.budget);
 const { dispatch, state } = useStore();
 
 const categories = computed(() => state.categories.categories);
+
+const types = ref([
+  {
+    id: 1,
+    name: "Monthly",
+  },
+  {
+    id: 2,
+    name: "Yearly",
+  },
+]);
 
 const save = (e) => {
   const budget = formToJson(e.target);
