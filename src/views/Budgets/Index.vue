@@ -21,7 +21,7 @@
 
     <div class="row g-3">
       <template v-for="budget in budgets" :key="budget.id">
-        <div class="col-6 col-md-4">
+        <div class="col-12 col-lg-4">
           <div class="box bg-main d-flex flex-column gap-3">
             <div class="d-flex justify-content-between align-items-start">
               <p class="lead mb-0">
