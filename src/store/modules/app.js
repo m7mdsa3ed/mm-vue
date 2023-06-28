@@ -27,7 +27,6 @@ export default {
 
   actions: {
     async fetchStats({ state }, payload) {
-      console.log(payload);
       return new Promise((resolve, reject) => {
         axios.get("stats", {
           params: payload,
