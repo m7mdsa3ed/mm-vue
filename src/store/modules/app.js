@@ -26,9 +26,12 @@ export default {
   },
 
   actions: {
-    async fetchStats({ state }) {
+    async fetchStats({ state }, payload) {
+      console.log(payload);
       return new Promise((resolve, reject) => {
-        axios.get("stats").then((response) => {
+        axios.get("stats", {
+          params: payload,
+        }).then((response) => {
           state.stats = response.data;
           resolve(response.data);
         });

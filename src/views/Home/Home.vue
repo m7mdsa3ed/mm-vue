@@ -1,14 +1,18 @@
 <template>
   <div>
-    <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
+    <div class="mb-3 d-flex gap-2 flex-wrap align-items-center justify-content-between">
       <p class="display-6 mb-0">Dashboard</p>
 
-      <button
-        class="btn btn-outline-danger"
-        @click="$store.dispatch('app/fetchStats')"
-      >
-        <i class="fa-fw fas fa-refresh"></i>
-      </button>
+      <div class="d-flex flex-wrap gap-3">
+        <PeriodSelector @periodChanged="(args) => period = args" />
+
+        <button
+          class="btn btn-outline-danger"
+          @click="refresh"
+        >
+          <i class="fa-fw fas fa-refresh"></i>
+        </button>
+      </div>
     </div>
 
     <div class="row g-4">
@@ -42,14 +46,14 @@
             <div class="d-flex flex-column gap-3">
               <div class="box bg-main p-4">
                 <BalanceChart
-                  :loading="!this.dashboardStats"
-                  :chartData="this.dashboardStats?.charts?.balance[1]"
+                  :loading="!dashboardStats"
+                  :chartData="dashboardStats?.charts?.balance[1]"
                 />
               </div>
               <div class="box bg-main p-4">
                 <ExpensesPieChart
-                  :loading="!this.dashboardStats"
-                  :chartData="this.dashboardStats?.charts?.expensesPie[1]"
+                  :loading="!dashboardStats"
+                  :chartData="dashboardStats?.charts?.expensesPie[1]"
                 />
               </div>
             </div>
@@ -68,37 +72,25 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
+<script setup>
+import { computed, ref } from "vue";
 import BalanceChart from "./Components/Charts/BalanceChart.vue";
 import ExpensesPieChart from "./Components/Charts/ExpensesPieChart.vue";
 import Balances from "./Components/Balances.vue";
 import MonthReport from "./Components/MonthReport.vue";
 import PinnedAccounts from "./Components/PinnedAccounts.vue";
+import PeriodSelector from "./Components/PeriodSelector.vue";
 import CategoryBalanceSummaryDetails from "./Components/CategoryBalanceSummaryDetails.vue";
 import EstimateCalculator from "@/components/EstimateCalculator.vue";
+import { useStore } from "vuex";
 
-export default {
-  data() {
-    return {
-      balanceInfo: {},
-    };
-  },
+const { state, dispatch } = useStore();
 
-  components: {
-    Balances,
-    BalanceChart,
-    ExpensesPieChart,
-    MonthReport,
-    PinnedAccounts,
-    CategoryBalanceSummaryDetails,
-    EstimateCalculator,
-  },
+const dashboardStats = computed(() => state.app.stats);
 
-  computed: {
-    ...mapState({
-      dashboardStats: (state) => state.app.stats,
-    }),
-  },
+const period = ref({});
+
+const refresh = () => {
+  dispatch('app/fetchStats', period.value)
 };
 </script>

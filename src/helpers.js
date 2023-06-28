@@ -148,16 +148,22 @@ export const notationToReadable = (notationString) => {
     .replace(/(?<= )[^\s]|^./g, (a) => a.toUpperCase());
 };
 
+export const camelCaseToReadable = (camelCaseString) => {
+  return camelCaseString
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (str) => str.toUpperCase());
+};
+
 export const generateIdempotentKey = (data) => {
   return CryptoJS.SHA256(data);
 };
 
 export const formDataToJson = (formData) => {
-  const  update = (data, keys, value) => {
+  const update = (data, keys, value) => {
     if (keys.length === 0) {
       return value;
     }
-  
+
     let key = keys.shift();
 
     if (!key) {
@@ -167,24 +173,24 @@ export const formDataToJson = (formData) => {
         key = data.length;
       }
     }
-  
+
     let index = +key;
-    
+
     if (!isNaN(index)) {
       data = data || [];
-    
+
       key = index;
     }
-    
+
     data = data || {};
-  
+
     let val = update(data[key], keys, value);
-    
+
     data[key] = val;
-  
+
     return data;
-  }
-  
+  };
+
   return Array.from(formData.entries()).reduce((data, [field, value]) => {
     let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
 
