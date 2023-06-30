@@ -8,7 +8,7 @@
       >
         <i class="icon icon-bg-success fas fa-arrow-up"></i>
         <p class="mb-0">
-          {{ $fn.money(inAmount) }}
+          {{ $fn.money(inAmount, currencySlug) }}
         </p>
       </div>
 
@@ -17,18 +17,13 @@
       >
         <i class="icon icon-bg-danger fas fa-arrow-down"></i>
         <p class="mb-0">
-          {{ $fn.money(outAmount) }}
+          {{ $fn.money(outAmount, currencySlug) }}
         </p>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  props: [
-    'inAmount',
-    'outAmount',
-  ],
-}
+<script setup>
+defineProps(["inAmount", "outAmount", "currencySlug"]);
 </script>

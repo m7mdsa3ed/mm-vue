@@ -2,7 +2,7 @@
   <div>
     <template v-if="loading"> Loading... </template>
 
-    <div id="chart-balance"></div>
+    <div :id="id"></div>
   </div>
 </template>
 
@@ -10,7 +10,7 @@
 import ApexCharts from "apexcharts";
 
 export default {
-  props: ["chartData", "loading"],
+  props: ["chartData", "loading", "id"],
 
   data() {
     return {
@@ -30,7 +30,7 @@ export default {
     async createChartInstance(defaultOptions) {
       if (!this.chart) {
         const chart = new ApexCharts(
-          document.querySelector("#chart-balance"),
+          document.querySelector(`#${this.id}`),
           defaultOptions
         );
 

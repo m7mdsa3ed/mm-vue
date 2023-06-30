@@ -1,15 +1,22 @@
 <template>
   <div>
-    <div class="mb-3 d-flex gap-2 flex-wrap align-items-center justify-content-between">
+    <div
+      class="mb-3 d-flex gap-2 flex-wrap align-items-center justify-content-between"
+    >
       <p class="display-6 mb-0">Dashboard</p>
 
-      <div class="d-flex flex-wrap gap-3">
-        <PeriodSelector @periodChanged="(args) => period = args" />
+      <div class="d-flex flex-wrap gap-1">
+        <PeriodSelector @periodChanged="(args) => (period = args)" />
 
-        <button
-          class="btn btn-outline-danger"
-          @click="refresh"
-        >
+        <div>
+          <select class="form-control" v-model="selectedCurrencySlug">
+            <template v-for="slug in currencySlugs" :key="slug">
+              <option :value="slug">{{ slug }}</option>
+            </template>
+          </select>
+        </div>
+
+        <button class="btn btn-outline-danger" @click="refresh">
           <i class="fa-fw fas fa-refresh"></i>
         </button>
       </div>
@@ -28,13 +35,14 @@
           :accountIds="dashboardStats?.pinned_accounts"
         />
 
-        <MonthReport
-          :inAmount="dashboardStats?.summary?.in_amount"
-          :outAmount="dashboardStats?.summary?.out_amount"
+        <PeriodReport
+          :inAmount="periodSummary?.inAmount"
+          :outAmount="periodSummary?.outAmount"
+          :currencySlug="periodSummary?.currencySlug"
         />
 
         <CategoryBalanceSummaryDetails
-          :categoriesSummary="dashboardStats?.categories_summary ?? []"
+          :categoriesSummary="categoriesSummaryData"
         />
       </div>
 
@@ -46,14 +54,22 @@
             <div class="d-flex flex-column gap-3">
               <div class="box bg-main p-4">
                 <BalanceChart
-                  :loading="!dashboardStats"
-                  :chartData="dashboardStats?.charts?.balance[1]"
+                  :id="'chart-balance'"
+                  :loading="!balanceChartData"
+                  :chartData="balanceChartData"
                 />
               </div>
-              <div class="box bg-main p-4">
-                <ExpensesPieChart
-                  :loading="!dashboardStats"
-                  :chartData="dashboardStats?.charts?.expensesPie[1]"
+
+              <div class="box bg-main d-flex flex-column gap-3">
+                <select class="form-control" v-model="pieType">
+                  <option value="2">Expenses</option>
+                  <option value="1">Income</option>
+                </select>
+
+                <CategoryPieChart
+                  :id="'chart-pie'"
+                  :loading="!pieChartData?.length"
+                  :chartData="pieChartData"
                 />
               </div>
             </div>
@@ -75,22 +91,84 @@
 <script setup>
 import { computed, ref } from "vue";
 import BalanceChart from "./Components/Charts/BalanceChart.vue";
-import ExpensesPieChart from "./Components/Charts/ExpensesPieChart.vue";
+import CategoryPieChart from "./Components/Charts/CategoryPieChart.vue";
 import Balances from "./Components/Balances.vue";
-import MonthReport from "./Components/MonthReport.vue";
+import PeriodReport from "./Components/PeriodReport.vue";
 import PinnedAccounts from "./Components/PinnedAccounts.vue";
 import PeriodSelector from "./Components/PeriodSelector.vue";
 import CategoryBalanceSummaryDetails from "./Components/CategoryBalanceSummaryDetails.vue";
 import EstimateCalculator from "@/components/EstimateCalculator.vue";
 import { useStore } from "vuex";
+import collect from "collect.js";
 
 const { state, dispatch } = useStore();
 
-const dashboardStats = computed(() => state.app.stats);
-
 const period = ref({});
 
+const selectedCurrencySlug = ref("EGP");
+
+const pieType = ref("2");
+
+const dashboardStats = computed(() => state.app.stats);
+
+const currencySlugs = computed(() => {
+  return collect(dashboardStats.value?.summary)
+    .pluck("currency_slug")
+    .toArray();
+});
+
+const balanceChartData = computed(() => {
+  const data = collect(dashboardStats.value?.charts.balance)
+    .where("currency_slug", selectedCurrencySlug.value)
+    .toArray();
+
+  console.log({ data });
+
+  return data;
+});
+
+const pieChartData = computed(() => {
+  const data = collect(dashboardStats.value?.charts.categoryPie)
+    .where("currency_slug", selectedCurrencySlug.value)
+    .where("action", parseInt(pieType.value))
+    .toArray();
+
+  return data;
+});
+
+const categoriesSummaryData = computed(() => {
+  const data = collect(dashboardStats.value?.categories_summary)
+    .where("currency_slug", selectedCurrencySlug.value)
+    .map((item) => {
+      return {
+        id: item.id,
+        name: item.name,
+        inAmount: parseFloat(item.in_amount),
+        outAmount: parseFloat(item.out_amount),
+        currencySlug: item.currency_slug,
+      };
+    })
+    .toArray();
+
+  return data;
+});
+
+const periodSummary = computed(() => {
+  const data = collect(dashboardStats.value?.summary)
+    .where("currency_slug", selectedCurrencySlug.value)
+    .map((item) => {
+      return {
+        inAmount: parseFloat(item.in_amount),
+        outAmount: parseFloat(item.out_amount),
+        currencySlug: item.currency_slug,
+      };
+    })
+    .first();
+
+  return data;
+});
+
 const refresh = () => {
-  dispatch('app/fetchStats', period.value)
+  dispatch("app/fetchStats", period.value);
 };
 </script>

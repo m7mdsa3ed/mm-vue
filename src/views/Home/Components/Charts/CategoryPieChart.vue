@@ -3,7 +3,7 @@
     <template v-if="loading"> Loading... </template>
 
     <template v-else>
-      <div id="chart-pie"></div>
+      <div :id="id"></div>
     </template>
   </div>
 </template>
@@ -12,7 +12,7 @@
 import ApexCharts from "apexcharts";
 
 export default {
-  props: ["chartData", "loading"],
+  props: ["chartData", "loading", "id"],
 
   data() {
     return {
@@ -32,7 +32,7 @@ export default {
     async createChartInstance(defaultOptions) {
       if (!this.chart) {
         const chart = new ApexCharts(
-          document.querySelector("#chart-pie"),
+          document.querySelector(`#${this.id}`),
           defaultOptions
         );
 
@@ -71,9 +71,6 @@ export default {
           type: "pie",
         },
         labels: [...labels],
-        title: {
-          text: "Balance Per Category"
-        },
         fill: {
           type: 'gradient',
           gradient: {
