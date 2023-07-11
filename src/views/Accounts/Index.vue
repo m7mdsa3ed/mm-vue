@@ -74,6 +74,12 @@
                   >
                     {{ account.debits }} Debits
                   </span>
+                  <span
+                    v-if="account.held && Number(account.held) != 0"
+                    class="small text-danger text-uppercase fw-bold"
+                  >
+                    {{ account.held }} Held
+                  </span>
                 </div>
               </td>
               <td width="1">

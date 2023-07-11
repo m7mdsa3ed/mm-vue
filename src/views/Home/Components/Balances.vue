@@ -41,6 +41,12 @@
                 {{ $fn.money(balance.debit_amount) }}
               </span>
             </li>
+            <li v-if="balance.held_amount != 0">
+              Held:
+              <span class="fw-bold text-danger">
+                {{ $fn.money(balance.held_amount) }}
+              </span>
+            </li>
           </ul>
         </div>
       </template>

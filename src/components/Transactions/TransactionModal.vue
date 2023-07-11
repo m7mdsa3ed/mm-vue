@@ -52,7 +52,7 @@
               class="btn-group mb-3 w-100"
               role="group"
               aria-label="Basic radio toggle button group"
-              v-if="[4, 5].includes(activeTransaction.action_type)"
+              v-if="[4, 5, 6].includes(activeTransaction.action_type)"
             >
               <template
                 v-for="action in [
@@ -207,6 +207,10 @@ export default {
         {
           name: "Debit",
           value: 5,
+        },
+        {
+          name: "Hold",
+          value: 6,
         },
       ],
 
