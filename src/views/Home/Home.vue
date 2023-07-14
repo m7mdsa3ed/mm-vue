@@ -37,7 +37,13 @@
 
         <PeriodReport
           :inAmount="periodSummary?.inAmount"
+          :inLoanAmount="periodSummary?.inLoanAmount"
+          :inDebitAmount="periodSummary?.inDebitAmount"
+          :inHeldAmount="periodSummary?.inHeldAmount"
           :outAmount="periodSummary?.outAmount"
+          :outLoanAmount="periodSummary?.outLoanAmount"
+          :outDebitAmount="periodSummary?.outDebitAmount"
+          :outHeldAmount="periodSummary?.outHeldAmount"
           :currencySlug="periodSummary?.currencySlug"
         />
 
@@ -159,7 +165,13 @@ const periodSummary = computed(() => {
     .map((item) => {
       return {
         inAmount: parseFloat(item.in_amount),
+        inLoanAmount: parseFloat(item.in_loan_amount),
+        inDebitAmount: parseFloat(item.in_debit_amount),
+        inHeldAmount: parseFloat(item.in_held_amount),
         outAmount: parseFloat(item.out_amount),
+        outLoanAmount: parseFloat(item.out_loan_amount),
+        outDebitAmount: parseFloat(item.out_debit_amount),
+        outHeldAmount: parseFloat(item.out_held_amount),
         currencySlug: item.currency_slug,
       };
     })
