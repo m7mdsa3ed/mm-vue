@@ -51,36 +51,39 @@ export default {
 
       const labels = this.chartData?.map(({ name }) => name) ?? [];
 
-      const series = this.chartData?.map(({ expenses }) => expenses * -1) ?? [];
+      const series =
+        this.chartData?.map(({ expenses }) => Math.abs(expenses)) ?? [];
 
       const options = {
         theme: {
-          mode: this.$store.getters['app/appSchema'],
+          mode: this.$store.getters["app/appSchema"],
         },
         series: [...series],
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: '100%'
-            }
-          }
-        }],
-        chart: {          
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: "100%",
+              },
+            },
+          },
+        ],
+        chart: {
           width: 380,
           type: "pie",
         },
         labels: [...labels],
         fill: {
-          type: 'gradient',
+          type: "gradient",
           gradient: {
             opacityFrom: 1,
-            opacityTo: .5,
-          }
+            opacityTo: 0.5,
+          },
         },
         legend: {
-          position: 'bottom',
-          horizontalAlign: 'center'
+          position: "bottom",
+          horizontalAlign: "center",
         },
       };
 

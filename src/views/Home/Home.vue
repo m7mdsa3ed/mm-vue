@@ -67,16 +67,44 @@
               </div>
 
               <div class="box bg-main d-flex flex-column gap-3">
-                <select class="form-control" v-model="pieType">
-                  <option value="2">Expenses</option>
-                  <option value="1">Income</option>
-                </select>
+                <div class="d-flex flex-column align-items-center gap-3">
+                  <div class="d-flex gap-2 w-100">
+                    <label class="w-100 d-flex gap-2 bg-body box">
+                      <input
+                      v-model="pieType"
+                        class="form-check-input flex-shrink-0"
+                        type="radio"
+                        name="listGroupRadios"
+                        id="listGroupRadios1"
+                        value="1"
+                        checked=""
+                      />
+                      <span>
+                        Outcomes
+                      </span>
+                    </label>
 
-                <CategoryPieChart
-                  :id="'chart-pie'"
-                  :loading="!pieChartData?.length"
-                  :chartData="pieChartData"
-                />
+                    <label class="w-100 d-flex gap-2 bg-body box ">
+                      <input
+                      v-model="pieType"
+                        class="form-check-input flex-shrink-0"
+                        type="radio"
+                        name="listGroupRadios"
+                        id="listGroupRadios2"
+                        value="2"
+                      />
+                      <span>
+                        Incomes
+                      </span>
+                    </label>
+                  </div>
+
+                  <CategoryPieChart
+                    :id="'chart-pie'"
+                    :loading="!pieChartData?.length"
+                    :chartData="pieChartData"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -127,8 +155,6 @@ const balanceChartData = computed(() => {
   const data = collect(dashboardStats.value?.charts.balance)
     .where("currency_slug", selectedCurrencySlug.value)
     .toArray();
-
-  console.log({ data });
 
   return data;
 });

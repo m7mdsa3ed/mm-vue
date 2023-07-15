@@ -8,6 +8,7 @@
 
 <script>
 import ApexCharts from "apexcharts";
+import { readableNumbers } from '../../../../helpers';
 
 export default {
   props: ["chartData", "loading", "id"],
@@ -47,37 +48,34 @@ export default {
         return;
       }
 
-      const data = this.chartData?.map(({ balance, timestamp }) => [
-        timestamp * 1000,
+      console.log(this.chartData);
+      const data = this.chartData?.map(({ balance, date }) => [
+        date,
         parseFloat(balance).toFixed(2),
       ]);
 
       const options = {
         theme: {
-          mode: this.$store.getters['app/appSchema'],
+          mode: this.$store.getters["app/appSchema"],
         },
         chart: {
-          type: "area",
+          type: "line",
           height: 350,
           zoom: {
             enabled: false,
           },
         },
-        colors: ['#008FFB'],
-        fill: {
-          type: 'gradient',
-          gradient: {
-            opacityFrom: 1,
-            opacityTo: .5,
-          }
-        },
+        colors: ["#008FFB"],
         title: {
-          text: 'Balance Chart',
-          align: 'left'
+          text: "Balance Chart",
+          align: "left",
+        },
+        stroke: {
+          curve: "smooth",
         },
         subtitle: {
-          text: 'Balance Movements',
-          align: 'left'
+          text: "Balance Movements",
+          align: "left",
         },
         dataLabels: {
           enabled: false,
@@ -85,7 +83,7 @@ export default {
         series: [
           {
             data: [...data],
-            name: 'Balance'
+            name: "Balance",
           },
         ],
         xaxis: {
@@ -95,6 +93,11 @@ export default {
         },
         yaxis: {
           opposite: true,
+          labels: {
+            formatter: (value) => {
+              return readableNumbers(value);
+            },
+          },
         },
       };
 
