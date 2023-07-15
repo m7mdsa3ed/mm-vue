@@ -76,7 +76,7 @@
                         type="radio"
                         name="listGroupRadios"
                         id="listGroupRadios1"
-                        value="1"
+                        value="2"
                         checked=""
                       />
                       <span>
@@ -91,7 +91,7 @@
                         type="radio"
                         name="listGroupRadios"
                         id="listGroupRadios2"
-                        value="2"
+                        value="1"
                       />
                       <span>
                         Incomes
