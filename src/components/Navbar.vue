@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-body mb-3">
+  <nav class="navbar navbar-expand-lg mb-3">
     <div class="container-xxl">
       <a
         class="navbar-brand d-flex gap-3 align-items-center"
@@ -147,6 +147,18 @@ export default {
 
       return false;
     },
+  },
+
+  mounted() {
+    const navbar = document.querySelector(".navbar");
+
+    window.addEventListener("scroll", () => {
+      console.log({
+        sy: window.scrollY,
+      });
+
+      navbar.classList.toggle("glassy", window.scrollY > 50);
+    });
   },
 };
 </script>

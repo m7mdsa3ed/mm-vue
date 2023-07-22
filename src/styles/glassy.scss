@@ -1,0 +1,21 @@
+.glassy {
+  background-color: var(--box-bg-main-gradient) !important;
+  backdrop-filter: blur(15px);
+}
+
+.modal {
+  .modal-content {
+    @extend .glassy
+  }
+}
+
+body {
+  background-image: var(--body-bg-main-gradient);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: 100% 50%; 
+}
+
+.box {
+  @extend .glassy;
+}

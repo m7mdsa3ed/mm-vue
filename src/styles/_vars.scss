@@ -4,6 +4,9 @@
 
   --body-bg: #eee;
   --body-bg-color: #000;
+
+  --body-bg-main-gradient: radial-gradient(circle, rgb(88, 108, 209) 0%, rgb(243, 221, 221) 100%);
+  --box-bg-main-gradient: #ffffff50;
 }
 
 [data-bs-theme="dark"] {
@@ -12,4 +15,7 @@
   
   --body-bg: #121212;
   --body-bg-color: #fff;
+
+  --body-bg-main-gradient: radial-gradient(circle, rgb(27, 33, 61) 50%, rgb(48, 11, 11) 100%);
+  --box-bg-main-gradient: #ffffff10;
 }

@@ -6,6 +6,7 @@
 @import "vue";
 @import "bs-vars";
 @import "vars";
+@import "glassy";
 
 body {
   font-family: "Nunito", sans-serif;
@@ -31,7 +32,8 @@ body {
   text-align: center;
   font-size: 1em;
 
-  @each $name, $color in $theme-colors {
+  @each $name,
+  $color in $theme-colors {
     &-bg-#{$name} {
       background-color: rgba($color, 25%);
       color: $color;
@@ -122,4 +124,8 @@ svg.apexcharts-svg {
     line-height: 0;
     margin: 0 8px;
   }
+}
+
+.navbar {
+  transition: all 0.2s ease;
 }
