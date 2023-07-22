@@ -49,7 +49,7 @@ export default {
       try {
         commit("setTransactions", await getTransactions(url, filter));
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -61,7 +61,7 @@ export default {
       try {
         commit("saveTransaction", await saveTransaction(data, data.id));
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -76,7 +76,7 @@ export default {
         commit("removeTransaction", transaction);
       } catch (error) {
 
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);

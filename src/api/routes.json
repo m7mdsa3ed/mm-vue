@@ -24,6 +24,14 @@
           "path": "oauth2/login/:provider"
         }
       }
+    },
+    "login": {
+      "method": "post",
+      "url": "login"
+    },
+    "register": {
+      "method": "post",
+      "url": "register"
     }
   },
 

@@ -5,9 +5,7 @@
         <div class="bg-main box my-3">
           <p class="fs-4 fw-light">Login</p>
 
-          <div v-if="errors.message" class="alert alert-danger">
-            {{ errors.message }}
-          </div>
+          <Errors v-if="errors" :errors="errors" />
 
           <form @submit.prevent="login">
             <div class="form-floating mb-3">
@@ -31,7 +29,10 @@
               <label> Password </label>
             </div>
 
-            <button class="btn btn-dark mb-3 w-100">Login</button>
+            <button class="btn btn-dark mb-3 w-100">
+              <template v-if="!isLoading"> Login </template>
+              <template v-else> Loading... </template>
+            </button>
           </form>
 
           <div class="d-flex flex-wrap justify-content-between mb-3">
@@ -61,34 +62,30 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
+<script setup>
+import { useStore } from "vuex";
+import { computed, ref } from "vue";
 import OAuthLogin from "./Components/OAuthLogin.vue";
+import Errors from "../../components/Errors.vue";
+import router from "../../router";
 
-export default {
-  components: {
-    OAuthLogin,
-  },
+const { state, dispatch } = useStore();
 
-  computed: {
-    ...mapState({
-      loading: (state) => state.auth.loginLoading,
-      errors: (state) => state.auth.errors,
-    }),
-  },
+const isLoading = computed(() => state.auth.loading);
 
-  data() {
-    return {
-      user: {},
-    };
-  },
+const errors = computed(() => state.auth.errors);
 
-  methods: {
-    login() {
-      this.$store.dispatch("auth/login", this.user).then(() => {
-        this.$router.push({ name: "home" });
-      });
-    },
-  },
+const user = ref({});
+
+const login = async () => {
+  try {
+    await dispatch("auth/login", user.value);
+
+    if (!errors.value) {
+      router.push({ name: "home" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>

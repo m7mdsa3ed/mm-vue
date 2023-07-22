@@ -46,7 +46,7 @@ export default {
       try {
         commit("setAccounts", await getAccounts());
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -58,7 +58,7 @@ export default {
       try {
         commit("saveAccount", await saveAccount(account, account.id));
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -72,7 +72,7 @@ export default {
 
         commit("removeAccount", account);
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -86,7 +86,7 @@ export default {
 
         commit("setAccountTypes", types);
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);

@@ -22,7 +22,7 @@ export default {
       try {
         commit("setData", await getRoles());
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -34,7 +34,7 @@ export default {
       try {
         commit("setData", await saveRoles(fd));
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);

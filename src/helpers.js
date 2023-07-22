@@ -100,6 +100,26 @@ export const errorParser = (error) => {
 
       return errorMessages.join(", ") ?? this.error.error.message;
     },
+    body: function () {
+      if (error.response) {
+        const { data } = error.response;
+
+        return data ?? {};
+      }
+
+      return;
+    },
+
+    getErrors: function () {
+      const errorBody = this.body();
+
+      let errors = {
+        ...errorBody.errors ?? {},
+        message: errorBody.message,
+      }
+
+      return errors
+    },
   };
 };
 

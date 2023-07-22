@@ -1,6 +1,7 @@
 import axios from "axios";
 import store from "..";
 import router from "../../router";
+import { login, register } from "../../api/auth";
 
 const LSItemName =
   (import.meta.env.VITE_LOCALSTORAGE_NAMESPACE ?? "VUE") + ".ACCESS_TOKEN";
@@ -10,51 +11,63 @@ export default {
 
   state: {
     loading: false,
-    errors: [],
+    errors: null,
     user: null,
     token: localStorage.getItem(LSItemName),
     enabled: true,
   },
 
-  actions: {
-    async login({ state, dispatch }, payload) {
-      return new Promise((resolve, reject) => {
-        state.errors = [];
+  mutations: {
+    setErrors: (state, errors) => (state.errors = errors),
 
-        axios
-          .post("login", payload)
-          .then((response) => {
-            dispatch("_login", response.data);
-            resolve(response);
-          })
-          .catch((err) => {
-            state.errors = err.response.data;
-            reject(err);
-          })
-          .finally(() => {
-            state.loading = false;
-          });
-      });
+    setLoading: (state, status) => (state.loading = status),
+
+    setAuthentication: (state, { token, user }) => {
+      state.token = typeof token == "undefined" ? state.token : token;
+
+      state.user = user;
+
+      localStorage.setItem(LSItemName, state.token);
+
+      axios.defaults.headers.Authorization = `Bearer ${state.token}`;
+
+      store.dispatch("app/fetchAll");
+    },
+  },
+
+  actions: {
+    async login({ commit }, userCredentials) {
+      commit("setErrors", null);
+
+      commit("setLoading", true);
+
+      try {
+        const { token, user } = await login(userCredentials);
+
+        commit("setAuthentication", { token, user });
+      } catch (error) {
+        commit("setErrors", error.getErrors());
+      }
+
+      commit("setLoading", false);
     },
 
-    async register({ state }, payload) {
-      return new Promise((resolve, reject) => {
-        state.errors = [];
+    async register({ commit }, payload) {
+      commit("setErrors", null);
 
-        axios
-          .post("register", payload)
-          .then((response) => {
-            const { user, token } = response.data;
+      commit("setLoading", true);
+      
+      try {
+        const { token, user } = await register(payload);
 
-            state.token = token;
-            state.user = user;
-            resolve(response);
-          })
-          .catch((err) => {
-            state.errors = err.response.data;
-            reject(err);
-          });
-      });
+        console.log({ token, user });
+
+        commit("setAuthentication", { token, user });
+      } catch (error) {
+        commit("setErrors", error.getErrors());
+      }
+      
+      commit("setLoading", false);
     },
 
     async logout({ state, dispatch }) {
@@ -114,6 +127,6 @@ export default {
   },
 
   getters: {
-    user: (state) => state.user
-  }
+    user: (state) => state.user,
+  },
 };

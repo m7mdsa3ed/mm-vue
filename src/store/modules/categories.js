@@ -39,7 +39,7 @@ export default {
       try {
         commit("setCategories", await getCategories());
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -51,7 +51,7 @@ export default {
       try {
         commit("saveCategory", await saveCategory(data, data.get('id')));
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -66,7 +66,7 @@ export default {
         commit("removeCategory", category);
       } catch (error) {
 
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);

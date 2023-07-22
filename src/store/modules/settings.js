@@ -26,7 +26,7 @@ export default {
 
         commit('setData', response.settings)
       } catch (error) {
-        commit('setErrors', error);
+        commit("setErrors", error.getErrors());
       }
 
       commit('setLoading', false);

@@ -5,9 +5,7 @@
         <div class="bg-main box my-3">
           <p class="fs-4 fw-light">Signup</p>
 
-          <div v-if="errors.message" class="alert alert-danger">
-            {{ errors.message }}
-          </div>
+          <Errors v-if="errors" :errors="errors" />
 
           <form @submit.prevent="register">
             <div class="form-floating mb-3">
@@ -52,7 +50,10 @@
               <label> Phone </label>
             </div>
 
-            <button class="btn btn-dark mb-3 w-100">Signup</button>
+            <button class="btn btn-dark mb-3 w-100">
+              <template v-if="!isLoading"> Register </template>
+              <template v-else> Loading... </template>
+            </button>
             <p
               class="mb-0 small"
               role="button"
@@ -68,33 +69,29 @@
   </div>
 </template>
 
-<script>
-import { mapActions, mapState } from "vuex";
-export default {
-  data() {
-    return {
-      user: {},
-    };
-  },
+<script setup>
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
+import Errors from "../../components/Errors.vue";
+import router from "../../router";
 
-  computed: {
-    ...mapState({
-      errors: (state) => state.auth.errors,
-    }),
-  },
+const { dispatch, state } = useStore();
 
-  methods: {
-    ...mapActions({
-      _register: "auth/register",
-      login: "auth/_login",
-    }),
+const user = ref({});
 
-    register(e) {
-      this._register(this.user).then((response) => {
-        this.login(response.data);
-        this.$router.push({ name: "home" });
-      });
-    },
-  },
+const isLoading = computed(() => state.auth.loading);
+
+const errors = computed(() => state.auth.errors);
+
+const register = async () => {
+  try {
+    await dispatch("auth/register", user.value);
+
+    if (!errors.value) {
+      router.push({ name: "home" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>

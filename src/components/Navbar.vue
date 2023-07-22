@@ -153,10 +153,6 @@ export default {
     const navbar = document.querySelector(".navbar");
 
     window.addEventListener("scroll", () => {
-      console.log({
-        sy: window.scrollY,
-      });
-
       navbar.classList.toggle("glassy", window.scrollY > 50);
     });
   },

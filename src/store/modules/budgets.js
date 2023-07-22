@@ -39,7 +39,7 @@ export default {
       try {
         commit("setData", await getBudgets());
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -51,7 +51,7 @@ export default {
       try {
         commit("save", await saveBudget(budget, budget.id));
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -65,7 +65,7 @@ export default {
 
         commit("remove", budget);
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);

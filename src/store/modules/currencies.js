@@ -34,7 +34,7 @@ export default {
       try {
         commit("setData", await getCurrencies(payload));
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -48,7 +48,7 @@ export default {
       } catch (error) {
         console.log({ error });
 
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);

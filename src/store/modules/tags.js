@@ -39,7 +39,7 @@ export default {
       try {
         commit("setData", await getTags());
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -51,7 +51,7 @@ export default {
       try {
         commit("saveTag", await saveTag(data, data.get('id')));
       } catch (error) {
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
@@ -66,7 +66,7 @@ export default {
         commit("removeTag", tag);
       } catch (error) {
 
-        commit("setErrors", error);
+        commit("setErrors", error.getErrors());
       }
 
       commit("setLoading", false);
