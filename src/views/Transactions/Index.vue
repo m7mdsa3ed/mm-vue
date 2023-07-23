@@ -119,6 +119,7 @@
               <td class="text-nowrap d-none d-lg-table-cell text-end">
                 <div class="mb-0 small d-flex flex-column">
                   <span class="fw-bold">
+                    {{ transaction.created_at }}
                     {{ $date(transaction.created_at).format("dddd") }}
                   </span>
 
@@ -181,7 +182,7 @@
       </div>
     </div>
 
-    <TransactionSaveModal :transaction="selectedTransaction" />
+    <TransactionSaveModal :currentTransaction="selectedTransaction" />
 
     <TransactionDetailsModal :transaction="selectedTransaction" />
   </div>

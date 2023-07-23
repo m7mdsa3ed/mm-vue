@@ -11,7 +11,7 @@ export default {
   state: {
     loading: false,
     data: [],
-    errors: [],
+    errors: null,
   },
 
   mutations: {

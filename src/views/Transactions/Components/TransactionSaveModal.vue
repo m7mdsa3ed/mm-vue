@@ -8,9 +8,7 @@
     ref="TransactionModal"
     data-bs-backdrop="static"
   >
-    <div
-      class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down"
-    >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <p class="fs-4 fw-light mb-0">Transaction</p>
@@ -23,6 +21,8 @@
         </div>
 
         <div class="modal-body">
+          <Errors :errors="errors" v-if="errors" />
+
           <form @submit.prevent="save" id="transactionForm">
             <div class="d-flex flex-column gap-3">
               <div
@@ -37,7 +37,7 @@
                   <input
                     type="radio"
                     class="btn-check"
-                    v-model="activeTransaction.action_type"
+                    v-model="transaction.action_type"
                     name="action_type"
                     :id="`actionType${actionType.name}`"
                     :value="actionType.value"
@@ -48,8 +48,9 @@
                   <label
                     class="btn btn-dark"
                     :for="`actionType${actionType.name}`"
-                    >{{ actionType.name }}</label
                   >
+                    {{ actionType.name }}
+                  </label>
                 </template>
               </div>
 
@@ -57,7 +58,7 @@
                 class="btn-group w-100"
                 role="group"
                 aria-label="Basic radio toggle button group"
-                v-if="[4, 5, 6].includes(activeTransaction.action_type)"
+                v-if="[4, 5, 6].includes(transaction.action_type)"
               >
                 <template
                   v-for="action in [
@@ -69,7 +70,7 @@
                   <input
                     type="radio"
                     class="btn-check"
-                    v-model="activeTransaction.action"
+                    v-model="transaction.action"
                     name="action"
                     :id="`action${action.name}`"
                     :value="action.value"
@@ -83,16 +84,55 @@
                 </template>
               </div>
 
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="number"
+                      placeholder="Amount"
+                      v-model="transaction.amount"
+                      class="form-control"
+                      step="any"
+                      required
+                    />
+                    <label> Amount</label>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <select
+                      class="form-select"
+                      id="accountSelect"
+                      v-model="transaction.account_id"
+                      required
+                    >
+                      <option selected :value="undefined">
+                        Select Account
+                      </option>
+
+                      <option
+                        v-for="account in accounts"
+                        :key="account.id"
+                        :value="account.id"
+                      >
+                        {{ account.name }}
+                      </option>
+                    </select>
+                    <label for="accountSelect">Account</label>
+                  </div>
+                </div>
+              </div>
+
               <div class="form-floating">
                 <input
-                  type="number"
-                  placeholder="Amount"
-                  v-model="activeTransaction.amount"
+                  type="date"
+                  placeholder="Date"
+                  v-model="transaction.created_at"
                   class="form-control"
-                  step="any"
                   required
                 />
-                <label> Amount</label>
+                <label> Date </label>
               </div>
 
               <div class="form-floating">
@@ -100,7 +140,7 @@
                   class="form-control"
                   placeholder="Description"
                   style="height: 100px"
-                  v-model="activeTransaction.description"
+                  v-model="transaction.description"
                 ></textarea>
                 <label>Description</label>
               </div>
@@ -109,7 +149,7 @@
                 <select
                   class="form-select"
                   id="categorySelect"
-                  v-model="activeTransaction.category_id"
+                  v-model="transaction.category_id"
                 >
                   <option selected :value="undefined">Select Category</option>
                   <option
@@ -126,16 +166,16 @@
               <div class="form-floating" v-if="tags.length">
                 <select
                   class="form-select"
-                  style="min-height: 100px"
+                  style="min-height: 150px"
                   id="tagsSelect"
-                  v-model="activeTransaction.tag_ids"
+                  v-model="transaction.tag_ids"
                   multiple
                 >
                   <option
                     v-for="tag in tags"
                     :key="tag.id"
                     :value="tag.id"
-                    :selected="activeTransaction.tag_ids?.indexOf(tag.id) != -1"
+                    :selected="transaction.tag_ids?.includes(tag.id)"
                   >
                     {{ tag.name }}
                   </option>
@@ -143,44 +183,14 @@
 
                 <label for="tagsSelect">Tag</label>
               </div>
-
-              <div class="form-floating">
-                <select
-                  class="form-select"
-                  id="accountSelect"
-                  v-model="activeTransaction.account_id"
-                  required
-                >
-                  <option selected :value="undefined">Select Account</option>
-
-                  <option
-                    v-for="account in accounts"
-                    :key="account.id"
-                    :value="account.id"
-                  >
-                    {{ account.name }}
-                  </option>
-                </select>
-                <label for="accountSelect">Account</label>
-              </div>
-
-              <div class="form-floating">
-                <input
-                  type="date"
-                  placeholder="Date"
-                  v-model="activeTransaction.created_at"
-                  class="form-control"
-                  required
-                />
-                <label> Date</label>
-              </div>
             </div>
           </form>
         </div>
 
         <div class="modal-footer">
           <button form="transactionForm" class="btn btn-dark w-100">
-            Save
+            <template v-if="!isLoading"> Save </template>
+            <template v-else> Loading... </template>
           </button>
         </div>
       </div>
@@ -188,105 +198,81 @@
   </div>
 </template>
 
-<script>
-import { mapActions, mapState } from "vuex";
+<script setup>
+import { Modal } from "bootstrap";
+import { computed, ref, watch } from "vue";
+import { useStore } from "vuex";
+import Errors from "../../../components/Errors.vue";
+import dayjs from "dayjs";
 
-export default {
-  props: {
-    transaction: {
-      type: Object,
-    },
-    modal: {
-      type: Object,
-    },
+const emit = defineEmits(["newTransaction"]);
+
+const props = defineProps({
+  currentTransaction: {
+    type: Object,
   },
+});
 
-  data() {
-    return {
-      actionTypes: [
-        {
-          name: "Income",
-          value: 1,
-        },
-        {
-          name: "Outcome",
-          value: 2,
-        },
-        {
-          name: "Loan",
-          value: 4,
-        },
-        {
-          name: "Debit",
-          value: 5,
-        },
-        {
-          name: "Hold",
-          value: 6,
-        },
-      ],
+const { state, dispatch } = useStore();
 
-      activeTransaction: {},
-    };
+const transaction = ref({
+  action_type: 2,
+  created_at: dayjs().format("YYYY-MM-DD"),
+});
+
+const actionTypes = [
+  {
+    name: "Income",
+    value: 1,
   },
-
-  watch: {
-    transaction: {
-      immediate: true,
-      handler(to) {
-        this.activeTransaction = this.getTransaction(to);
-      },
-    },
-
-    "transaction.action_type"(action_type) {
-      if (action_type == 1 || action_type == 2) {
-        this.transaction.action = action_type;
-      }
-    },
+  {
+    name: "Outcome",
+    value: 2,
   },
-
-  computed: {
-    ...mapState({
-      tags: (state) => state.tags.tags,
-      accounts: (state) => state.accounts.data,
-      categories: (state) => state.categories.categories,
-    }),
-
-    isUpdating() {
-      return !!this.activeTransaction.id;
-    },
+  {
+    name: "Loan",
+    value: 4,
   },
-
-  methods: {
-    ...mapActions({
-      saveTransaction: "transactions/save",
-    }),
-
-    getTransaction(t) {
-      const transaction = t ?? {};
-
-      const defaultProps = {
-        action_type: 2,
-        created_at: this.$date().format("YYYY-MM-DD"),
-        tag_ids: transaction.tags?.map((tag) => tag.id) ?? [],
-      };
-
-      for (const key in defaultProps) {
-        transaction[key] = transaction[key] ?? defaultProps[key];
-      }
-
-      return transaction;
-    },
-
-    save() {
-      this.saveTransaction({
-        data: this.activeTransaction,
-        isUpdating: this.isUpdating,
-      }).then((transaction) => {
-        this.$emit("newTransaction", transaction);
-        this.modal.hide();
-      });
-    },
+  {
+    name: "Debit",
+    value: 5,
   },
+  {
+    name: "Hold",
+    value: 6,
+  },
+];
+
+const tags = computed(() => state.tags.tags);
+
+const accounts = computed(() => state.accounts.data);
+
+const categories = computed(() => state.categories.categories);
+
+const isLoading = computed(() => state.transactions.loading);
+
+const errors = computed(() => state.transactions.errors);
+
+watch(
+  () => props.currentTransaction,
+  (currentTransaction) => {
+    transaction.value = currentTransaction;
+
+    transaction.value.tag_ids = transaction.value.tags?.map((tag) => tag.id);
+  }
+);
+
+const save = async () => {
+  await dispatch("transactions/save", {
+    data: transaction.value,
+  });
+
+  if (!errors.value) {
+    emit("newTransaction", transaction);
+
+    const modal = Modal.getOrCreateInstance("#TransactionModal");
+
+    modal.hide();
+  }
 };
 </script>

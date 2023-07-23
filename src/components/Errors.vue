@@ -21,7 +21,4 @@ defineProps({
     required: true,
   },
 });
-
-console.log(errors);
-
 </script>
