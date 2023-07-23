@@ -8,7 +8,7 @@
       </button>
     </div>
 
-    <div class="box bg-main mb-3">
+    <div class="box bg-main mb-3 d-flex gap-3">
       <button
         class="btn btn-sm btn-dark w-100"
         data-bs-toggle="modal"
@@ -18,10 +18,23 @@
         <i class="icon fas fa-plus"></i>
         Transaction
       </button>
+
+      <button
+        class="btn btn-dark"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#transactionFilterCollapse"
+        aria-expanded="false"
+        aria-controls="transactionFilterCollapse"
+      >
+        Filter
+      </button>
     </div>
 
-    <div class="mb-3 box bg-main">
-      <TransactionsFilter />
+    <div class="collapse" id="transactionFilterCollapse">
+      <div class="box mb-3">
+        <TransactionsFilter @search="search" />
+      </div>
     </div>
 
     <div class="table-responsive box bg-main">
@@ -129,7 +142,7 @@
                         class="dropdown-item"
                         href=""
                         @click.prevent="
-                          setTransactionOpenModal(transaction, 'details')
+                          selectTransactionOpenModal(transaction, 'details')
                         "
                       >
                         <span> Details </span>
@@ -140,7 +153,7 @@
                         class="dropdown-item"
                         href=""
                         @click.prevent="
-                          setTransactionOpenModal(transaction, 'edit')
+                          selectTransactionOpenModal(transaction, 'edit')
                         "
                       >
                         <span> Edit </span>
@@ -151,7 +164,7 @@
                       <a
                         class="dropdown-item text-danger"
                         href=""
-                        @click.prevent="removeTransaction(transaction)"
+                        @click.prevent="remove(transaction)"
                       >
                         <span> Delete </span>
                       </a>
@@ -168,120 +181,64 @@
       </div>
     </div>
 
-    <TransactionModal
-      :modal="modals.TransactionModal.instance"
-      :transaction="modals.TransactionModal.transaction"
-    />
-    <TransactionDetailsModal
-      :transaction="modals.TransactionDetailsModal.transaction"
-    />
+    <TransactionSaveModal :transaction="selectedTransaction" />
+
+    <TransactionDetailsModal :transaction="selectedTransaction" />
   </div>
 </template>
 
-<script>
+<script setup>
 import Paginator from "@/components/Paginator.vue";
-import TransactionsFilter from "@/components/Transactions/TransactionsFilter.vue";
-import TransactionModal from "@/components/Transactions/TransactionModal.vue";
-import TransactionDetailsModal from "@/components/Transactions/TransactionDetailsModal.vue";
+import TransactionsFilter from "./Components/TransactionsFilter.vue";
+import TransactionSaveModal from "./Components/TransactionSaveModal.vue";
+import TransactionDetailsModal from "./Components/TransactionDetailsModal.vue";
 import { Modal } from "bootstrap";
-import { mapActions, mapState } from "vuex";
+import { useStore } from "vuex";
+import { computed, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
-export default {
-  components: {
-    Paginator,
-    TransactionsFilter,
-    TransactionModal,
-    TransactionDetailsModal,
-  },
+const { state, dispatch } = useStore();
 
-  data() {
-    return {
-      filter: {},
-      modals: {
-        activeModal: null,
-        TransactionModal: {
-          instance: null,
-          transaction: null,
-        },
-        TransactionDetailsModal: {
-          instance: null,
-          transaction: null,
-        },
-      },
-    };
-  },
+const transactions = computed(() => state.transactions.data);
 
-  computed: {
-    ...mapState({
-      transactions: (state) => state.transactions.data,
-    }),
-  },
+const selectedTransaction = ref(null);
 
-  mounted() {
-    this.fetch();
-    [
-      document.querySelector("#TransactionModal"),
-      document.querySelector("#TransactionDetailsModal"),
-    ].forEach((modal) => {
-      const name = modal.id;
+const filter = ref({});
 
-      // Modal Instance
-      this.modals[name].instance = new Modal(modal);
+const route = useRoute();
 
-      // Set transaction to NULL on hide
-      modal.addEventListener("hidden.bs.modal", () => {
-        this.modals[name].transaction = null;
-      });
-    });
-  },
+const fetch = async (url = null) => {
+  await dispatch("transactions/fetch", {
+    url,
+    filter: filter.value,
+    refreshBeforeFetch: !!route.query.rbf,
+  });
+};
 
-  watch: {
-    "$route.query": {
-      immediate: true,
-      handler(to, from) {
-        this.filter = to ?? {};
-        this.fetch();
-      },
-    },
-  },
+const remove = async (transaction) => {
+  await dispatch("transactions/delete", { transaction });
+};
 
-  methods: {
-    ...mapActions({
-      deleteTransaction: "transactions/delete",
-    }),
+const selectTransactionOpenModal = (transaction, type) => {
+  selectedTransaction.value = transaction;
 
-    fetch(url = null) {
-      this.$store.dispatch("transactions/fetch", {
-        url,
-        filter: this.filter,
-        refreshBeforeFetch: !!this.$route.query.rbf,
-      });
-    },
+  const getModal = () => {
+    switch (type) {
+      case "edit":
+        return "#TransactionModal";
+      case "details":
+        return "#TransactionDetailsModal";
+    }
+  };
 
-    setTransactionOpenModal(transaction, modal) {
-      var modalName, modal;
+  const modal = Modal.getOrCreateInstance(getModal());
 
-      switch (modal) {
-        case "edit":
-          modal = this.modals.TransactionModal;
-          modalName = "TransactionModal";
-          break;
+  modal.show();
+};
 
-        case "details":
-          modal = this.modals.TransactionDetailsModal;
-          modalName = "TransactionDetailsModal";
-          break;
-      }
+const search = (filterObject) => {
+  filter.value = filterObject;
 
-      modal.instance.show();
-
-      modal.transaction = { ...transaction };
-      this.modals.activeModal = modalName;
-    },
-
-    removeTransaction(transaction) {
-      this.deleteTransaction({ transaction });
-    },
-  },
+  fetch();
 };
 </script>
