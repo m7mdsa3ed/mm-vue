@@ -38,16 +38,18 @@ export default {
 
   actions: {
     async fetch({ commit }, payload) {
+      commit("setLoading", true);
+
       let { url, filter, refreshBeforeFetch } = payload || {};
 
       if (refreshBeforeFetch) {
         commit("setTransactions", []);
       }
 
-      commit("setLoading", true);
-
       try {
-        commit("setTransactions", await getTransactions(url, filter));
+        const data = await getTransactions(url, filter)
+
+        commit("setTransactions", data);
       } catch (error) {
         commit("setErrors", error.getErrors());
       }
