@@ -174,7 +174,7 @@
         </tbody>
       </table>
       <div class="d-flex justify-content-between">
-        <Paginator :data="transactions" @change="fetch()" />
+        <Paginator :data="transactions" @change="fetch" />
       </div>
     </div>
 
