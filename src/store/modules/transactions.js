@@ -40,6 +40,8 @@ export default {
     async fetch({ commit }, payload) {
       commit("setLoading", true);
 
+      commit("setErrors", null);
+
       let { url, filter, refreshBeforeFetch } = payload || {};
 
       if (refreshBeforeFetch) {
@@ -60,6 +62,8 @@ export default {
     async save({ commit }, { data }) {
       commit("setLoading", true);
 
+      commit("setErrors", null);
+
       try {
         commit("saveTransaction", await saveTransaction(data, data.id));
       } catch (error) {
@@ -72,6 +76,8 @@ export default {
     async delete({ commit }, { transaction }) {
       commit("setLoading", true);
 
+      commit("setErrors", null);
+      
       try {
         await deleteTransaction(transaction.id)
 

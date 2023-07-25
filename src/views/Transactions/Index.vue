@@ -41,10 +41,10 @@
       <table class="table align-middle table-borderless mb-3">
         <thead>
           <tr>
-            <th width="50">Type</th>
+            <th class="d-none d-lg-table-cell" width="50">Type</th>
             <th>Category</th>
             <th class="text-end">Amount</th>
-            <th class="d-none d-lg-table-cell text-end">Date</th>
+            <th class="text-end">Date</th>
           </tr>
         </thead>
 
@@ -54,7 +54,7 @@
             :key="transaction.id"
           >
             <tr>
-              <td>
+              <td class="d-none d-lg-table-cell">
                 <span class="small">
                   <i
                     class="icon fa-sm"
@@ -80,16 +80,13 @@
                   <template v-for="tag in transaction.tags" :key="tag.id">
                     <span
                       role="button"
-                      class="small fw-bold bg-body px-1 ms-2"
-                      @click="
-                        toRoute('transactions', { query: { tag_id: tag.id } })
-                      "
+                      class="small fw-bold bg-body px-1 ms-2 d-none d-lg-inline-block"
                       >#{{ tag.name.toUpperCase() }}
                     </span>
                   </template>
                 </p>
                 <span
-                  class="small text-muted text-multi-truncate text-multi-truncate-2 white-space-pre-wrap"
+                  class="small text-muted text-multi-truncate text-multi-truncate-2 white-space-pre-wrap d-none d-lg-inline-block"
                 >
                   {{ transaction.description }}
                 </span>
@@ -101,7 +98,7 @@
                     transaction.action == 2 ? 'text-danger' : 'text-success'
                   "
                 >
-                  <span>
+                  <span class="text-nowrap">
                     {{ transaction.action == 2 ? "-" : "+" }}
                     {{
                       $fn.money(
@@ -116,10 +113,9 @@
                   </span>
                 </span>
               </td>
-              <td class="text-nowrap d-none d-lg-table-cell text-end">
+              <td class="text-nowrap text-end">
                 <div class="mb-0 small d-flex flex-column">
                   <span class="fw-bold">
-                    {{ transaction.created_at }}
                     {{ $date(transaction.created_at).format("dddd") }}
                   </span>
 
