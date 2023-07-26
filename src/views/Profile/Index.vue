@@ -1,18 +1,20 @@
 <template>
-  <div>
-    <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
-      <p class="display-6 mb-0">Profile</p>
+  <div class="d-flex flex-column gap-3">
+    <div>
+      <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
+        <p class="display-6 mb-0">Profile</p>
 
-      <button class="btn btn-outline-danger" @click="load">
-        <i class="fa-fw fas fa-refresh"></i>
-      </button>
-    </div>
+        <button class="btn btn-outline-danger" @click="load">
+          <i class="fa-fw fas fa-refresh"></i>
+        </button>
+      </div>
 
-    <h1>{{ profile.name }}</h1>
+      <h1>{{ profile.name }}</h1>
 
-    <div class="mb-3 d-flex gap-2">
-      <div class="badge bg-danger" v-for="role in roles" :key="role">
-        {{ role }}
+      <div class="mb-3 d-flex gap-2">
+        <div class="badge bg-danger" v-for="role in roles" :key="role">
+          {{ role }}
+        </div>
       </div>
     </div>
 
@@ -47,6 +49,14 @@
         </div>
       </div>
     </div>
+
+    <div>
+      <h2>Estimate</h2>
+
+      <div class="box bg-main">
+        <EstimateCalculator />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,6 +64,7 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { notationToReadable } from "../../helpers";
+import EstimateCalculator from "../../components/EstimateCalculator.vue";
 
 const { state } = useStore();
 

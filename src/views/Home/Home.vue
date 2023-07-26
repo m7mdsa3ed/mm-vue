@@ -108,14 +108,6 @@
               </div>
             </div>
           </div>
-
-          <div>
-            <h2>Estimate</h2>
-
-            <div class="box bg-main">
-              <EstimateCalculator />
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -131,7 +123,6 @@ import PeriodReport from "./Components/PeriodReport.vue";
 import PinnedAccounts from "./Components/PinnedAccounts.vue";
 import PeriodSelector from "./Components/PeriodSelector.vue";
 import CategoryBalanceSummaryDetails from "./Components/CategoryBalanceSummaryDetails.vue";
-import EstimateCalculator from "@/components/EstimateCalculator.vue";
 import { useStore } from "vuex";
 import collect from "collect.js";
 
