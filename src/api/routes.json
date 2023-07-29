@@ -105,7 +105,8 @@
     "delete": {
       "method": "POST",
       "url": "categories/:id/delete"
-    }
+    },
+    "details": "categories/:id/details"
   },
 
   "tags": {

@@ -33,7 +33,7 @@
           <template v-for="category in categories" :key="category.id">
             <tr>
               <td>
-                <p class="mb-0">
+                <p class="mb-0" @click="getDetails(category)">
                   {{ category.name }}
                 </p>
                 <span class="text-muted small">
@@ -60,12 +60,7 @@
                       <a
                         class="dropdown-item"
                         href=""
-                        @click.prevent="
-                          $router.push({
-                            name: 'transactions',
-                            query: { category_id: category.id, rbf: 1 },
-                          })
-                        "
+                        @click.prevent="getDetails(category)"
                       >
                         <span> Details </span>
                       </a>
@@ -102,6 +97,8 @@
       :modal="this.modals.CategoryEditModal?.instance"
       :category="this.modals.CategoryEditModal?.data"
     />
+
+    <CategoryDetailsModal :category="categoryDetails" />
   </div>
 </template>
 
@@ -109,11 +106,14 @@
 import { mapState } from "vuex";
 import CategoryModal from "@/components/Categories/CategoryModal.vue";
 import CategoryEditModal from "@/components/Categories/CategoryEditModal.vue";
+import CategoryDetailsModal from "./Components/CategoryDetailsModal.vue";
 import { Modal } from "bootstrap";
+import { getCategoryDetails } from '../../api/categories';
 export default {
   components: {
     CategoryModal,
     CategoryEditModal,
+    CategoryDetailsModal,
   },
 
   data() {
@@ -121,6 +121,7 @@ export default {
       modals: {
         activeModal: null,
       },
+      categoryDetails: null,
     };
   },
 
@@ -160,6 +161,24 @@ export default {
         });
       }
     },
+
+    async getDetails(category) {
+      this.categoryDetails = await getCategoryDetails(category.id) ?? null
+
+      console.log(this.categoryDetails, category);
+
+      if (!this.categoryDetails) {
+        return alert('No category details found')
+      }
+
+      const modalElement = document.querySelector('#CategoryDetailsModal')
+
+      if (modalElement) {
+        const modal = Modal.getOrCreateInstance('#CategoryDetailsModal')
+
+        modal.show()
+      }
+    }
   },
 };
 </script>

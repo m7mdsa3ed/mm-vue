@@ -25,3 +25,7 @@ export const saveCategory = async (fd, id) => {
 export const deleteCategory = async (id) => {
   return await httpRequest(route("categories.delete", { params: { id } }));
 };
+
+export const getCategoryDetails = async (categoryId) => {
+  return await httpRequest(route("categories.details", { params: { id: categoryId } }));
+}
