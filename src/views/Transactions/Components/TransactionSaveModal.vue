@@ -200,7 +200,7 @@
 
 <script setup>
 import { Modal } from "bootstrap";
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import Errors from "../../../components/Errors.vue";
 import dayjs from "dayjs";
@@ -215,10 +215,12 @@ const props = defineProps({
 
 const { state, dispatch } = useStore();
 
-const transaction = ref({
+const transactionDefault = {
   action_type: 2,
   created_at: dayjs().format("YYYY-MM-DD"),
-});
+};
+
+const transaction = ref(transactionDefault);
 
 const actionTypes = [
   {
@@ -257,7 +259,7 @@ watch(
   () => props.currentTransaction,
   (currentTransaction) => {
     transaction.value = {
-      ...currentTransaction
+      ...currentTransaction,
     };
 
     transaction.value.tag_ids = transaction.value.tags?.map((tag) => tag.id);
@@ -274,8 +276,6 @@ watch(
 );
 
 const save = async () => {
-  console.log({ t: transaction.value });
-
   await dispatch("transactions/save", {
     data: transaction.value,
   });
@@ -288,4 +288,12 @@ const save = async () => {
     modal.hide();
   }
 };
+
+onMounted(() => {
+  document
+    .querySelector("#TransactionModal")
+    .addEventListener("hidden.bs.modal", () => {
+      transaction.value = transactionDefault
+    });
+});
 </script>
