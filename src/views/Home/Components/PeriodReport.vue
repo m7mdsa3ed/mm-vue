@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="lead fw-bold">Month Report</p>
+    <p class="lead fw-bold">Period Report</p>
 
     <div class="d-flex gap-3 w-100">
       <div class="d-flex flex-column gap-3 w-100 bg-main box">
