@@ -16,8 +16,6 @@ import { watch } from "vue";
 
 const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
 
-console.log({ needRefresh });
-
 watch(needRefresh, (to) => {
   if (to) {
     console.log("needRefresh", to);

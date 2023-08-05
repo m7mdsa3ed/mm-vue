@@ -191,7 +191,7 @@ import TransactionSaveModal from "./Components/TransactionSaveModal.vue";
 import TransactionDetailsModal from "./Components/TransactionDetailsModal.vue";
 import { Modal } from "bootstrap";
 import { useStore } from "vuex";
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
 const { state, dispatch } = useStore();
@@ -205,7 +205,6 @@ const filter = ref({});
 const route = useRoute();
 
 const fetch = async (url = null) => {
-  console.log(url);
   await dispatch("transactions/fetch", {
     url,
     filter: filter.value,
