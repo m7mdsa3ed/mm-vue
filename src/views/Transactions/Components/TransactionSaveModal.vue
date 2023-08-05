@@ -256,13 +256,26 @@ const errors = computed(() => state.transactions.errors);
 watch(
   () => props.currentTransaction,
   (currentTransaction) => {
-    transaction.value = currentTransaction;
+    transaction.value = {
+      ...currentTransaction
+    };
 
     transaction.value.tag_ids = transaction.value.tags?.map((tag) => tag.id);
   }
 );
 
+watch(
+  () => transaction.value.action_type,
+  (actionType) => {
+    if ([1, 2].includes(actionType)) {
+      transaction.value.action = actionType;
+    }
+  }
+);
+
 const save = async () => {
+  console.log({ t: transaction.value });
+
   await dispatch("transactions/save", {
     data: transaction.value,
   });
