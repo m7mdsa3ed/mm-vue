@@ -42,14 +42,12 @@ export default {
 
       commit("setErrors", null);
 
-      let { url, filter, refreshBeforeFetch } = payload || {};
+      commit("setTransactions", []);
 
-      if (refreshBeforeFetch) {
-        commit("setTransactions", []);
-      }
+      let { url, filter } = payload || {};
 
       try {
-        const data = await getTransactions(url, filter)
+        const data = await getTransactions(url, filter);
 
         commit("setTransactions", data);
       } catch (error) {
@@ -77,13 +75,12 @@ export default {
       commit("setLoading", true);
 
       commit("setErrors", null);
-      
+
       try {
-        await deleteTransaction(transaction.id)
+        await deleteTransaction(transaction.id);
 
         commit("removeTransaction", transaction);
       } catch (error) {
-
         commit("setErrors", error.getErrors());
       }
 

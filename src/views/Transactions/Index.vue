@@ -208,7 +208,6 @@ const fetch = async (url = null) => {
   await dispatch("transactions/fetch", {
     url,
     filter: filter.value,
-    refreshBeforeFetch: !!route.query.rbf,
   });
 };
 

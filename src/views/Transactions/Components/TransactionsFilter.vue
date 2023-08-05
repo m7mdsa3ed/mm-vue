@@ -129,16 +129,21 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
 const emit = defineEmits(["search"]);
 
 const { state } = useStore();
 
-const filter = ref({
+const route = useRoute();
+
+const initialFilter = {
   period: "0",
-});
+};
+
+const filter = ref(initialFilter);
 
 const filtersOptions = [
   {
@@ -190,11 +195,6 @@ const definedFilters = computed(() => {
           `select[name="${options.name}"] option[value="${value}"]`
         );
 
-        console.log({
-          optionText,
-          selector: `select[name="${options.name}"] option[value="${value}"]`,
-        });
-
         obj[options.label] = optionText?.innerHTML ?? value;
         break;
 
@@ -218,14 +218,27 @@ const search = () => {
 };
 
 const removeFilter = (filterName) => {
-  const filterKey = filtersOptions.filter((filter) => filter.name == filterName)[0]?.name
+  const filterKey = filtersOptions.filter(
+    (filter) => filter.name == filterName
+  )[0]?.name;
 
   if (filterName && filterKey) {
     delete filter.value[filterKey];
   } else {
-    filter.value = {
-      period: "0",
-    };
+    filter.value = initialFilter;
   }
 };
+
+watch(
+  () => route.query,
+  (newQuery) => {
+    filter.value = {
+      ...filter.value,
+      ...newQuery,
+    };
+
+    search();
+  },
+  { immediate: true }
+);
 </script>
