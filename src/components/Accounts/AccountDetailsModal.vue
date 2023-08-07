@@ -8,21 +8,23 @@
     data-bs-backdrop="static"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="bg-main box" v-if="account">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <p class="fs-4 fw-light mb-0">Account {{ account.name }}</p>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
+      <div class="modal-content" v-if="account">
+        <div class="modal-header">
+          <p class="fs-4 fw-light mb-0">Account {{ account.name }}</p>
 
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="modal-body">
           <div class="d-flex flex-column gap-2">
             <div>
               <span class="text-muted small"> Amount </span>
+              
               <p class="mb-0">
                 {{ money(account.balance, account.currency.name) }}
               </p>
@@ -34,16 +36,11 @@
             </div>
 
             <div v-if="account.details">
-              <hr>
+              <hr />
 
-              <p class="lead mb-0">
-                Account Information
-              </p>
+              <p class="lead mb-0">Account Information</p>
 
-              <template
-                v-for="({ key, value }) in account.details"
-                :key="key"
-              >
+              <template v-for="{ key, value } in account.details" :key="key">
                 <div>
                   <span class="text-muted small"> {{ key }} </span>
                   <p class="mb-0">{{ value }}</p>

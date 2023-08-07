@@ -10,16 +10,18 @@
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="bg-main box">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <p class="fs-4 fw-light mb-0">Account</p>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
+        <div class="modal-header">
+          <p class="fs-4 fw-light mb-0">Account</p>
+
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="modal-body">
           <form @submit.prevent="save" id="accountForm">
             <div class="form-floating mb-3">
               <input
@@ -40,7 +42,9 @@
                 form="accountForm"
                 required
               >
-                <option selected :value="undefined">Open this select menu</option>
+                <option selected :value="undefined">
+                  Open this select menu
+                </option>
                 <option
                   v-for="accountType in accountTypes"
                   :key="accountType.id"
@@ -62,7 +66,9 @@
                 form="accountForm"
                 required
               >
-                <option selected :value="undefined">Open this select menu</option>
+                <option selected :value="undefined">
+                  Open this select menu
+                </option>
                 <option
                   v-for="currency in currencies"
                   :key="currency.id"
@@ -74,8 +80,11 @@
 
               <label> Currency </label>
             </div>
-            <button class="btn btn-dark w-100">Save</button>
           </form>
+        </div>
+
+        <div class="modal-footer">
+          <button form="accountForm" class="btn btn-dark border w-100">Save</button>
         </div>
       </div>
     </div>
@@ -90,7 +99,7 @@ export default {
   data() {
     return {
       account: {
-        currency_id: undefined
+        currency_id: undefined,
       },
     };
   },
@@ -98,7 +107,7 @@ export default {
   computed: {
     ...mapState({
       currencies: (state) => state.currencies.data,
-      accountTypes: (state) => state.accounts.types
+      accountTypes: (state) => state.accounts.types,
     }),
   },
 

@@ -9,17 +9,19 @@
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="bg-main box">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <p class="fs-4 fw-light mb-0">Category</p>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <form @submit.prevent="save">
+        <div class="modal-header">
+          <p class="fs-4 fw-light mb-0">Category</p>
+
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="modal-body">
+          <form @submit.prevent="save" id="categorySaveForm">
             <div class="form-floating mb-3">
               <input
                 type="text"
@@ -47,9 +49,13 @@
               </select>
               <label for="categorySelect">Category</label>
             </div>
-
-            <button class="btn btn-dark w-100">Save</button>
           </form>
+        </div>
+
+        <div class="modal-footer">
+          <button form="categorySaveForm" class="btn btn-dark border w-100">
+            Save
+          </button>
         </div>
       </div>
     </div>

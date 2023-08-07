@@ -9,17 +9,19 @@
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content" v-if="account">
-        <div class="bg-main box">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <p class="fs-4 fw-light mb-0">Account</p>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <form @submit.prevent="save">
+        <div class="modal-header">
+          <p class="fs-4 fw-light mb-0">Account</p>
+
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="modal-body">
+          <form @submit.prevent="save" id="accountSaveForm">
             <div class="form-floating mb-3">
               <input
                 type="text"
@@ -113,19 +115,21 @@
                   />
                   <label> Key </label>
                 </div>
-
-                <button
-                  type="button"
-                  @click="newDetail"
-                  class="btn btn-dark border"
-                >
-                  Add
-                </button>
               </div>
             </div>
 
-            <button class="btn btn-dark w-100">Save</button>
+            <button
+              type="button"
+              @click="newDetail"
+              class="btn btn-dark w-100 border"
+            >
+              Add New Information
+            </button>
           </form>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-dark border w-100">Save</button>
         </div>
       </div>
     </div>

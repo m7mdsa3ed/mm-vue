@@ -9,17 +9,18 @@
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="bg-main box">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <p class="fs-4 fw-light mb-0">Balance Info</p>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
+        <div class="modal-header">
+          <p class="fs-4 fw-light mb-0">Balance Info</p>
 
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="modal-body">
           <div v-if="balance && currencyId" class="mb-3">
             <p class="fw-bold mb-2">
               In Other Currencies ( {{ $fn.money(balance, currency.name) }} )
@@ -48,12 +49,10 @@
             </div>
           </div>
 
-          <div >
+          <div>
             <p class="fw-bold mb-2">Balance Details By Account Type</p>
 
-            <div v-if="$store.state.app.loading">
-              Loading...
-            </div>
+            <div v-if="$store.state.app.loading">Loading...</div>
 
             <div class="d-flex flex-column gap-3" v-else>
               <div
