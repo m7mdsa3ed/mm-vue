@@ -4,7 +4,8 @@
     "estimate": {
       "method": "post",
       "url": "estimate"
-    }
+    },
+    "balanceDetails": "balance-details"
   },
 
   "authentication": {

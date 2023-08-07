@@ -26,7 +26,7 @@
               In Other Currencies ( {{ $fn.money(balance, currency.name) }} )
             </p>
 
-            <div class="d-flex flex-column gap-1">
+            <div class="d-flex flex-column gap-1" v-if="currency">
               <template
                 v-for="currencyRate in currency.rates || []"
                 :key="currencyRate.id"
@@ -52,7 +52,7 @@
           <div>
             <p class="fw-bold mb-2">Balance Details By Account Type</p>
 
-            <div v-if="$store.state.app.loading">Loading...</div>
+            <div v-if="isLoading">Loading...</div>
 
             <div class="d-flex flex-column gap-3" v-else>
               <div
@@ -107,54 +107,56 @@
   </div>
 </template>
   
-<script>
-import { mapState } from "vuex";
+<script setup>
+import axios from "axios";
+import { computed, ref, watch } from "vue";
+import { useStore } from "vuex";
+import { getBalanceInfo } from "../api/app";
 
-export default {
-  props: ["balance", "currencyId"],
-
-  data() {
-    return {
-      balanceDetailsByAccountType: [],
-    };
+const props = defineProps({
+  balance: {
+    required: false,
   },
 
-  computed: {
-    ...mapState({
-      currencies: (state) => state.currencies.data,
-    }),
-
-    currency() {
-      return this.currencies.filter(
-        (currency) => currency.id == this.currencyId
-      )[0];
-    },
+  currencyId: {
+    required: false,
   },
+});
 
-  watch: {
-    currencyId(id) {
-      const data = this.updateBalanceDetails(id);
+const { state } = useStore();
 
-      console.log({ data });
-    },
-  },
+const isLoading = computed(() => state.currencies.loading);
 
-  methods: {
-    async updateBalanceDetails(id) {
-      try {
-        this.balanceDetailsByAccountType = [];
+const currency = computed(() => {
+  const { currencies } = state;
 
-        const response = await this.$http.get("balance-details", {
-          params: {
-            currencyId: id,
-          },
-        });
+  for (const key in currencies.data) {
+    const currency = currencies.data[key];
 
-        this.balanceDetailsByAccountType = response.data;
-      } catch (error) {
-        console.log({ error });
-      }
-    },
-  },
+    if (currency.id === props.currencyId) {
+      return currency;
+    }
+  }
+});
+
+const balanceDetailsByAccountType = ref([]);
+
+const updateBalanceDetails = async (currencyId) => {
+  try {
+    balanceDetailsByAccountType.value = [];
+
+    const response = await getBalanceInfo({ currencyId });
+
+    balanceDetailsByAccountType.value = response;
+  } catch (error) {
+    console.log({ error });
+  }
 };
+
+watch(
+  () => props.currencyId,
+  async (id) => {
+    await updateBalanceDetails(id);
+  }
+);
 </script>

@@ -13,3 +13,11 @@ export const getEstimate = async (data) => {
     data,
   });
 };
+
+export const getBalanceInfo = async (params) => {
+  const routeObject = route("app.balanceDetails");
+
+  return await httpRequest(routeObject, {
+    params,
+  });
+};
