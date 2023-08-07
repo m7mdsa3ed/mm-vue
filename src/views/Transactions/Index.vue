@@ -32,7 +32,7 @@
     </div>
 
     <div class="collapse" id="transactionFilterCollapse">
-      <div class="box mb-3">
+      <div class="box bg-main mb-3">
         <TransactionsFilter @search="search" />
       </div>
     </div>
