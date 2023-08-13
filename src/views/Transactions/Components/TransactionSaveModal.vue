@@ -188,9 +188,8 @@
         </div>
 
         <div class="modal-footer">
-          <button form="transactionForm" class="btn btn-dark w-100">
-            <template v-if="!isLoading"> Save </template>
-            <template v-else> Loading... </template>
+          <button form="transactionForm" class="btn btn-dark border w-100">
+            Save
           </button>
         </div>
       </div>
