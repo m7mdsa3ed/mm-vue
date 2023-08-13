@@ -42,8 +42,6 @@ export default {
 
       commit("setErrors", null);
 
-      commit("setTransactions", []);
-
       let { url, filter } = payload || {};
 
       try {
