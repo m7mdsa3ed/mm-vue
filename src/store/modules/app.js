@@ -10,7 +10,7 @@ export default {
     info: null,
     stats: null,
     charts: null,
-    loading: false,
+    loading: [],
     stopActions: false,
     schema: null,
   },
@@ -22,7 +22,9 @@ export default {
       for (const key in payload) {
         state[key] = payload[key]
       }
-    }
+    },
+
+    changeLoadingState: (state, payload) => (state.loading = payload),
   },
 
   actions: {
@@ -66,12 +68,8 @@ export default {
       return await deploy();
     },
 
-    loading({ state }, payload) {
-      return payload == true
-        ? (state.loading = payload)
-        : setTimeout(() => {
-            state.loading = payload;
-          }, 500);
+    loading({ commit }, payload) {
+      commit('changeLoadingState', payload)
     },
 
     stopActions({ state }, payload) {

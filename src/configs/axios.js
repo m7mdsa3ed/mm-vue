@@ -8,38 +8,58 @@ const { VITE_API_BASEURL, VITE_API_PATH } = import.meta.env;
 axios.defaults.baseURL = `${VITE_API_BASEURL}/${VITE_API_PATH}`;
 axios.defaults.headers.Authorization = `Bearer ${store.state.auth.token}`;
 
-axios.interceptors.request.use(
-  (requestConfig) => {
-    store.dispatch("app/loading", true);
-    store.dispatch("app/stopActions", requestConfig.method == "post");
+const loadingList = [];
 
-    if (requestConfig.method == "post") {
-      requestConfig.headers["X-Idempotent-Key"] = generateIdempotentKey(
-        requestConfig.data
-      );
-    }
+const pushLoading = (config) => {
+  const { method, url } = config;
 
-    return requestConfig;
-  },
-  (error) => {
-    store.dispatch("app/loading", false);
-    store.dispatch("app/stopActions", false);
+  loadingList.push({ method, url, timestamp: Date.now() });
 
-    return Promise.reject(errorParser(error));
+  store.dispatch("app/loading", [...loadingList]);
+};
+
+const popLoading = (config) => {
+  const { method, url } = config;
+
+  const index = loadingList.findIndex(
+    (loading) => loading.method == method && loading.url == url
+  );
+
+  if (index > -1) {
+    loadingList.splice(index, 1);
+
+    store.dispatch("app/loading", [...loadingList]);
   }
-);
+};
 
-axios.interceptors.response.use(
-  (response) => {
-    store.dispatch("app/loading", false);
-    store.dispatch("app/stopActions", false);
-
-    return response;
-  },
-  (error) => {
-    store.dispatch("app/loading", false);
-    store.dispatch("app/stopActions", false);
-
-    return Promise.reject(errorParser(error));
+const onRequest = (request) => {
+  if (request.method == "post") {
+    request.headers["X-Idempotent-Key"] = generateIdempotentKey(request.data);
   }
-);
+
+  pushLoading(request);
+
+  return request;
+};
+
+const onRequestError = (error) => {
+  return Promise.reject(errorParser(error));
+};
+
+axios.interceptors.request.use(onRequest, onRequestError);
+
+const onResponse = (response) => {
+  popLoading(response.config);
+
+  return response;
+};
+
+const onResponseError = (error) => {
+  store.dispatch("app/loading", false);
+
+  popLoading(error.config);
+
+  return Promise.reject(errorParser(error));
+};
+
+axios.interceptors.response.use(onResponse, onResponseError);

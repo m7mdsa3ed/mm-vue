@@ -7,12 +7,14 @@
         @click.prevent="$router.push('/')"
       >
         Home
-        <div
-          class="spinner-border spinner-border-sm"
-          role="status"
-          v-if="$store.state.app.loading"
-        >
-          <span class="visually-hidden">Loading...</span>
+        <div v-if="loading.length" class="d-flex gap-2 align-items-center">
+          <span class="badge bg-dark" v-if="loading.length > 1">
+            {{ loading.length }}
+          </span>
+
+          <div class="spinner-border spinner-border-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
       </a>
 
@@ -68,6 +70,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -110,6 +113,12 @@ export default {
         },
       ],
     };
+  },
+
+  computed: {
+    ...mapState({
+      loading: (state) => state.app.loading,
+    }),
   },
 
   watch: {
