@@ -62,6 +62,19 @@
 
     <div class="col-sm-6 col-md-4 col-lg-2">
       <div class="form-floating">
+        <input
+          type="text"
+          name="action_types"
+          placeholder="Action Type"
+          class="form-control"
+          v-model="filter.action_types"
+        />
+        <label> Action Type </label>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="form-floating">
         <select class="form-select" name="period" v-model="filter.period">
           <option value="1">Today</option>
           <option value="2">This Week</option>
@@ -95,6 +108,17 @@
           v-model="filter.date_to"
         />
         <label> Date To </label>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="form-floating">
+        <select class="form-select" name="include_move_type" v-model="filter.include_move_type">
+          <option value="undefined" selected>Include Move</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+        <label> Include Move </label>
       </div>
     </div>
 
@@ -170,6 +194,11 @@ const filtersOptions = [
     name: "date_to",
     label: "Date To",
     type: "date",
+  }, 
+  {
+    name: "include_move_type",
+    label: "Include Move",
+    type: "select",
   },
   {
     name: "period",
