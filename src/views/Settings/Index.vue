@@ -9,7 +9,7 @@
     </div>
 
     <div class="d-flex flex-column gap-3 mb-3">
-      <GeneralSettings :settings="settings" />
+      <GeneralSettings/>
 
       <PermissionsSettings :roles="roles" :permissions="permissions" />
 

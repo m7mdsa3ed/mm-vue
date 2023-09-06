@@ -29,15 +29,13 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useStore } from "vuex";
 import DeployButton from "./DeployButton.vue";
 
-const props = defineProps({
-  settings: {
-    type: Array,
-    required: true,
-  },
-});
+const { state } = useStore()
+
+const settings =  computed(() => state.settings.data?.filter(s => s.is_public))
 
 const { dispatch } = useStore();
 
