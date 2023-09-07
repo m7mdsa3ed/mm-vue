@@ -3,30 +3,28 @@
     <h2>Currencies Settings</h2>
 
     <template v-for="currency in currencies.data" :key="currency.id">
-      <input
-        type="text"
-        :value="currency.name"
-        class="form-control"
-        @change="(evt) => updateCurrency(evt, currency)"
-      />
-<!-- 
-      <div class="form-check form-switch">
+      <div class="d-flex justify-content-between align-content-center gap-3">
         <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          :id="`followCurrencyRates-${currency.id}`"
-          :checked="isFollowingCurrencyRates(currency)"
-          @change="() => updateCurrencyRatesExcludedIds(currency.id)"
+          type="text"
+          :value="currency.name"
+          class="form-control disabled"
+          @change="(evt) => updateCurrency(evt, currency)"
         />
 
-        <label
-          class="form-check-label"
-          :for="`followCurrencyRates-${currency.id}`"
+        <button 
+          class="btn btn-sm text-nowrap" 
+          @click="toggleFollow(currency.id)"
+          :class="isFollowing(currency.id) ? 'btn-success' : 'btn-danger'"
         >
-          Follow Upstream Currency Rates
-        </label>
-      </div> -->
+          <template v-if="isFollowing(currency.id)">
+            <i class=" fas fa-plus"></i> Follow
+          </template>
+
+          <template v-else>
+            <i class=" fas fa-close"></i> Unfollow
+          </template>
+        </button>
+      </div>
 
       <CurrencyRateSettings :rates="currency.rates" />
     </template>
@@ -34,26 +32,22 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useStore } from "vuex";
 import { saveSettings } from "../../../api/settings";
 import CurrencyRateSettings from "./CurrencyRateSettings.vue";
 
-const { dispatch } = useStore();
+const { dispatch, state } = useStore();
 
-const props = defineProps({
-  currencies: {
-    type: Object,
-    required: true,
-  },
-  upstreamCurrencyRatesExcludedIds: {
-    type: Array,
-    default: () => [],
-  },
+const excludedSettingsKey = "upstreamCurrencyRatesExcludedIds";
+
+const currencies = computed(() => state.currencies);
+
+const currentExcludedIds = computed(() => {
+  return state.settings.data.filter(
+    (setting) => setting.key == excludedSettingsKey
+  )[0]?.value || [];
 });
-
-const isFollowingCurrencyRates = (currency) => {
-  return !props.upstreamCurrencyRatesExcludedIds.includes(currency.id);
-};
 
 const updateCurrency = async (evt, currency) => {
   await dispatch("currencies/update", {
@@ -64,13 +58,21 @@ const updateCurrency = async (evt, currency) => {
   });
 };
 
-const updateCurrencyRatesExcludedIds = async (currencyId) => {
-  const currentIds = props.upstreamCurrencyRatesExcludedIds;
+const toggleFollow = async (currencyId) => {
+  if (!currencyId) {
+    return;
+  }
 
-  const value = currentIds.includes(currencyId)
-    ? currentIds.filter((id) => id != currencyId)
-    : [...currentIds, currencyId];
+  const newValues = currentExcludedIds.value.includes(currencyId)
+    ? currentExcludedIds.value.filter((id) => id != currencyId)
+    : [...currentExcludedIds.value, currencyId];
 
-  await saveSettings("upstreamCurrencyRatesExcludedIds", value);
+  await saveSettings(excludedSettingsKey, newValues);
+
+  await dispatch("settings/fetch");
+}
+
+const isFollowing = (currencyId) => {
+  return !currentExcludedIds.value.includes(currencyId);
 };
 </script>

@@ -13,7 +13,7 @@
 
       <PermissionsSettings :roles="roles" :permissions="permissions" />
 
-      <CurrenciesSettings :currencies="currencies" :upstreamCurrencyRatesExcludedIds="upstreamCurrencyRatesExcludedIds" />
+      <CurrenciesSettings/>
     </div>
   </div>
 </template>
