@@ -11,6 +11,7 @@ import roles from "./modules/roles";
 import settings from "./modules/settings";
 import profile from "./modules/profile";
 import budgets from "./modules/budgets";
+import navigation from "./modules/navigation.js";
 
 const cacheEnabled = eval(import.meta.env.VITE_ENABLE_VUEX_CACHE ?? "false");
 
@@ -27,6 +28,7 @@ const store = createStore({
     settings,
     profile,
     budgets,
+    navigation,
   },
 
   mutations: {
