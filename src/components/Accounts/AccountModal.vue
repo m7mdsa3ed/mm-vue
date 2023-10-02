@@ -40,7 +40,6 @@
                 v-model="account.type_id"
                 aria-label="Floating label select example"
                 form="accountForm"
-                required
               >
                 <option selected :value="undefined">
                   Open this select menu
@@ -124,7 +123,7 @@ export default {
 
       this.$store
         .dispatch("accounts/save", {
-          data: fd,
+          account: fd,
         })
         .then(() => {
           this.modal.hide();

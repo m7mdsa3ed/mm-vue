@@ -62,7 +62,6 @@
                 id="floatingSelect"
                 v-model="account.currency_id"
                 aria-label="Floating label select example"
-                required
               >
                 <option selected>Open this select menu</option>
 
