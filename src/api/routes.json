@@ -50,6 +50,7 @@
 
   "currencies": {
     "index": "currencies",
+    "userCurrenciesWithRates": "currencies/userCurrenciesWithRates",
     "update": {
       "method": "POST",
       "url": "currencies/update/:id"

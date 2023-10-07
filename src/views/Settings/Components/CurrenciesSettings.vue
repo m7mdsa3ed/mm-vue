@@ -2,7 +2,7 @@
   <div class="box bg-main d-flex flex-column gap-3">
     <h2>Currencies Settings</h2>
 
-    <template v-for="currency in currencies.data" :key="currency.id">
+    <template v-for="currency in currencies" :key="currency.id">
       <div class="d-flex justify-content-between align-content-center gap-3">
         <input
           type="text"
@@ -11,8 +11,8 @@
           @change="(evt) => updateCurrency(evt, currency)"
         />
 
-        <button 
-          class="btn btn-sm text-nowrap" 
+        <button
+          class="btn btn-sm text-nowrap"
           @click="toggleFollow(currency.id)"
           :class="isFollowing(currency.id) ? 'btn-success' : 'btn-danger'"
         >
@@ -26,22 +26,23 @@
         </button>
       </div>
 
-      <CurrencyRateSettings :rates="currency.rates" />
+      <CurrencyRateSettings :rates="currency.rates"/>
     </template>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { useStore } from "vuex";
-import { saveSettings } from "../../../api/settings";
+import {computed, onMounted, ref} from "vue";
+import {useStore} from "vuex";
+import {saveSettings} from "../../../api/settings";
 import CurrencyRateSettings from "./CurrencyRateSettings.vue";
+import {getUserCurrenciesWithRates} from "../../../api/currencies";
 
-const { dispatch, state } = useStore();
+const {dispatch, state} = useStore();
 
 const excludedSettingsKey = "upstreamCurrencyRatesExcludedIds";
 
-const currencies = computed(() => state.currencies);
+const currencies = ref(null);
 
 const currentExcludedIds = computed(() => {
   return state.settings.data.filter(
@@ -75,4 +76,8 @@ const toggleFollow = async (currencyId) => {
 const isFollowing = (currencyId) => {
   return !currentExcludedIds.value.includes(currencyId);
 };
+
+onMounted(async () => {
+  currencies.value = await getUserCurrenciesWithRates()
+})
 </script>

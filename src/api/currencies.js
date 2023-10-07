@@ -4,6 +4,10 @@ export const getCurrencies = async () => {
   return await httpRequest(route("currencies.index"));
 };
 
+export const getUserCurrenciesWithRates = async () => {
+  return await httpRequest(route("currencies.userCurrenciesWithRates"));
+}
+
 export const updateCurrency = async (data) => {
   const routeObject = route("currencies.update", { params: { id: data.id } });
 
