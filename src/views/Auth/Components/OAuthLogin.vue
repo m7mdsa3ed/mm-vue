@@ -55,24 +55,20 @@ export default {
       }
 
       if (user && token) {
-        this.$store.dispatch("auth/_login", payload).then(() => {
-          this.$router.push({ name: "home" });
-        });
+        this.$store.commit("auth/setAuthentication", payload)
+        
+        this.$router.push({ name: "home" });
       }
     },
 
     addMessageListener() {
-      window.addEventListener(
-        "message",
-        (e) => {
-          const { source, payload } = e.data || {};
+      window.addEventListener("message", (e) => {
+        const {source, payload} = e.data || {};
 
-          if (source === "oauth-handler") {
-            this.handlePayload(payload);
-          }
-        },
-        false
-      );
+        if (source === "oauth-handler") {
+          this.handlePayload(payload);
+        }
+      }, false);
     },
 
     getProviderIcon(provider) {
