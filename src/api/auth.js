@@ -15,3 +15,9 @@ export const register = async (data) => {
     data
   });
 }
+
+export const logout = async () => {
+  const routeObject = route("authentication.logout");
+
+  return await httpRequest(routeObject);
+}

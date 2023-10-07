@@ -33,6 +33,10 @@
     "register": {
       "method": "post",
       "url": "register"
+    },
+    "logout": {
+      "method": "post",
+      "url": "logout"
     }
   },
 

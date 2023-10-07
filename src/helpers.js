@@ -3,6 +3,7 @@ import axios from "axios";
 import { compile } from "path-to-regexp";
 import router from "./router";
 import CryptoJS from "crypto-js";
+import Cache from "./plugins/Cache/Cache";
 
 export const money = (number, suffix = "EGP") => {
   return `${Number(number ?? 0)
@@ -248,3 +249,5 @@ export const readableNumbers = (value) => {
     suffix[index - 1]
   );
 };
+
+export const cache = () => new Cache()

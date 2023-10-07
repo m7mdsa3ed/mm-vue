@@ -1,5 +1,5 @@
-import { createStore } from "vuex";
-
+import {createStore} from "vuex-extensions";
+import {Store} from "vuex";
 import app from "./modules/app";
 import auth from "./modules/auth";
 import accounts from "./modules/accounts";
@@ -11,10 +11,11 @@ import roles from "./modules/roles";
 import settings from "./modules/settings";
 import profile from "./modules/profile";
 import budgets from "./modules/budgets";
+import {cache} from "../helpers";
 
 const cacheEnabled = eval(import.meta.env.VITE_ENABLE_VUEX_CACHE ?? "false");
 
-const store = createStore({
+const store = createStore(Store, {
   modules: {
     app,
     auth,
@@ -35,18 +36,22 @@ const store = createStore({
         return;
       }
 
-      if (localStorage.getItem("store")) {
-        this.replaceState(
-          Object.assign(state, JSON.parse(localStorage.getItem("store")))
-        );
+      if (!cache().local().has('store') && !cache().local().has('ACCESS_TOKEN')) {
+        return
       }
+
+      const cachedStats = JSON.parse(cache().local().get('store'));
+
+      this.replaceState(
+        Object.assign(state, cachedStats)
+      );
     },
   },
 });
 
 store.subscribe((mutation, state) => {
   if (cacheEnabled) {
-    localStorage.setItem("store", JSON.stringify(state));
+    cache().local().set("store", JSON.stringify(state));
   }
 
   const globalListener = [];
@@ -61,8 +66,8 @@ store.subscribe((mutation, state) => {
       listeners: ["currencies/fetch"],
     }
   ];
-  
-  vuexEventListeners.forEach(({ events, listeners }) => {
+
+  vuexEventListeners.forEach(({events, listeners}) => {
     events = Array.isArray(events) ? events : [events];
 
     if (events.includes(mutation.type)) {

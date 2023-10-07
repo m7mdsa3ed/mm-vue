@@ -1,10 +1,8 @@
 import axios from "axios";
 import store from "..";
 import router from "../../router";
-import { login, register } from "../../api/auth";
-
-const LSItemName =
-  (import.meta.env.VITE_LOCALSTORAGE_NAMESPACE ?? "VUE") + ".ACCESS_TOKEN";
+import {login, logout, register} from "../../api/auth";
+import {cache} from "../../helpers";
 
 export default {
   namespaced: true,
@@ -13,7 +11,7 @@ export default {
     loading: false,
     errors: null,
     user: null,
-    token: localStorage.getItem(LSItemName),
+    token: cache().local().get('ACCESS_TOKEN'),
     enabled: true,
   },
 
@@ -22,29 +20,49 @@ export default {
 
     setLoading: (state, status) => (state.loading = status),
 
-    setAuthentication: (state, { token, user }) => {
-      state.token = typeof token == "undefined" ? state.token : token;
+    setAuthentication: (state, {token, user}) => {
+      state.token = typeof token == "undefined"
+        ? state.token
+        : token;
 
       state.user = user;
 
-      localStorage.setItem(LSItemName, state.token);
-
+      cache().local()
+        .set('ACCESS_TOKEN', state.token)
+        .remove("store");
+      
       axios.defaults.headers.Authorization = `Bearer ${state.token}`;
 
       store.dispatch("app/fetchAll");
     },
+
+    removeAuthentication: (state) => {
+      state.token = null;
+
+      state.user = null;
+
+      cache().local()
+        .remove('store')
+        .remove('ACCESS_TOKEN')
+      
+      store.reset();
+      
+      axios.defaults.headers.Authorization = null;
+
+      router.push({name: "login"});
+    }
   },
 
   actions: {
-    async login({ commit }, userCredentials) {
+    async login({commit}, userCredentials) {
       commit("setErrors", null);
 
       commit("setLoading", true);
 
       try {
-        const { token, user } = await login(userCredentials);
+        const {token, user} = await login(userCredentials);
 
-        commit("setAuthentication", { token, user });
+        commit("setAuthentication", {token, user});
       } catch (error) {
         commit("setErrors", error.getErrors());
       }
@@ -52,38 +70,39 @@ export default {
       commit("setLoading", false);
     },
 
-    async register({ commit }, payload) {
+    async register({commit}, payload) {
       commit("setErrors", null);
 
       commit("setLoading", true);
-      
+
       try {
-        const { token, user } = await register(payload);
+        const {token, user} = await register(payload);
 
-        console.log({ token, user });
-
-        commit("setAuthentication", { token, user });
+        commit("setAuthentication", {token, user});
       } catch (error) {
         commit("setErrors", error.getErrors());
       }
-      
+
       commit("setLoading", false);
     },
 
-    async logout({ state, dispatch }) {
-      return new Promise((resolve, reject) => {
-        axios
-          .post("logout")
-          .then(() => {
-            dispatch("_logout");
-          })
-          .catch((err) => {
-            state.errors = err.response.data;
-          });
-      });
+    async logout({state, commit}) {
+      commit("setErrors", null);
+
+      commit("setLoading", true);
+
+      try {
+        await logout();
+
+        commit("removeAuthentication");
+      } catch (error) {
+        commit("setErrors", error.getErrors());
+      }
+
+      commit("setLoading", false);
     },
 
-    async getUser({ state, dispatch }) {
+    async getUser({state, commit}) {
       return new Promise((resolve, reject) => {
         if (state.token == null) {
           return reject("No token");
@@ -92,37 +111,19 @@ export default {
         axios
           .get("me")
           .then((response) => {
-            dispatch("_login", { user: response.data });
+            commit("setAuthentication", {user: response.data});
+
             resolve(response);
           })
           .catch((err) => {
             if (err.response?.status === 401) {
-              dispatch("_logout");
+              commit("removeAuthentication");
             }
 
             state.errors = err;
             reject(err);
           });
       });
-    },
-
-    _login({ state }, { user, token }) {
-      state.token = typeof token == "undefined" ? state.token : token;
-      state.user = user;
-      localStorage.setItem(LSItemName, state.token);
-      axios.defaults.headers.Authorization = `Bearer ${state.token}`;
-
-      store.dispatch("app/fetchAll");
-    },
-
-    _logout({ state }) {
-      state.token = null;
-      state.user = null;
-      localStorage.removeItem(LSItemName);
-      axios.defaults.headers.Authorization = null;
-      localStorage.removeItem("store");
-
-      router.push({ name: "login" });
     },
   },
 
