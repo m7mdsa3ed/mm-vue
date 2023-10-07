@@ -7,7 +7,6 @@
     },
     "balanceDetails": "balance-details"
   },
-
   "authentication": {
     "profile": "me",
     "forgetPassword": {
@@ -39,7 +38,6 @@
       "url": "logout"
     }
   },
-
   "roles": {
     "index": "roles",
     "save": {
@@ -47,7 +45,6 @@
       "url": "roles/syncRoles"
     }
   },
-
   "currencies": {
     "index": "currencies",
     "userCurrenciesWithRates": "currencies/userCurrenciesWithRates",
@@ -60,7 +57,6 @@
       "url": "currencies/update/:id/rate"
     }
   },
-
   "transactions": {
     "index": "transactions",
     "create": {
@@ -76,10 +72,19 @@
       "url": "transactions/:id/delete"
     }
   },
-
   "accounts": {
     "index": "accounts",
-    "types": "accounts/account-types",
+    "types": {
+      "index": "accounts/account-types",
+      "save": {
+        "method": "POST",
+        "url": "accounts/account-types/save/:id?"
+      },
+      "delete": {
+        "method": "POST",
+        "url": "accounts/account-types/delete/:id"
+      }
+    },
     "create": {
       "method": "POST",
       "url": "accounts"
@@ -97,7 +102,6 @@
       "url": "accounts/:id/pin"
     }
   },
-
   "categories": {
     "index": "categories",
     "create": {
@@ -114,7 +118,6 @@
     },
     "details": "categories/:id/details"
   },
-
   "tags": {
     "index": "tags",
     "create": {
@@ -130,7 +133,6 @@
       "url": "tags/:id/delete"
     }
   },
-  
   "budgets": {
     "index": "budgets",
     "create": {
@@ -146,7 +148,6 @@
       "url": "budgets/:id/delete"
     }
   },
-
   "settings": {
     "get": "settings",
     "save": {

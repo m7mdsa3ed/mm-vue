@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import RouterView from "../components/RouterView.vue";
 import auth from "./auth";
 import authentication from "./middlewares/authentication";
@@ -39,6 +39,11 @@ const routes = [
             name: "accounts",
             component: () => import("../views/Accounts/Index.vue"),
           },
+          {
+            path: "types",
+            name: "account-types",
+            component: () => import("../views/Accounts/Types/AccountTypes.vue"),
+          }
         ],
       },
       {
@@ -147,7 +152,7 @@ function middlewarePipeline(middlewareParams, middleware, index) {
       index + 1
     );
 
-    nextMiddleware({ ...middlewareParams, next: nextPipeline });
+    nextMiddleware({...middlewareParams, next: nextPipeline});
   };
 }
 

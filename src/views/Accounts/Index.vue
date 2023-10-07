@@ -3,12 +3,18 @@
     <div class="mb-3 d-flex gap-2 align-items-center justify-content-between">
       <p class="display-6 mb-0">Accounts</p>
 
-      <button
-        class="btn btn-outline-danger"
-        @click="$store.dispatch('accounts/fetch')"
-      >
-        <i class="fa-fw fas fa-refresh"></i>
-      </button>
+      <div class="d-flex gap-2">
+        <button class="btn btn-danger" @click="$router.push({ name: 'account-types' })">
+          Account Types
+        </button>
+        
+        <button
+          class="btn btn-outline-danger"
+          @click="$store.dispatch('accounts/fetch')"
+        >
+          <i class="fa-fw fas fa-refresh"></i>
+        </button>
+      </div>
     </div>
 
     <div class="box bg-main mb-3 d-flex gap-3">
@@ -234,8 +240,6 @@ export default {
     },
 
     openAccountDetailsModal(account) {
-      console.log({ account });
-
       this.focusedAccount = account;
       
       const modal = new Modal(document.getElementById("AccountDetailsModal"));
