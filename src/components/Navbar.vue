@@ -101,11 +101,6 @@ export default {
           icon: `<i class="icon fas fa-wallet"></i>`,
         },
         {
-          name: "Profile",
-          routeName: "Profile",
-          icon: `<i class="icon fas fa-user"></i>`,
-        },
-        {
           name: "Settings",
           routeName: "Settings",
           icon: `<i class="icon fas fa-gear"></i>`,
