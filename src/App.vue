@@ -10,7 +10,9 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <RouterView />
+<!--    <RouterView />-->
+    
+    <SetupWizard />
   </div>
 </template>
 
@@ -18,6 +20,7 @@
 import { onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
 import ReloadServiceWorkerVue from "./components/ReloadServiceWorker.vue";
+import SetupWizard from "./views/SetupWizard/SetupWizard.vue";
 
 const { commit, dispatch, state } = useStore();
 
