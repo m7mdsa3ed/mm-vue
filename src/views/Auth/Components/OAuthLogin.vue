@@ -13,7 +13,7 @@ const providers = [
     color: '#fff'
   },
   {
-    name: 'x',
+    name: 'twitter',
     title: '',
     icon: 'fab fa-x-twitter',
     background: '#000',
