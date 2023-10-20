@@ -64,12 +64,12 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { computed, ref } from "vue";
+import {computed, onMounted, ref} from "vue";
 import OAuthLogin from "./Components/OAuthLogin.vue";
 import Errors from "../../components/Errors.vue";
 import router from "../../router";
 
-const { state, dispatch } = useStore();
+const { state, dispatch, commit } = useStore();
 
 const isLoading = computed(() => state.auth.loading);
 
@@ -88,4 +88,8 @@ const login = async () => {
     console.log(error);
   }
 };
+
+onMounted(() => {
+  commit('auth/setErrors', null)
+})
 </script>

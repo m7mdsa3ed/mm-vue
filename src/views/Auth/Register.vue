@@ -70,12 +70,12 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import {computed, onMounted, ref} from "vue";
 import { useStore } from "vuex";
 import Errors from "../../components/Errors.vue";
 import router from "../../router";
 
-const { dispatch, state } = useStore();
+const { dispatch, state, commit } = useStore();
 
 const user = ref({});
 
@@ -94,4 +94,8 @@ const register = async () => {
     console.log(error);
   }
 };
+
+onMounted(() => {
+  commit('auth/setErrors', null)
+})
 </script>
