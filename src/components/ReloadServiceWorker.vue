@@ -18,7 +18,7 @@ const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
 
 watch(needRefresh, (to) => {
   if (to) {
-    console.log("needRefresh", to);
+    updateServiceWorker()
   }
 });
 </script>
