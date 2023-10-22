@@ -60,10 +60,17 @@ export default {
         },
         chart: {
           type: "line",
-          height: 350,
           zoom: {
             enabled: false,
           },
+          dropShadow: {
+            enabled: true,
+            top: 5,
+            left: 2,
+            blur: 5,
+            opacity: 1,
+            color: '#00000050'
+          }
         },
         colors: ["#008FFB"],
         title: {
@@ -72,6 +79,9 @@ export default {
         },
         stroke: {
           curve: "smooth",
+        },
+        markers: {
+          size: 0
         },
         subtitle: {
           text: "Balance Movements",

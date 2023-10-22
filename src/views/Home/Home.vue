@@ -30,11 +30,6 @@
           :balanceByMainCurrency="dashboardStats?.balanceByMainCurrency?.amount"
         />
 
-        <PinnedAccounts
-          v-if="dashboardStats?.pinned_accounts?.length"
-          :accountIds="dashboardStats?.pinned_accounts"
-        />
-
         <PeriodReport
           :inAmount="periodSummary?.inAmount"
           :inLoanAmount="periodSummary?.inLoanAmount"
@@ -47,9 +42,14 @@
           :currencySlug="periodSummary?.currencySlug"
         />
 
-        <CategoryBalanceSummaryDetails
-          :categoriesSummary="categoriesSummaryData"
+        <PinnedAccounts
+          v-if="dashboardStats?.pinned_accounts?.length"
+          :accountIds="dashboardStats?.pinned_accounts"
         />
+
+<!--        <CategoryBalanceSummaryDetails-->
+<!--          :categoriesSummary="categoriesSummaryData"-->
+<!--        />-->
       </div>
 
       <div class="col-12 col-lg-8">
@@ -66,7 +66,7 @@
                 />
               </div>
 
-              <div class="box bg-main d-flex flex-column gap-3">
+              <div class="d-none box bg-main d-flex flex-column gap-3">
                 <div class="d-flex flex-column align-items-center gap-3">
                   <div class="d-flex gap-2 w-100">
                     <label class="w-100 d-flex gap-2 bg-body box">
