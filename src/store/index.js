@@ -53,7 +53,11 @@ const store = createStore(Store, {
 
 store.subscribe((mutation, state) => {
   if (cacheEnabled) {
-    cache().local().set("store", JSON.stringify(state));
+    const data = JSON.parse(JSON.stringify(state));
+    
+    delete data.auth.credentials;
+    
+    cache().local().set("store", JSON.stringify(data));
   }
 
   const globalListener = [];

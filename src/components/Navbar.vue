@@ -16,6 +16,16 @@
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
+
+        <span
+          v-if="isPasskeyChecked"
+          class="text-muted"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top" 
+          data-bs-title="Passkey check passed" 
+        >
+          <i class="fas fa-fw fa-sm fa-unlock"></i>
+        </span>
       </a>
 
       <button
@@ -70,7 +80,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapState} from "vuex";
+import {Tooltip} from 'bootstrap'
+
 export default {
   data() {
     return {
@@ -118,6 +130,7 @@ export default {
   computed: {
     ...mapState({
       loading: (state) => state.app.loading,
+      isPasskeyChecked: state => state.auth.credentials?.id
     }),
   },
 
@@ -136,10 +149,18 @@ export default {
     },
   },
 
+  mounted() {
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+
+    tooltips.forEach((tooltip) => {
+      new Tooltip(tooltip, {})
+    })
+  },
+
   methods: {
     goto(name = null) {
       if (name) {
-        this.$router.push({ name: name.toLowerCase() });
+        this.$router.push({name: name.toLowerCase()});
       }
     },
 
