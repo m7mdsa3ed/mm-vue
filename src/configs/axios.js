@@ -33,10 +33,14 @@ const popLoading = (config) => {
 };
 
 const onRequest = (request) => {
-  if (request.method == "post") {
+  if (request.method === "post") {
     request.headers["X-Idempotent-Key"] = generateIdempotentKey(request.data);
   }
 
+  if (request.passkeyProtected) {
+    request.headers['passkeyCredentials'] = JSON.stringify(store.state.auth.credentials ?? {})
+  }
+  
   pushLoading(request);
 
   return request;

@@ -9,6 +9,7 @@ export const getTransactions = async (url, filter) => {
     params: {
       ...filter,
     },
+    passkeyProtected: true
   });
 };
 

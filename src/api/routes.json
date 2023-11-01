@@ -158,5 +158,28 @@
       "method": "POST",
       "url": "deploy"
     }
+  },
+  "passkeys": {
+    "all": "passkeys",
+    "createArguments": {
+      "method": "POST",
+      "url": "passkeys/createArguments"
+    },
+    "getArguments": {
+      "method": "POST",
+      "url": "passkeys/getArguments"
+    },
+    "createProcess": {
+      "method": "POST",
+      "url": "passkeys/createProcess"
+    },
+    "getProcess": {
+      "method": "POST",
+      "url": "passkeys/getProcess"
+    },
+    "delete": {
+      "method" : "POST",
+      "url": "passkeys/:id/delete"
+    }
   }
 }

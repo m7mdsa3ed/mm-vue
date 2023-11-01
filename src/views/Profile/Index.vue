@@ -50,6 +50,15 @@
       </div>
     </div>
 
+
+    <div>
+      <h2>Passkeys</h2>
+
+      <div class="box bg-main">
+        <Passkeys />
+      </div>
+    </div>
+    
     <div>
       <h2>Estimate</h2>
 
@@ -65,6 +74,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import { notationToReadable } from "../../helpers";
 import EstimateCalculator from "../../components/EstimateCalculator.vue";
+import Passkeys from "./Components/Passkeys.vue";
 
 const { state } = useStore();
 

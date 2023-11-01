@@ -13,6 +13,7 @@ export default {
     user: null,
     token: cache().local().get('ACCESS_TOKEN'),
     enabled: true,
+    credentials: {}
   },
 
   mutations: {
@@ -50,6 +51,10 @@ export default {
       axios.defaults.headers.Authorization = null;
 
       router.push({name: "login"});
+    },
+
+    setCredentials: (state, credentials) => {
+      state.credentials = credentials
     }
   },
 
