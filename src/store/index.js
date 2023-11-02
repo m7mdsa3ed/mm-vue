@@ -12,6 +12,7 @@ import settings from "./modules/settings";
 import profile from "./modules/profile";
 import budgets from "./modules/budgets";
 import accountTypes from "./modules/accountTypes";
+import notifications from "./modules/notifications";
 import {cache} from "../helpers";
 
 const cacheEnabled = eval(import.meta.env.VITE_ENABLE_VUEX_CACHE ?? "false");
@@ -30,6 +31,7 @@ const store = createStore(Store, {
     profile,
     budgets,
     accountTypes,
+    notifications,
   },
 
   mutations: {

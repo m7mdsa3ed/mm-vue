@@ -20,3 +20,11 @@ export const saveSettings = async (key, value) => {
 export const deploy = async (configs) => {
   return await httpRequest(route("settings.deploy"), configs);
 };
+
+export const saveFcmToken = async (token) => {
+  return await httpRequest(route("settings.saveFcmToken"), {
+    data: {
+      token,
+    },
+  });
+}

@@ -157,6 +157,10 @@
     "deploy": {
       "method": "POST",
       "url": "deploy"
+    },
+    "saveFcmToken": {
+      "method": "POST",
+      "url": "settings/saveFcmToken"
     }
   },
   "passkeys": {
