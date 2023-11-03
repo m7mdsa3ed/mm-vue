@@ -27,7 +27,7 @@ const initializeFirebase = async () => {
   try {
     await Notification.requestPermission()
 
-    const registration = await navigator.serviceWorker.register('firebase-messaging-sw.js', {type: 'module'});
+    const registration = await navigator.serviceWorker.register('sw.js', {type: 'module'});
 
     const token = await getToken(messaging, {
       serviceWorkerRegistration: registration,

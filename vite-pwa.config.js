@@ -1,6 +1,11 @@
 const pwaOptions = {
   mode: "production",
   base: "/",
+  strategies: 'injectManifest',
+  injectRegister: null,
+  workbox: {
+    sourcemap: true
+  },
   includeAssets: ["favicon.svg"],
   manifest: {
     name: "Money Managements",
