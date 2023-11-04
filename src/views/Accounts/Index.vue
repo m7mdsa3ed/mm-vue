@@ -7,7 +7,7 @@
         <button class="btn btn-danger" @click="$router.push({ name: 'account-types' })">
           Account Types
         </button>
-        
+
         <button
           class="btn btn-outline-danger"
           @click="$store.dispatch('accounts/fetch')"
@@ -120,6 +120,20 @@
                         <span> Details </span>
                       </a>
                     </li>
+                    <li v-if="account.type?.name === 'Bank'">
+                      <a
+                        class="dropdown-item"
+                        href=""
+                        @click.prevent="
+                          $router.push({
+                            name: 'account-cards',
+                            params: { id: account.id },
+                          })
+                        "
+                      >
+                        <span> Cards </span>
+                      </a>
+                    </li>
                     <li>
                       <a
                         class="dropdown-item"
@@ -138,7 +152,9 @@
                         <span> Pin / Unpin </span>
                       </a>
                     </li>
-                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <hr class="dropdown-divider"/>
+                    </li>
                     <li>
                       <a
                         class="dropdown-item text-danger"
@@ -157,24 +173,25 @@
       </table>
     </div>
 
-    <AccountModal :modal="this.modals.AccountModal?.instance" />
+    <AccountModal :modal="this.modals.AccountModal?.instance"/>
     <AccountEditModal
       :account="this.modals.AccountEditModal?.data ?? null"
       :modal="this.modals.AccountEditModal?.instance"
     />
-    <MoveMoneyModal :modal="this.modals.MoveMoneyModal?.instance" />
-    <AccountDetailsModal :account="focusedAccount" />
+    <MoveMoneyModal :modal="this.modals.MoveMoneyModal?.instance"/>
+    <AccountDetailsModal :account="focusedAccount"/>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapState} from "vuex";
 import AccountModal from "@/components/Accounts/AccountModal.vue";
 import AccountEditModal from "@/components/Accounts/AccountEditModal.vue";
 import MoveMoneyModal from "@/components/Accounts/MoveMoneyModal.vue";
 import AccountDetailsModal from "@/components/Accounts/AccountDetailsModal.vue";
-import { Modal } from "bootstrap";
-import { pinAccount } from "../../api/accounts";
+import {Modal} from "bootstrap";
+import {pinAccount} from "../../api/accounts";
+
 export default {
   components: {
     AccountModal,
@@ -194,7 +211,7 @@ export default {
 
   mounted() {
     document.querySelectorAll(".modal").forEach((modalElement) => {
-      this.modals[modalElement.id] = { instance: new Modal(modalElement) };
+      this.modals[modalElement.id] = {instance: new Modal(modalElement)};
     });
   },
 
@@ -227,12 +244,12 @@ export default {
 
       modal.instance.show();
 
-      modal.data = { ...data };
+      modal.data = {...data};
       this.modals.activeModal = modalName;
     },
 
     removeAccount(account) {
-      this.$store.dispatch("accounts/delete", { account });
+      this.$store.dispatch("accounts/delete", {account});
     },
 
     async pinAccount(account) {
@@ -241,7 +258,7 @@ export default {
 
     openAccountDetailsModal(account) {
       this.focusedAccount = account;
-      
+
       const modal = new Modal(document.getElementById("AccountDetailsModal"));
 
       modal.show();

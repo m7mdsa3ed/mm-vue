@@ -43,3 +43,26 @@ export const saveAccountType = async (data, id) => {
 export const deleteAccountType = async (id) => {
   return await httpRequest(route("accounts.types.delete", {params: {id}}));
 }
+
+
+export const getAccountCards = async (accountId) => {
+  return await httpRequest(route("accounts.cards.index", {params: { id: accountId }}));
+}
+
+export const getAccountCard = async (id) => {
+  return await httpRequest(route("accounts.cards.getOne", {params: {id}}), {
+    passkeyProtected: true
+  });
+}
+
+export const saveAccountCard = async (data, id) => {
+  const routeObject = route("accounts.cards.save", {params: {id}})
+
+  return await httpRequest(routeObject, {
+    data,
+  });
+}
+
+export const deleteAccountCard = async (id) => {
+  return await httpRequest(route("accounts.cards.delete", {params: {id}}));
+}

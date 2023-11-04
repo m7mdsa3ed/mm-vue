@@ -43,6 +43,11 @@ const routes = [
             path: "types",
             name: "account-types",
             component: () => import("../views/Accounts/Types/AccountTypes.vue"),
+          },
+          {
+            path: ":id/cards",
+            name: "account-cards",
+            component: () => import("../views/Accounts/Cards/AccountCards.vue"),
           }
         ],
       },

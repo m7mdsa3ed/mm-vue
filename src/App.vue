@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ReloadServiceWorkerVue />
+    <ReloadServiceWorkerVue/>
     <div
       v-if="$store.state.app.loading && $store.state.app.stopActions"
       class="position-absolute top-0 bottom-0 end-0 start-0 user-select-none d-flex justify-content-center align-items-center fade show"
@@ -10,16 +10,16 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <RouterView />
+    <RouterView/>
   </div>
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted } from "vue";
-import { useStore } from "vuex";
+import {onBeforeMount, onMounted} from "vue";
+import {useStore} from "vuex";
 import ReloadServiceWorkerVue from "./components/ReloadServiceWorker.vue";
 
-const { commit, dispatch, state } = useStore();
+const {commit, dispatch, state} = useStore();
 
 onBeforeMount(() => {
   commit("restoreState");
@@ -27,6 +27,8 @@ onBeforeMount(() => {
 
 onMounted(() => {
   syncColorSchema();
+
+  flexFont()
 
   dispatch("app/fetchAppInfo");
 
@@ -74,4 +76,20 @@ const syncColorSchema = () => {
     }
   });
 };
+
+const flexFont = (ratio = 0.05) => {
+  const cb = function () {
+    const elements = document.querySelectorAll(".flex-font");
+
+    elements.forEach(element => {
+      const relFontsize = element.offsetWidth * ratio;
+
+      element.style.fontSize = relFontsize + 'px';
+    })
+  };
+
+  cb();
+  
+  window.addEventListener("resize", cb);
+}
 </script>

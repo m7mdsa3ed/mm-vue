@@ -100,6 +100,18 @@
     "pin": {
       "method": "POST",
       "url": "accounts/:id/pin"
+    },
+    "cards": {
+      "index": "accounts/account-cards/:id",
+      "getOne": "accounts/account-cards/getOne/:id",
+      "save": {
+        "method": "POST",
+        "url": "accounts/account-cards/save/:id?"
+      },
+      "delete": {
+        "method": "POST",
+        "url": "accounts/account-cards/delete/:id"
+      }
     }
   },
   "categories": {
