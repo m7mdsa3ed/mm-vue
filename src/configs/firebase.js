@@ -19,7 +19,7 @@ const initializeFirebase = async () => {
   onMessage(messaging, async (payload) => {
     const {title, body, icon} = payload.data || {}
 
-    new Notification(`title 2  `, {body, icon})
+    new Notification(title, {body, icon})
 
     await store.commit('notifications/pushNotification', {title, body, icon})
   })
