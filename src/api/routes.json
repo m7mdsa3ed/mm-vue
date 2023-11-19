@@ -158,6 +158,10 @@
     "delete": {
       "method": "POST",
       "url": "budgets/:id/delete"
+    },
+    "averageAmount": {
+      "method": "POST",
+      "url": "budgets/averageAmount"
     }
   },
   "settings": {

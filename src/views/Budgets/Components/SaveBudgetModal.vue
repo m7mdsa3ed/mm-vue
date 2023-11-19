@@ -53,18 +53,6 @@
             </div>
 
             <div class="form-floating">
-              <input
-                type="number"
-                class="form-control"
-                name="amount"
-                v-model="budget.amount"
-                placeholder=" "
-              />
-
-              <label for=""> Amount </label>
-            </div>
-
-            <div class="form-floating">
               <select
                 class="form-select"
                 name="type"
@@ -80,7 +68,7 @@
                 </template>
               </select>
 
-              <label> Category </label>
+              <label> Type </label>
             </div>
 
             <div class="form-floating">
@@ -107,6 +95,27 @@
 
               <label> Category </label>
             </div>
+
+            <div class="form-floating">
+              <input
+                type="number"
+                class="form-control"
+                name="amount"
+                v-model="budget.amount"
+                placeholder=" "
+              />
+
+              <label for=""> Amount </label>
+            </div>
+
+            <div class="d-flex justify-content-between small">
+              <div>
+                <span class="text-muted"> Get the average? </span>
+                <span role="button" @click="getAverageForBudget"> Check? </span>
+              </div>
+              
+              <span v-if="averageAmount != null"> {{ money(averageAmount) }} </span>
+            </div>
           </form>
         </div>
 
@@ -125,10 +134,12 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
-import { useStore } from "vuex";
-import { formToJson } from "@/helpers";
-import { Modal } from "bootstrap";
+import {computed, ref} from "vue";
+import {useStore} from "vuex";
+import {formToJson} from "@/helpers";
+import {Modal} from "bootstrap";
+import {getAverageAmountForBudget} from "../../../api/budgets.js";
+import {money} from "../../../helpers.js";
 
 const props = defineProps({
   budget: {
@@ -136,9 +147,9 @@ const props = defineProps({
   },
 });
 
-console.log(props.budget);
+const averageAmount = ref(null);
 
-const { dispatch, state } = useStore();
+const {dispatch, state} = useStore();
 
 const categories = computed(() => state.categories.categories);
 
@@ -178,4 +189,12 @@ const save = (e) => {
 
   modal.hide();
 };
+
+const getAverageForBudget = async () => {
+  const budget = formToJson(document.getElementById("budgetForm"));
+
+  const { amount } = await getAverageAmountForBudget(budget);
+
+  averageAmount.value = amount;
+}
 </script>

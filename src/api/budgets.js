@@ -1,4 +1,4 @@
-import { route, httpRequest } from "../helpers";
+import {route, httpRequest} from "../helpers";
 
 export const getBudgets = async (url, filter) => {
   const routeObject = route("budgets.index", {
@@ -14,7 +14,7 @@ export const getBudgets = async (url, filter) => {
 
 export const saveBudget = async (data, id) => {
   const routeObject = id
-    ? route("budgets.update", { params: { id } })
+    ? route("budgets.update", {params: {id}})
     : route("budgets.create");
 
   return await httpRequest(routeObject, {
@@ -23,5 +23,13 @@ export const saveBudget = async (data, id) => {
 };
 
 export const deleteBudget = async (id) => {
-  return await httpRequest(route("budgets.delete", { params: { id } }));
+  return await httpRequest(route("budgets.delete", {params: {id}}));
 };
+
+export const getAverageAmountForBudget = async (data) => {
+  const routeObject = route("budgets.averageAmount");
+
+  return await httpRequest(routeObject, {
+    data,
+  });
+}
