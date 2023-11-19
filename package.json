@@ -12,26 +12,26 @@
     "@fortawesome/fontawesome-free": "^6",
     "@popperjs/core": "^2.11.8",
     "apexcharts": "^3.44.0",
-    "axios": "^1.5.1",
+    "axios": "^1.6.2",
     "bootstrap": "5.3.2",
     "collect.js": "^4.36.1",
-    "credit-card-type": "^9.1.0",
-    "crypto-js": "^4.1.1",
+    "credit-card-type": "^10.0.0",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
-    "firebase": "^10.5.2",
+    "firebase": "^10.6.0",
     "path-to-regexp": "^6.2.1",
     "register-service-worker": "^1.7.2",
-    "vue": "^3.3.6",
+    "vue": "^3.3.8",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0",
     "vuex-extensions": "^4.1.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.4.0",
-    "@vue/compiler-sfc": "^3.3.6",
-    "sass": "^1.69.4",
-    "vite": "^4.5.0",
-    "vite-plugin-pwa": "^0.16.5"
+    "@vitejs/plugin-vue": "^4.5.0",
+    "@vue/compiler-sfc": "^3.3.8",
+    "sass": "^1.69.5",
+    "vite": "^5.0.0",
+    "vite-plugin-pwa": "^0.17.0"
   }
 }
