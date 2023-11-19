@@ -57,6 +57,7 @@ export default {
         "transactions/fetch",
         "tags/fetch",
         "currencies/fetch",
+        'currencies/fetchUserCurrenciesWithRates',
         "app/fetchStats",
         "app/fetchAppInfo",
       ].forEach((dispatchName) => {

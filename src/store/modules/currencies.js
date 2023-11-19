@@ -1,7 +1,7 @@
 import {
   updateCurrency,
   getCurrencies,
-  updateCurrencyRate,
+  updateCurrencyRate, getUserCurrenciesWithRates,
 } from "../../api/currencies";
 import { mergeRow } from "../../helpers";
 
@@ -11,11 +11,13 @@ export default {
   state: {
     loading: false,
     data: [],
+    userCurrenciesWithRates: [],
     errors: [],
   },
 
   mutations: {
     setData: (state, currencies) => (state.data = currencies),
+    setUserCurrenciesWithRates: (state, currencies) => (state.userCurrenciesWithRates = currencies),
     setErrors: (state, errors) => (state.errors = errors),
     setLoading: (state, status) => (state.loading = status),
     updateRow: (state, row) => {
@@ -33,6 +35,18 @@ export default {
 
       try {
         commit("setData", await getCurrencies(payload));
+      } catch (error) {
+        commit("setErrors", error.getErrors());
+      }
+
+      commit("setLoading", false);
+    },
+
+    async fetchUserCurrenciesWithRates({ commit }, payload) {
+      commit("setLoading", true);
+
+      try {
+        commit("setUserCurrenciesWithRates", await getUserCurrenciesWithRates(payload));
       } catch (error) {
         commit("setErrors", error.getErrors());
       }

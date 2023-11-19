@@ -130,8 +130,8 @@ const isLoading = computed(() => state.currencies.loading);
 const currency = computed(() => {
   const { currencies } = state;
 
-  for (const key in currencies.data) {
-    const currency = currencies.data[key];
+  for (const key in currencies.userCurrenciesWithRates) {
+    const currency = currencies.userCurrenciesWithRates[key];
 
     if (currency.id === props.currencyId) {
       return currency;
@@ -145,9 +145,7 @@ const updateBalanceDetails = async (currencyId) => {
   try {
     balanceDetailsByAccountType.value = [];
 
-    const response = await getBalanceInfo({ currencyId });
-
-    balanceDetailsByAccountType.value = response;
+    balanceDetailsByAccountType.value = await getBalanceInfo({ currencyId });
   } catch (error) {
     console.log({ error });
   }
