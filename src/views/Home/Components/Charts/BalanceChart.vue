@@ -48,7 +48,6 @@ export default {
         return;
       }
 
-      console.log(this.chartData);
       const data = this.chartData?.map(({ balance, date }) => [
         date,
         parseFloat(balance).toFixed(2),
