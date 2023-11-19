@@ -97,4 +97,4 @@ if (selfDestroying) {
 
 pwaOptions.mode = process.env.NODE_ENV;
 
-module.exports = pwaOptions;
+export default pwaOptions;

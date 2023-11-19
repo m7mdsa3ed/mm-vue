@@ -5,7 +5,7 @@ import {VitePWA} from 'vite-plugin-pwa'
 import pwaOptions from './vite-pwa.config';
 import fs from 'fs';
 
-export default defineConfig(({ mode  }) => {
+export default defineConfig(({mode}) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   const httpsConfigs = env.HTTPS_ENABLED ? {
@@ -18,16 +18,16 @@ export default defineConfig(({ mode  }) => {
       vue(),
       VitePWA(pwaOptions),
     ],
-      server: {
-    port: 8080,
+    server: {
+      port: 8080,
       https: httpsConfigs,
-  },
+    },
     build: {
       sourcemap: true,
     },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
-        alias: [
+      alias: [
         {
           find: '@',
           replacement: path.resolve(__dirname, 'src')
