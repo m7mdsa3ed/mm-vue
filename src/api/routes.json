@@ -197,5 +197,12 @@
       "method" : "POST",
       "url": "passkeys/:id/delete"
     }
+  },
+  "notifications": {
+    "all": "notifications",
+    "saveFcmToken": {
+      "method": "POST",
+      "url": "notifications/markAsRead/:id?"
+    }
   }
 }
