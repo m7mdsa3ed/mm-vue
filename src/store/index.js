@@ -59,6 +59,8 @@ store.subscribe((mutation, state) => {
     
     delete data.auth.credentials;
     
+    delete data.auth.user;
+    
     cache().local().set("store", JSON.stringify(data));
   }
 
