@@ -164,6 +164,29 @@
       "url": "budgets/averageAmount"
     }
   },
+  "subscriptions": {
+    "index": "subscriptions",
+    "create": {
+      "method": "POST",
+      "url": "subscriptions"
+    },
+    "update": {
+      "method": "POST",
+      "url": "subscriptions/:id/update"
+    },
+    "delete": {
+      "method": "POST",
+      "url": "subscriptions/:id/delete"
+    },
+    "renew": {
+      "method": "POST",
+      "url": "subscriptions/:id/renew"
+    },
+    "cancel": {
+      "method": "POST",
+      "url": "subscriptions/:id/cancel"
+    }
+  },
   "settings": {
     "get": "settings",
     "save": {

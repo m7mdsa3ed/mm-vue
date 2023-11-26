@@ -85,6 +85,17 @@ const routes = [
         ],
       },
       {
+        path: "subscriptions",
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            name: "subscriptions",
+            component: () => import("../views/Subscriptions/Index.vue"),
+          },
+        ],
+      },
+      {
         path: "profile",
         component: RouterView,
         children: [

@@ -19,7 +19,7 @@ body {
 
 .bg-main {
   background-color: var(--bs-secondary-bg);
-  overflow: auto;
+  overflow: unset;
 }
 
 .icon {
