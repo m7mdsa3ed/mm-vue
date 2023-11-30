@@ -24,7 +24,7 @@
           <div class="d-flex flex-column gap-2">
             <div>
               <span class="text-muted small"> Amount </span>
-              
+
               <p class="mb-0">
                 {{ money(account.balance, account.currency.name) }}
               </p>
@@ -35,8 +35,30 @@
               <p class="mb-0">{{ account.type?.name }}</p>
             </div>
 
+            <div v-if="accountSummary" class="d-flex gap-2 flex-column">
+              <div>
+                <span class="text-muted small"> In Amount </span>
+                <p class="mb-0">{{ money(accountSummary.in_amount) }}</p>
+              </div>
+
+              <div>
+                <span class="text-muted small"> Out Amount </span>
+                <p class="mb-0">{{ money(accountSummary.out_amount) }}</p>
+              </div>
+
+              <div>
+                <span class="text-muted small"> First Transaction Date </span>
+                <p class="mb-0">{{ accountSummary.first_transaction_date }}</p>
+              </div>
+
+              <div>
+                <span class="text-muted small"> Last Transaction Date </span>
+                <p class="mb-0">{{ accountSummary.last_transaction_date }}</p>
+              </div>
+            </div>
+
             <div v-if="account.details">
-              <hr />
+              <hr/>
 
               <p class="lead mb-0">Account Information</p>
 
@@ -55,7 +77,9 @@
 </template>
 
 <script setup>
-import { money } from "../../helpers";
+import {money} from "../../helpers";
+import {ref, watch} from "vue";
+import {getAccountSummary} from "../../api/accounts.js";
 
 const props = defineProps({
   account: {
@@ -64,5 +88,11 @@ const props = defineProps({
   },
 });
 
-console.log({ props });
+const accountSummary = ref(null)
+
+watch(props, async (to) => {
+  const account = to.account ?? null;
+
+  accountSummary.value = account ? await getAccountSummary(account.id) : null
+})
 </script>

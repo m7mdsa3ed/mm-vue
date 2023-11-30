@@ -112,7 +112,8 @@
         "method": "POST",
         "url": "accounts/account-cards/delete/:id"
       }
-    }
+    },
+    "summary":  "accounts/:id/summary"
   },
   "categories": {
     "index": "categories",

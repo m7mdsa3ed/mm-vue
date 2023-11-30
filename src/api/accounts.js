@@ -40,13 +40,16 @@ export const saveAccountType = async (data, id) => {
   });
 }
 
+export const getAccountSummary = async (id) => {
+  return await httpRequest(route('accounts.summary', {params: {id}}))
+}
+
 export const deleteAccountType = async (id) => {
   return await httpRequest(route("accounts.types.delete", {params: {id}}));
 }
 
-
 export const getAccountCards = async (accountId) => {
-  return await httpRequest(route("accounts.cards.index", {params: { id: accountId }}));
+  return await httpRequest(route("accounts.cards.index", {params: {id: accountId}}));
 }
 
 export const getAccountCard = async (id) => {
