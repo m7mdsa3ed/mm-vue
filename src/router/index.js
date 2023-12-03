@@ -120,7 +120,17 @@ const routes = [
           },
         ],
       },
-
+      {
+        path: "notifications",
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            name: "notifications",
+            component: () => import("../views/Notifications/Index.vue"),
+          },
+        ],
+      },
       {
         path: "error/:code",
         name: "error",

@@ -53,8 +53,8 @@
                   aria-current="page"
                   @click="goto(link.routeName)"
                 >
-                  <span class="me-1" v-html="link.icon"></span>
-                  <span>{{ link.name }}</span>
+                  <span class="me-1" v-html="link.icon" :title="link.name"></span>
+                  <span class="d-inline d-lg-none">{{ link.name }}</span>
                 </span>
               </li>
             </template>
@@ -127,6 +127,11 @@ export default {
           routeName: "Settings",
           icon: `<i class="icon fas fa-gear"></i>`,
           roles: ["manager"],
+        },
+        {
+          name: "Notifications",
+          routeName: "Notifications",
+          icon: `<i class="icon fas fa-bell"></i>`,
         },
       ],
     };
