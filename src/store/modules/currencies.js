@@ -1,7 +1,7 @@
 import {
   updateCurrency,
   getCurrencies,
-  updateCurrencyRate, getUserCurrenciesWithRates,
+  updateCurrencyRate, getUserCurrenciesWithRates, saveUserCurrencyRate, resetUserCurrencyRate,
 } from "../../api/currencies";
 import { mergeRow } from "../../helpers";
 
@@ -81,5 +81,13 @@ export default {
         commit("updateRow", currency);
       }
     },
+    
+    async saveUserCurrencyRate({commit}, {rate, currencyRateId}) {
+      await saveUserCurrencyRate(rate, currencyRateId)
+    },
+    
+    async resetUserCurrencyRate({commit}, id) {
+      await resetUserCurrencyRate(id)
+    }
   },
 };

@@ -50,6 +50,13 @@
       </div>
     </div>
 
+    <div>
+      <h2>Currency Rates</h2>
+
+      <div class="box bg-main">
+        <CurrencyRates />
+      </div>
+    </div>
 
     <div>
       <h2>Passkeys</h2>
@@ -58,7 +65,7 @@
         <Passkeys />
       </div>
     </div>
-    
+
     <div>
       <h2>Estimate</h2>
 
@@ -75,6 +82,7 @@ import { useStore } from "vuex";
 import { notationToReadable } from "../../helpers";
 import EstimateCalculator from "../../components/EstimateCalculator.vue";
 import Passkeys from "./Components/Passkeys.vue";
+import CurrencyRates from "./Components/CurrencyRates.vue";
 
 const { state } = useStore();
 

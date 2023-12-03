@@ -55,6 +55,14 @@
     "updateRate": {
       "method": "POST",
       "url": "currencies/update/:id/rate"
+    },
+    "saveUserCurrencyRate": {
+      "method": "POST",
+      "url": "currencies/saveUserCurrencyRate/:currencyRateId"
+    },
+    "resetUserCurrencyRate": {
+      "method": "POST",
+      "url": "currencies/resetUserCurrencyRate/:id"
     }
   },
   "transactions": {
