@@ -35,7 +35,7 @@
                   <span>
                     {{
                       $fn.money(
-                        currencyRate.rate * balance,
+                        (currencyRate.user_currency_rates[0]?.rate ?? currencyRate.rate) * balance,
                         currencyRate.to_currency.name
                       )
                     }}
