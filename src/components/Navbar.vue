@@ -54,7 +54,7 @@
                   @click="goto(link.routeName)"
                 >
                   <span class="me-1" v-html="link.icon" :title="link.name"></span>
-                  <span class="d-inline d-lg-none">{{ link.name }}</span>
+                  <span class="d-inline" :class="`${isActiveRoute(link.routeName) ? '' : 'd-lg-none'}`">{{ link.name }}</span>
                 </span>
               </li>
             </template>
@@ -187,6 +187,10 @@ export default {
 
       return false;
     },
+
+    isActiveRoute(routeName) {
+      return this.$route.name === routeName.toLowerCase();
+    }
   },
 };
 </script>
