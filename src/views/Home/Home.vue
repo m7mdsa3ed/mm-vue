@@ -6,7 +6,7 @@
       <p class="display-6 mb-0">Dashboard</p>
 
       <div class="d-flex flex-wrap gap-1">
-        <PeriodSelector @periodChanged="(args) => (period = args)" />
+        <PeriodSelector @periodChanged="(args) => (period = args)"/>
 
         <div>
           <select class="form-control" v-model="selectedCurrencySlug">
@@ -47,9 +47,14 @@
           :accountIds="dashboardStats?.pinned_accounts"
         />
 
-<!--        <CategoryBalanceSummaryDetails-->
-<!--          :categoriesSummary="categoriesSummaryData"-->
-<!--        />-->
+        <SubscriptionsAlert
+          v-if="subscriptionsAboutToExpire?.length"
+          :subscriptions="subscriptionsAboutToExpire"
+        />
+
+        <!--        <CategoryBalanceSummaryDetails-->
+        <!--          :categoriesSummary="categoriesSummaryData"-->
+        <!--        />-->
       </div>
 
       <div class="col-12 col-lg-8">
@@ -71,7 +76,7 @@
                   <div class="d-flex gap-2 w-100">
                     <label class="w-100 d-flex gap-2 bg-body box">
                       <input
-                      v-model="pieType"
+                        v-model="pieType"
                         class="form-check-input flex-shrink-0"
                         type="radio"
                         name="listGroupRadios"
@@ -86,7 +91,7 @@
 
                     <label class="w-100 d-flex gap-2 bg-body box ">
                       <input
-                      v-model="pieType"
+                        v-model="pieType"
                         class="form-check-input flex-shrink-0"
                         type="radio"
                         name="listGroupRadios"
@@ -115,7 +120,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import {computed, ref} from "vue";
 import BalanceChart from "./Components/Charts/BalanceChart.vue";
 import CategoryPieChart from "./Components/Charts/CategoryPieChart.vue";
 import Balances from "./Components/Balances.vue";
@@ -123,10 +128,11 @@ import PeriodReport from "./Components/PeriodReport.vue";
 import PinnedAccounts from "./Components/PinnedAccounts.vue";
 import PeriodSelector from "./Components/PeriodSelector.vue";
 import CategoryBalanceSummaryDetails from "./Components/CategoryBalanceSummaryDetails.vue";
-import { useStore } from "vuex";
+import SubscriptionsAlert from "./Components/SubscriptionsAlert.vue";
+import {useStore} from "vuex";
 import collect from "collect.js";
 
-const { state, dispatch } = useStore();
+const {state, dispatch} = useStore();
 
 const period = ref({});
 
@@ -196,6 +202,12 @@ const periodSummary = computed(() => {
 
   return data;
 });
+
+
+const subscriptionsAboutToExpire = computed(() => {
+  return collect(dashboardStats.value?.subscriptionsAboutToExpire)
+    .toArray();
+})
 
 const refresh = () => {
   dispatch("app/fetchStats", period.value);
