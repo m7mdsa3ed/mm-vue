@@ -52,9 +52,9 @@
           :subscriptions="subscriptionsAboutToExpire"
         />
 
-        <!--        <CategoryBalanceSummaryDetails-->
-        <!--          :categoriesSummary="categoriesSummaryData"-->
-        <!--        />-->
+        <CategoryBalanceSummaryDetails
+          :categoriesSummary="categoriesSummaryData"
+        />
       </div>
 
       <div class="col-12 col-lg-8">
