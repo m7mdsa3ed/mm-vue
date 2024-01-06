@@ -46,7 +46,7 @@
                   />
 
                   <label
-                    class="btn btn-dark"
+                    class="btn btn-dark border"
                     :for="`actionType${actionType.name}`"
                   >
                     {{ actionType.name }}
@@ -62,8 +62,8 @@
               >
                 <template
                   v-for="action in [
-                    { name: 'Income', value: 1 },
-                    { name: 'Outcome', value: 2 },
+                    { name: 'In', value: 1 },
+                    { name: 'Out', value: 2 },
                   ]"
                   :key="action.value"
                 >
@@ -78,10 +78,35 @@
                     required
                   />
 
-                  <label class="btn btn-dark" :for="`action${action.name}`">{{
+                  <label class="btn btn-dark border" :for="`action${action.name}`">{{
                     action.name
                   }}</label>
                 </template>
+              </div>
+            
+              <div
+                class="form-floating"
+              >
+                <select
+                  class="form-select"
+                  id="accountSelect"
+                  v-model="transaction.contact_id"
+                  required
+                >
+                  <option selected :value="undefined">
+                    Select Contact
+                  </option>
+
+                  <option
+                    v-for="contact in contacts"
+                    :key="contact.id"
+                    :value="contact.id"
+                  >
+                    {{ contact.name }}
+                  </option>
+                </select>
+
+                <label for="accountSelect">Contact</label>
               </div>
 
               <div class="row g-3">
@@ -227,7 +252,7 @@ const actionTypes = [
     value: 1,
   },
   {
-    name: "Outcome",
+    name: "Expenses",
     value: 2,
   },
   {
@@ -250,6 +275,8 @@ const accounts = computed(() => state.accounts.data);
 
 const categories = computed(() => state.categories.categories);
 
+const contacts = computed(() => state.contacts.data);
+
 const isLoading = computed(() => state.transactions.loading);
 
 const errors = computed(() => state.transactions.errors);
@@ -262,6 +289,8 @@ watch(
     };
 
     transaction.value.tag_ids = transaction.value.tags?.map((tag) => tag.id);
+    
+    transaction.value.contact_id = transaction.value.contact?.id;
   }
 );
 

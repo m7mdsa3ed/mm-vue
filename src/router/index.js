@@ -107,6 +107,17 @@ const routes = [
         ],
       },
       {
+        path: 'contacts',
+        component: RouterView,
+        children: [
+          {
+            path: '',
+            name: 'contacts',
+            component: () => import('../views/Contacts/Index.vue'),
+          },
+        ],
+      },
+      {
         path: "settings",
         component: RouterView,
         meta: {

@@ -240,5 +240,20 @@
       "method": "POST",
       "url": "notifications/markAsRead/:id?"
     }
+  },
+  "contacts": {
+    "index": "contacts",
+    "create": {
+      "method": "POST",
+      "url": "contacts"
+    },
+    "update": {
+      "method": "POST",
+      "url": "contacts/:id/update"
+    },
+    "delete": {
+      "method": "POST",
+      "url": "contacts/:id/delete"
+    }
   }
 }
