@@ -69,6 +69,7 @@
                 placeholder="Amount"
                 v-model="move.amount"
                 class="form-control mb-3"
+                step="any"
                 :class="{ 'is-invalid': hasErrors('amount') }"
               />
               <label>Amount</label>
