@@ -86,7 +86,7 @@
                   </template>
                 </p>
                 <span
-                  class="small text-muted text-multi-truncate text-multi-truncate-2 white-space-pre-wrap "
+                  class="small text-muted text-multi-truncate text-multi-truncate-2 white-space-pre-wrap d-none d-lg-inline-block"
                 >
                   {{ transaction.description }}
                 </span>
