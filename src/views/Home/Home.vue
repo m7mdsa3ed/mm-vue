@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-4 mb-3">
       <div class="col-12 col-lg-4 d-flex flex-column gap-3">
         <Balances
           v-if="dashboardStats?.balance_summary?.length"
@@ -113,6 +113,12 @@
               </div>
             </div>
           </div>
+          
+          <div>
+            <h2>Budgets</h2>
+            
+            <BudgetTracks :budgets="budgetsAboutToExpire"/>
+          </div>
         </div>
       </div>
     </div>
@@ -129,6 +135,7 @@ import PinnedAccounts from "./Components/PinnedAccounts.vue";
 import PeriodSelector from "./Components/PeriodSelector.vue";
 import CategoryBalanceSummaryDetails from "./Components/CategoryBalanceSummaryDetails.vue";
 import SubscriptionsAlert from "./Components/SubscriptionsAlert.vue";
+import BudgetTracks from "./Components/BudgetTracks.vue";
 import {useStore} from "vuex";
 import collect from "collect.js";
 
@@ -203,11 +210,17 @@ const periodSummary = computed(() => {
   return data;
 });
 
-
 const subscriptionsAboutToExpire = computed(() => {
   return collect(dashboardStats.value?.subscriptionsAboutToExpire)
     .toArray();
 })
+
+
+const budgetsAboutToExpire = computed(() => {
+  return collect(dashboardStats.value?.budgetsAboutToExpire)
+    .toArray();
+})
+
 
 const refresh = () => {
   dispatch("app/fetchStats", period.value);
