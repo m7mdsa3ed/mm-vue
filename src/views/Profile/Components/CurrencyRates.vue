@@ -2,12 +2,11 @@
 
 import {computed, ref} from "vue";
 import {useStore} from "vuex";
+import {money} from "../../../helpers.js";
 
 const {state, dispatch} = useStore();
 
 const userCurrencies = computed(() => state.currencies.userCurrenciesWithRates)
-
-const haveChanges = ref(false)
 
 const rates = computed(() => {
   const ratesPerCurrency = Object.keys(userCurrencies.value).map((currency) => {
@@ -33,6 +32,16 @@ const resetUserCurrencyRate = async (userCurrencyRateId) => {
   await dispatch('currencies/fetchUserCurrenciesWithRates')
 }
 
+const differenceInPercentage = (rate) => {
+  const diff = (100 - (rate.rate / rate.user_currency_rates[0]?.rate * 100));
+  
+  if (diff > 0) {
+    return diff.toFixed(2)
+  }
+  
+  return 0
+}
+
 </script>
 
 <template>
@@ -41,9 +50,9 @@ const resetUserCurrencyRate = async (userCurrencyRateId) => {
       <thead>
         <tr>
           <th>From</th>
-          <th>To</th>
-          <th>Rate</th>
+          <th>To Rate</th>
           <th>My Rate</th>
+          <th>D %</th>
         </tr>
       </thead>
 
@@ -51,13 +60,13 @@ const resetUserCurrencyRate = async (userCurrencyRateId) => {
         <template v-for="rate in rates" :key="rate.id">
           <tr>
             <td> {{ rate.from_currency.name }}</td>
-            <td> {{ rate.to_currency.name }}</td>
-            <td> {{ rate.rate }}</td>
+            <td> <span class="text-nowrap"> {{ money(rate.rate) }} </span> </td>
             <td>
-              <div class="d-flex gap-1">
+              <div class="d-flex gap-1" >
                 <input
                   type="number"
                   class="form-control form-control-sm border-0"
+                  style="min-width: 100px"
                   placeholder="0.00"
                   :value="rate.user_currency_rates[0]?.rate"
                   @change="(e) => saveUserCurrencyRate(e.target.value, rate.id)"
@@ -71,6 +80,11 @@ const resetUserCurrencyRate = async (userCurrencyRateId) => {
                   Reset
                 </button>
               </div>
+            </td>
+            <td>
+              <span class="text-nowrap">
+                {{differenceInPercentage(rate)}} %
+              </span>
             </td>
           </tr>
         </template>
