@@ -51,7 +51,7 @@ const differenceInPercentage = (rate) => {
         <tr>
           <th>From</th>
           <th>To Rate</th>
-          <th>My Rate</th>
+          <th>Custom Rate</th>
           <th>D %</th>
         </tr>
       </thead>
