@@ -89,6 +89,6 @@ const { state } = useStore();
 const profile = computed(() => state.auth.user);
 
 const roles = computed(() =>
-  profile.value.roles.map((role) => notationToReadable(role.name))
+  profile.value.roles?.map((role) => notationToReadable(role.name))
 );
 </script>

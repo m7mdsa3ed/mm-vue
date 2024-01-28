@@ -50,10 +50,30 @@
               <label> Phone </label>
             </div>
 
+            <div class="form-floating mb-3">
+              <select
+                v-model="user.currency_id"
+                class="form-select mb-3"
+              >
+                <option value="undefined">
+                  Select Currency
+                </option>
+
+                <template v-for="currency in currencies" :key="currency.id">
+                  <option :value="currency.id">
+                    {{ currency.name }}
+                  </option>
+                </template>
+              </select>
+
+              <label> Default Currency </label>
+            </div>
+
             <button class="btn btn-dark mb-3 w-100">
               <template v-if="!isLoading"> Register </template>
               <template v-else> Loading... </template>
             </button>
+            
             <p
               class="mb-0 small"
               role="button"
@@ -82,6 +102,12 @@ const user = ref({});
 const isLoading = computed(() => state.auth.loading);
 
 const errors = computed(() => state.auth.errors);
+
+const currencies = computed(() => state.currencies.data);
+
+onMounted(() => {
+  dispatch("currencies/fetch");
+});
 
 const register = async () => {
   try {
