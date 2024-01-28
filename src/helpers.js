@@ -4,8 +4,11 @@ import { compile } from "path-to-regexp";
 import router from "./router";
 import CryptoJS from "crypto-js";
 import Cache from "./plugins/Cache/Cache";
+import store from "./store/index.js";
 
-export const money = (number, suffix = "EGP") => {
+export const money = (number, suffix) => {
+  suffix ??= store.state?.auth?.user?.main_currency?.slug ?? 'EGP';
+  
   return `${Number(number ?? 0)
     .toFixed(2)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,")} ${suffix}`;
