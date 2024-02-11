@@ -79,34 +79,9 @@
                   />
 
                   <label class="btn btn-dark border" :for="`action${action.name}`">{{
-                    action.name
-                  }}</label>
+                      action.name
+                    }}</label>
                 </template>
-              </div>
-            
-              <div
-                class="form-floating"
-              >
-                <select
-                  class="form-select"
-                  id="accountSelect"
-                  v-model="transaction.contact_id"
-                  required
-                >
-                  <option selected :value="undefined">
-                    Select Contact
-                  </option>
-
-                  <option
-                    v-for="contact in contacts"
-                    :key="contact.id"
-                    :value="contact.id"
-                  >
-                    {{ contact.name }}
-                  </option>
-                </select>
-
-                <label for="accountSelect">Contact</label>
               </div>
 
               <div class="row g-3">
@@ -149,64 +124,103 @@
                 </div>
               </div>
 
-              <div class="form-floating">
-                <input
-                  type="date"
-                  placeholder="Date"
-                  v-model="transaction.created_at"
-                  class="form-control"
-                  required
-                />
-                <label> Date </label>
-              </div>
+              <div>
+                <p class="d-inline-flex mb-0 gap-1">
+                  <a class="w-100 btn" data-bs-toggle="collapse" href="#transactionAdvancedDetails" role="button"
+                     aria-expanded="false" aria-controls="transactionAdvancedDetails">
+                    Advanced Details <i class="fa-fw fas fa-chevron-down"></i>
+                  </a>
+                </p>
 
-              <div class="form-floating">
-                <textarea
-                  class="form-control"
-                  placeholder="Description"
-                  style="height: 100px"
-                  v-model="transaction.description"
-                ></textarea>
-                <label>Description</label>
-              </div>
+                <div class="collapse" id="transactionAdvancedDetails">
+                  <div class="d-flex flex-column gap-3 mt-3">
 
-              <div class="form-floating">
-                <select
-                  class="form-select"
-                  id="categorySelect"
-                  v-model="transaction.category_id"
-                >
-                  <option selected :value="undefined">Select Category</option>
-                  <option
-                    v-for="category in categories"
-                    :key="category.id"
-                    :value="category.id"
-                  >
-                    {{ category.name }}
-                  </option>
-                </select>
-                <label for="categorySelect">Category</label>
-              </div>
+                    <div class="form-floating">
+                      <input
+                        type="date"
+                        placeholder="Date"
+                        v-model="transaction.created_at"
+                        class="form-control"
+                        required
+                      />
+                      <label> Date </label>
+                    </div>
 
-              <div class="form-floating" v-if="tags.length">
-                <select
-                  class="form-select"
-                  style="min-height: 150px"
-                  id="tagsSelect"
-                  v-model="transaction.tag_ids"
-                  multiple
-                >
-                  <option
-                    v-for="tag in tags"
-                    :key="tag.id"
-                    :value="tag.id"
-                    :selected="transaction.tag_ids?.includes(tag.id)"
-                  >
-                    {{ tag.name }}
-                  </option>
-                </select>
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Description"
+                        style="height: 100px"
+                        v-model="transaction.description"
+                      ></textarea>
+                      <label>Description</label>
+                    </div>
 
-                <label for="tagsSelect">Tag</label>
+                    <div class="form-floating">
+                      <select
+                        class="form-select"
+                        id="categorySelect"
+                        v-model="transaction.category_id"
+                      >
+                        <option selected :value="undefined">Select Category</option>
+                        <option
+                          v-for="category in categories"
+                          :key="category.id"
+                          :value="category.id"
+                        >
+                          {{ category.name }}
+                        </option>
+                      </select>
+                      <label for="categorySelect">Category</label>
+                    </div>
+
+                    <div class="form-floating" v-if="tags.length">
+                      <select
+                        class="form-select"
+                        style="min-height: 150px"
+                        id="tagsSelect"
+                        v-model="transaction.tag_ids"
+                        multiple
+                      >
+                        <option
+                          v-for="tag in tags"
+                          :key="tag.id"
+                          :value="tag.id"
+                          :selected="transaction.tag_ids?.includes(tag.id)"
+                        >
+                          {{ tag.name }}
+                        </option>
+                      </select>
+
+                      <label for="tagsSelect">Tag</label>
+                    </div>
+
+                    <div
+                      class="form-floating"
+                    >
+                      <select
+                        class="form-select"
+                        id="accountSelect"
+                        v-model="transaction.contact_id"
+                        required
+                      >
+                        <option selected :value="undefined">
+                          Select Contact
+                        </option>
+
+                        <option
+                          v-for="contact in contacts"
+                          :key="contact.id"
+                          :value="contact.id"
+                        >
+                          {{ contact.name }}
+                        </option>
+                      </select>
+
+                      <label for="accountSelect">Contact</label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </form>
@@ -223,9 +237,9 @@
 </template>
 
 <script setup>
-import { Modal } from "bootstrap";
-import { computed, onMounted, ref, watch } from "vue";
-import { useStore } from "vuex";
+import {Modal} from "bootstrap";
+import {computed, onMounted, ref, watch} from "vue";
+import {useStore} from "vuex";
 import Errors from "../../../components/Errors.vue";
 import dayjs from "dayjs";
 
@@ -237,7 +251,7 @@ const props = defineProps({
   },
 });
 
-const { state, dispatch } = useStore();
+const {state, dispatch} = useStore();
 
 const transactionDefault = {
   action_type: 2,
@@ -289,7 +303,7 @@ watch(
     };
 
     transaction.value.tag_ids = transaction.value.tags?.map((tag) => tag.id);
-    
+
     transaction.value.contact_id = transaction.value.contact?.id;
   }
 );
