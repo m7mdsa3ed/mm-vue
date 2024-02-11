@@ -128,7 +128,7 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn btn-dark border w-100">Save</button>
+          <button form="accountSaveForm" class="btn btn-dark border w-100">Save</button>
         </div>
       </div>
     </div>
