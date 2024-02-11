@@ -42,7 +42,6 @@ const contacts = computed(() => state.contacts.data);
               <th>Balance</th>
               <th>Loan</th>
               <th>Debit</th>
-              <th>Held</th>
             </tr>
           </thead>
 
@@ -52,7 +51,6 @@ const contacts = computed(() => state.contacts.data);
               <td>{{ money(contact.balance_amount) }}</td>
               <td>{{ money(contact.loan_amount) }}</td>
               <td>{{ money(contact.debit_amount) }}</td>
-              <td>{{ money(contact.held_amount) }}</td>
             </tr>
           </tbody>
         </table>
