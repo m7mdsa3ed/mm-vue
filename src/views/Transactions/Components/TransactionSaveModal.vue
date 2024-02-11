@@ -124,6 +124,50 @@
                 </div>
               </div>
 
+              <div class="form-floating">
+                <select
+                  class="form-select"
+                  id="categorySelect"
+                  v-model="transaction.category_id"
+                >
+                  <option selected :value="undefined">Select Category</option>
+                  <option
+                    v-for="category in categories"
+                    :key="category.id"
+                    :value="category.id"
+                  >
+                    {{ category.name }}
+                  </option>
+                </select>
+                <label for="categorySelect">Category</label>
+              </div>
+
+              <div
+                class="form-floating"
+                v-if="contactRequired"
+              >
+                <select
+                  class="form-select"
+                  id="contactSelect"
+                  v-model="transaction.contact_id"
+                  required
+                >
+                  <option selected :value="undefined">
+                    Select Contact
+                  </option>
+
+                  <option
+                    v-for="contact in contacts"
+                    :key="contact.id"
+                    :value="contact.id"
+                  >
+                    {{ contact.name }}
+                  </option>
+                </select>
+
+                <label for="contactSelect">Contact</label>
+              </div>
+
               <div>
                 <p class="d-inline-flex mb-0 gap-1">
                   <a class="w-100 btn" data-bs-toggle="collapse" href="#transactionAdvancedDetails" role="button"
@@ -156,24 +200,6 @@
                       <label>Description</label>
                     </div>
 
-                    <div class="form-floating">
-                      <select
-                        class="form-select"
-                        id="categorySelect"
-                        v-model="transaction.category_id"
-                      >
-                        <option selected :value="undefined">Select Category</option>
-                        <option
-                          v-for="category in categories"
-                          :key="category.id"
-                          :value="category.id"
-                        >
-                          {{ category.name }}
-                        </option>
-                      </select>
-                      <label for="categorySelect">Category</label>
-                    </div>
-
                     <div class="form-floating" v-if="tags.length">
                       <select
                         class="form-select"
@@ -193,31 +219,6 @@
                       </select>
 
                       <label for="tagsSelect">Tag</label>
-                    </div>
-
-                    <div
-                      class="form-floating"
-                    >
-                      <select
-                        class="form-select"
-                        id="accountSelect"
-                        v-model="transaction.contact_id"
-                        required
-                      >
-                        <option selected :value="undefined">
-                          Select Contact
-                        </option>
-
-                        <option
-                          v-for="contact in contacts"
-                          :key="contact.id"
-                          :value="contact.id"
-                        >
-                          {{ contact.name }}
-                        </option>
-                      </select>
-
-                      <label for="accountSelect">Contact</label>
                     </div>
                   </div>
                 </div>
@@ -294,6 +295,10 @@ const contacts = computed(() => state.contacts.data);
 const isLoading = computed(() => state.transactions.loading);
 
 const errors = computed(() => state.transactions.errors);
+
+const contactRequired = computed(() => {
+  return [4, 5, 6].includes(transaction.value.action_type);
+})
 
 watch(
   () => props.currentTransaction,
