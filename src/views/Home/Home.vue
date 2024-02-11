@@ -114,7 +114,7 @@
             </div>
           </div>
           
-          <div>
+          <div v-if="budgetsAboutToExpire.length">
             <h2>Budgets</h2>
             
             <BudgetTracks :budgets="budgetsAboutToExpire"/>
