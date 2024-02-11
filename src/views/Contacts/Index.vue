@@ -3,6 +3,7 @@
 import {useStore} from "vuex";
 import {computed} from "vue";
 import ContactForm from "./Components/ContactForm.vue"
+import {money} from "../../helpers.js";
 
 const {state, dispatch} = useStore();
 
@@ -48,10 +49,10 @@ const contacts = computed(() => state.contacts.data);
           <tbody>
             <tr v-for="contact in contacts">
               <td>{{ contact.name }}</td>
-              <td>{{ contact.balance_amount }}</td>
-              <td>{{ contact.loan_amount }}</td>
-              <td>{{ contact.debit_amount }}</td>
-              <td>{{ contact.held_amount }}</td>
+              <td>{{ money(contact.balance_amount) }}</td>
+              <td>{{ money(contact.loan_amount) }}</td>
+              <td>{{ money(contact.debit_amount) }}</td>
+              <td>{{ money(contact.held_amount) }}</td>
             </tr>
           </tbody>
         </table>
