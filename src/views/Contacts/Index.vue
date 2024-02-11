@@ -38,14 +38,20 @@ const contacts = computed(() => state.contacts.data);
           <thead>
             <tr>
               <th>Name</th>
+              <th>Balance</th>
+              <th>Loan</th>
+              <th>Debit</th>
+              <th>Held</th>
             </tr>
           </thead>
 
           <tbody>
             <tr v-for="contact in contacts">
-              <td>
-                {{ contact.name }}
-              </td>
+              <td>{{ contact.name }}</td>
+              <td>{{ contact.balance_amount }}</td>
+              <td>{{ contact.loan_amount }}</td>
+              <td>{{ contact.debit_amount }}</td>
+              <td>{{ contact.held_amount }}</td>
             </tr>
           </tbody>
         </table>
