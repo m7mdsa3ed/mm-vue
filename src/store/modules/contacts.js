@@ -51,13 +51,13 @@ export default {
       }
     },
     
-    async save({ commit }, { data }) {
+    async save({ commit }, { contact }) {
       commit("setLoading", true);
       
       commit("setErrors", null);
       
       try {
-        const response = await saveContact(data);
+        const response = await saveContact(contact, contact.id);
         
         commit("saveRow", response);
       } catch (error) {
