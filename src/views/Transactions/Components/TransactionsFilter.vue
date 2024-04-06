@@ -111,17 +111,6 @@
       </div>
     </div>
 
-    <div class="col-sm-6 col-md-4 col-lg-2">
-      <div class="form-floating">
-        <select class="form-select" name="include_move_type" v-model="filter.include_move_type">
-          <option value="undefined" selected>Include Move</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
-        <label> Include Move </label>
-      </div>
-    </div>
-
     <div class="col-12">
       <div class="btn-group w-100">
         <button class="btn btn-dark btn-sm w-100" @click="search">

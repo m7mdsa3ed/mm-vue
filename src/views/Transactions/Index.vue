@@ -92,15 +92,13 @@
                 </span>
               </td>
               <td class="text-end">
-                <span
-                  class="small d-flex flex-column align-items-end"
-                  :class="
-                    transaction.action == 2 ? 'text-danger' : 'text-success'
-                  "
-                >
-                  <span class="text-nowrap">
-                    {{ transaction.action == 2 ? "-" : "+" }}
+                <span class="small d-flex flex-column align-items-end">
+                  <span 
+                    class="text-nowrap" 
+                    :class="transaction.action == 2 ? 'text-danger' : 'text-success'"
+                  >
                     {{
+                      (transaction.action == 2 ? "-" : "+") + 
                       $fn.money(
                         transaction.amount,
                         transaction.account?.currency?.name
@@ -108,6 +106,10 @@
                     }}
                   </span>
 
+                  <span class="text-muted small">
+                    {{ money(transaction.balance) }}
+                  </span>
+                  
                   <span class="badge bg-secondary rounded-0 mt-1">
                     {{ transaction.action_type_as_string }}
                   </span>
@@ -193,6 +195,7 @@ import { Modal } from "bootstrap";
 import { useStore } from "vuex";
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
+import {money} from "../../helpers.js";
 
 const { state, dispatch } = useStore();
 
