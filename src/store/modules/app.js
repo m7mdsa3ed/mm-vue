@@ -60,6 +60,7 @@ export default {
         'currencies/fetchUserCurrenciesWithRates',
         "app/fetchStats",
         "app/fetchAppInfo",
+        'contacts/fetch'
       ].forEach((dispatchName) => {
         store.dispatch(dispatchName);
       });

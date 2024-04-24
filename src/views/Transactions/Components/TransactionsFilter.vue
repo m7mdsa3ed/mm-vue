@@ -62,6 +62,23 @@
 
     <div class="col-sm-6 col-md-4 col-lg-2">
       <div class="form-floating">
+        <select
+          placeholder="Contact"
+          class="form-control"
+          name="contact_id"
+          v-model="filter.contact_id"
+        >
+          <option value="undefined" selected>Select Contact</option>
+          <option v-for="contact in contacts" :key="contact.id" :value="contact.id">
+            {{ contact.name }}
+          </option>
+        </select>
+        <label> Contact </label>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="form-floating">
         <input
           type="text"
           name="action_types"
@@ -175,6 +192,11 @@ const filtersOptions = [
     type: "select",
   },
   {
+    name: "contact_id",
+    label: "Tag",
+    type: "select",
+  },
+  {
     name: "date_from",
     label: "Date From",
     type: "date",
@@ -230,6 +252,8 @@ const categories = computed(() => state.categories.categories);
 const accounts = computed(() => state.accounts.data);
 
 const tags = computed(() => state.tags.tags);
+
+const contacts = computed(() => state.contacts.data)
 
 const search = () => {
   emit("search", filter.value);
