@@ -1,8 +1,8 @@
 import axios from "axios";
 import store from "./../store";
-import { errorParser, generateIdempotentKey } from "../helpers";
+import {errorParser, generateIdempotentKey} from "../helpers";
 
-const { VITE_API_BASEURL, VITE_API_PATH } = import.meta.env;
+const {VITE_API_BASEURL, VITE_API_PATH} = import.meta.env;
 
 // Axios configuration
 axios.defaults.baseURL = `${VITE_API_BASEURL}/${VITE_API_PATH}`;
@@ -11,18 +11,36 @@ axios.defaults.headers.Authorization = `Bearer ${store.state.auth.token}`;
 const loadingList = [];
 
 const pushLoading = (config) => {
-  const { method, url } = config;
+  const {method, url} = config;
 
-  loadingList.push({ method, url, timestamp: Date.now() });
+  const currentLoading = loadingList.find(
+    (loading) => loading.method === method && loading.url === url
+  );
+
+  if (currentLoading && currentLoading.method === 'POST'.toLowerCase()) {
+    config.headers["X-Idempotent-Key"] = currentLoading.idempotentKey;
+  }
+
+  if (currentLoading && currentLoading.method === 'GET'.toLowerCase()) {
+    currentLoading.signalController?.abort();
+  }
+
+  loadingList.push({
+    method,
+    url,
+    timestamp: Date.now(),
+    signalController: config.signalController,
+    idempotentKey: config.headers["X-Idempotent-Key"]
+  });
 
   store.dispatch("app/loading", [...loadingList]);
 };
 
 const popLoading = (config) => {
-  const { method, url } = config;
+  const {method, url} = config ?? {};
 
   const index = loadingList.findIndex(
-    (loading) => loading.method == method && loading.url == url
+    (loading) => loading.method === method && loading.url === url
   );
 
   if (index > -1) {
@@ -33,6 +51,12 @@ const popLoading = (config) => {
 };
 
 const onRequest = (request) => {
+  const controller = new AbortController();
+
+  request.signal = controller.signal;
+
+  request.signalController = controller;
+
   if (request.method === "post") {
     request.headers["X-Idempotent-Key"] = generateIdempotentKey(request.data);
   }
@@ -40,7 +64,7 @@ const onRequest = (request) => {
   if (request.passkeyProtected) {
     request.headers['passkeyCredentials'] = JSON.stringify(store.state.auth.credentials ?? {})
   }
-  
+
   pushLoading(request);
 
   return request;

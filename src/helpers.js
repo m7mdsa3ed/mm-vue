@@ -118,8 +118,8 @@ export const errorParser = (error) => {
       const errorBody = this.body();
 
       let errors = {
-        ...errorBody.errors ?? {},
-        message: errorBody.message,
+        ...errorBody?.errors ?? {},
+        message: errorBody?.message,
       }
 
       return errors
@@ -179,7 +179,11 @@ export const camelCaseToReadable = (camelCaseString) => {
 };
 
 export const generateIdempotentKey = (data) => {
-  return CryptoJS.SHA256(data);
+  data ??= {};
+  
+  data.time = Date.now();
+
+  return CryptoJS.SHA256(JSON.stringify(data));
 };
 
 export const formDataToJson = (formData) => {
