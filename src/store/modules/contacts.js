@@ -43,8 +43,6 @@ export default {
       try {
         const data = await getContacts(url, filter);
 
-        console.log({ data })
-        
         commit("setData", data);
       } catch (error) {
         commit("setErrors", error.getErrors());
