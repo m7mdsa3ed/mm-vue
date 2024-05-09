@@ -10,16 +10,25 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
+    <FloatingSearch :show="showFloatingSearch" @close="showFloatingSearch = false"/>
     <RouterView/>
   </div>
 </template>
 
 <script setup>
-import {onBeforeMount, onMounted} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import ReloadServiceWorkerVue from "./components/ReloadServiceWorker.vue";
-
+import FloatingSearch from './components/FloatingSearch/FloatingSearch.vue';
 const {commit, dispatch, state} = useStore();
+
+const showFloatingSearch = ref(false)
+
+window.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 'k') {
+    showFloatingSearch.value = !showFloatingSearch.value
+  }
+})
 
 onBeforeMount(() => {
   commit("restoreState");
