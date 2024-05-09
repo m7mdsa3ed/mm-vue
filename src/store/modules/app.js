@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "..";
-import { getSettings, saveSettings, deploy } from '../../api/settings'
-import { appInfo } from '../../api/app'
+import { getSettings, saveSettings, deploy } from "../../api/settings";
+import { appInfo } from "../../api/app";
 
 export default {
   namespaced: true,
@@ -17,10 +17,10 @@ export default {
 
   mutations: {
     changeSchema: (state, schema) => (state.schema = schema),
-  
+
     setAppState: (state, payload) => {
       for (const key in payload) {
-        state[key] = payload[key]
+        state[key] = payload[key];
       }
     },
 
@@ -30,20 +30,22 @@ export default {
   actions: {
     async fetchStats({ state }, payload) {
       return new Promise((resolve, reject) => {
-        axios.get("stats", {
-          params: payload,
-        }).then((response) => {
-          state.stats = response.data;
-          resolve(response.data);
-        });
+        axios
+          .get("stats", {
+            params: payload,
+          })
+          .then((response) => {
+            state.stats = response.data;
+            resolve(response.data);
+          });
       });
     },
 
     async fetchAppInfo({ commit }) {
       try {
-        const info = await appInfo()
+        const info = await appInfo();
 
-        commit('setAppState', { info })
+        commit("setAppState", { info });
       } catch (error) {
         console.log({ error });
       }
@@ -71,7 +73,7 @@ export default {
     },
 
     loading({ commit }, payload) {
-      commit('changeLoadingState', payload)
+      commit("changeLoadingState", payload);
     },
 
     stopActions({ state }, payload) {
@@ -83,23 +85,23 @@ export default {
     },
 
     async getSettings({}) {
-      return await getSettings()
+      return await getSettings();
     },
 
     async saveSettings({}, { key, value }) {
-      return await saveSettings(key, value)
+      return await saveSettings(key, value);
     },
 
     async deploy({}, { requestConfig }) {
-      return await deploy(requestConfig)
+      return await deploy(requestConfig);
     },
 
     changeAppSchema({ commit }, schema) {
-      commit('changeSchema', schema)
+      commit("changeSchema", schema);
     },
   },
 
   getters: {
-    appSchema: (state) => (state.schema)
-  }
+    appSchema: (state) => state.schema,
+  },
 };

@@ -11,6 +11,7 @@ import roles from "./modules/roles";
 import settings from "./modules/settings";
 import profile from "./modules/profile";
 import budgets from "./modules/budgets";
+import navigation from "./modules/navigation.js";
 import accountTypes from "./modules/accountTypes";
 import notifications from "./modules/notifications";
 import subscriptions from "./modules/subscriptions";
@@ -32,6 +33,7 @@ const store = createStore(Store, {
     settings,
     profile,
     budgets,
+    navigation,
     accountTypes,
     notifications,
     subscriptions,
