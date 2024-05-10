@@ -7,12 +7,19 @@ $sidebarWidth: 250px;
   grid-template-rows: auto 50px;
   grid-template-areas:
     "sidebar content"
-    "sidebar footer";
+    "sidebar content ";
 
   .sidebar {
     grid-area: sidebar;
     min-width: $sidebarWidth;
     z-index: 50;
+    transition: all 0.3s ease-in-out;
+    
+    &.open {
+      margin-inline-start: 0;
+      opacity: 1;
+    }
+    
     .sidebar-toggler {
       display: none;
       @media (max-width: 992px) {
@@ -48,17 +55,13 @@ $sidebarWidth: 250px;
 @media (max-width: 992px) {
   .wrapper {
     grid-template-areas:
-      "content content"
-      "footer footer";
+      "content content";
 
     .sidebar {
       position: fixed;
       height: 100%;
-      display: none;
-
-      &.open {
-        display: block;
-      }
+      margin-inline-start: -$sidebarWidth;
+      opacity: 0;
     }
   }
 }
