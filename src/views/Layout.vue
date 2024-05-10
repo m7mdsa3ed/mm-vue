@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="sidebar bg-body" :class="{ open: isOpen }">
       <div class="sticky-top p-4">
-        <div class="d-flex justify-content-between px-2" v-if="isOpen">
+        <div class="d-flex justify-content-between px-2">
           <i class="sidebar-toggler fas fa-close" @click="toggleOpen"></i>
         </div>
 
@@ -20,10 +20,6 @@
           </transition>
         </router-view>
       </div>
-    </div>
-
-    <div class="footer">
-      {{ new Date().getFullYear() }}
     </div>
   </div>
 </template>
