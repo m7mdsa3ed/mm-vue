@@ -1,9 +1,3 @@
-import axios from "axios";
-import store from "..";
-import {getSettings, saveSettings, deploy} from "../../api/settings";
-import {appInfo} from "../../api/app";
-import router from "../../router";
-
 export default {
   namespaced: true,
 
@@ -54,12 +48,6 @@ export default {
         name: "Profile",
         routeName: "Profile",
         icon: `<i class="icon fas fa-user"></i>`,
-      },
-      {
-        name: "Settings",
-        routeName: "Settings",
-        icon: `<i class="icon fas fa-gear"></i>`,
-        roles: ["manager"],
       },
       {
         name: "Notifications",
