@@ -1,4 +1,4 @@
-import { mergeRow, removeRow } from "../../helpers";
+import {mergeRow, removeRow} from "../../helpers";
 import {
   deleteTransaction,
   getTransactions,
@@ -11,11 +11,22 @@ export default {
   state: {
     loading: false,
     data: [],
+    pages: [],
     errors: null,
   },
 
   mutations: {
-    setTransactions: (state, transactions) => (state.data = transactions),
+    setTransactions: (state, {data, append}) => {
+      if (append) {
+        state.pages = [...state.pages, data]
+
+        const currentTransactionsData = state.data.data;
+
+        data.data = [...currentTransactionsData, ...data.data];
+      }
+
+      state.data = data;
+    },
     setErrors: (state, errors) => (state.errors = errors),
     setLoading: (state, status) => (state.loading = status),
 
@@ -37,17 +48,17 @@ export default {
   },
 
   actions: {
-    async fetch({ commit }, payload) {
+    async fetch({commit}, payload) {
       commit("setLoading", true);
 
       commit("setErrors", null);
 
-      let { url, filter } = payload || {};
+      let {url, filter, append} = payload || {};
 
       try {
         const data = await getTransactions(url, filter);
 
-        commit("setTransactions", data);
+        commit("setTransactions", {data, append});
       } catch (error) {
         commit("setErrors", error.getErrors());
       }
@@ -55,7 +66,7 @@ export default {
       commit("setLoading", false);
     },
 
-    async save({ commit }, { data }) {
+    async save({commit}, {data}) {
       commit("setLoading", true);
 
       commit("setErrors", null);
@@ -69,7 +80,7 @@ export default {
       commit("setLoading", false);
     },
 
-    async delete({ commit }, { transaction }) {
+    async delete({commit}, {transaction}) {
       commit("setLoading", true);
 
       commit("setErrors", null);

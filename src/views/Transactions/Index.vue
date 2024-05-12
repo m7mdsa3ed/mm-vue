@@ -175,8 +175,14 @@
           </template>
         </tbody>
       </table>
+
       <div class="d-flex justify-content-between">
-        <Paginator :data="transactions" @change="fetch" />
+        <Paginator 
+          :data="transactions" 
+          :loading="isFetching"
+          infinityLoad="true" 
+          @change="fetch"
+        />
       </div>
     </div>
 
@@ -187,7 +193,7 @@
 </template>
 
 <script setup>
-import Paginator from "@/components/Paginator.vue";
+import Paginator from "../../components/Paginator.vue";
 import TransactionsFilter from "./Components/TransactionsFilter.vue";
 import TransactionSaveModal from "./Components/TransactionSaveModal.vue";
 import TransactionDetailsModal from "./Components/TransactionDetailsModal.vue";
@@ -207,11 +213,22 @@ const filter = ref({});
 
 const route = useRoute();
 
-const fetch = async (url = null) => {
+const isFetching = ref(false)
+
+const fetch = async (payload) => {
+  const url = typeof payload === "object" ? payload.url : payload;
+  
+  const append = typeof payload === "object" ? payload.append : false;
+  
+  isFetching.value = true;
+  
   await dispatch("transactions/fetch", {
     url,
     filter: filter.value,
+    append,
   });
+  
+  isFetching.value = false;
 };
 
 const remove = async (transaction) => {
