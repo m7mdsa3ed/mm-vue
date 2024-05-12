@@ -10,20 +10,16 @@ axios.defaults.headers.Authorization = `Bearer ${store.state.auth.token}`;
 
 const loadingList = [];
 
-const pushLoading = (config) => {
+const getCurrentLoading = (config) => {
   const {method, url} = config;
 
-  const currentLoading = loadingList.find(
+  return loadingList.find(
     (loading) => loading.method === method && loading.url === url
   );
+}
 
-  if (currentLoading && currentLoading.method === 'POST'.toLowerCase()) {
-    config.headers["X-Idempotent-Key"] = currentLoading.idempotentKey;
-  }
-
-  if (currentLoading && currentLoading.method === 'GET'.toLowerCase()) {
-    currentLoading.signalController?.abort();
-  }
+const pushLoading = (config) => {
+  const {method, url} = config;
 
   loadingList.push({
     method,
@@ -65,6 +61,16 @@ const onRequest = (request) => {
     request.headers['passkeyCredentials'] = JSON.stringify(store.state.auth.credentials ?? {})
   }
 
+  const currentLoading = getCurrentLoading(request);
+  
+  if (currentLoading && currentLoading.method === 'POST'.toLowerCase()) {
+    request.headers["X-Idempotent-Key"] = currentLoading.idempotentKey;
+  }
+  
+  if (currentLoading && currentLoading.method === 'GET'.toLowerCase()) {
+    return;
+  }
+  
   pushLoading(request);
 
   return request;
