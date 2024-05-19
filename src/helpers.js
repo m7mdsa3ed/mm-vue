@@ -257,4 +257,6 @@ export const readableNumbers = (value) => {
   );
 };
 
-export const cache = () => new Cache()
+export const cache = () => new Cache();
+
+export const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;

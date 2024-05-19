@@ -3,6 +3,7 @@
 import {computed, ref} from "vue";
 import {useStore} from "vuex";
 import {money} from "../../../helpers.js";
+import GetCustomRateScript from "./GetCustomRateScript.vue";
 
 const {state, dispatch} = useStore();
 
@@ -42,6 +43,9 @@ const differenceInPercentage = (rate) => {
   return 0
 }
 
+const updateNewRate = (newRate, rate) => {
+  rate.newRate = newRate
+}
 </script>
 
 <template>
@@ -60,7 +64,20 @@ const differenceInPercentage = (rate) => {
         <template v-for="rate in rates" :key="rate.id">
           <tr>
             <td> {{ rate.from_currency.name }}</td>
-            <td> <span class="text-nowrap"> {{ money(rate.rate) }} </span> </td>
+            <td> 
+              <div class="d-flex gap-2 align-items-center">
+                <span class="text-nowrap"> {{ money(rate.rate) }} </span>
+
+                <GetCustomRateScript
+                  :script="rate.user_currency_rates[0]?.script"
+                  @onRate="r => updateNewRate(r, rate)"
+                />
+
+                <span v-if="rate.newRate">
+                  {{ money(rate.newRate) }}
+                </span>
+              </div>
+            </td>
             <td>
               <div class="d-flex gap-1" >
                 <input
