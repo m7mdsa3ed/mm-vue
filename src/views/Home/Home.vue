@@ -63,7 +63,7 @@
             <h2>Charts</h2>
 
             <div class="d-flex flex-column gap-3">
-              <div class="box bg-main p-4">
+              <div class="box bg-main">
                 <BalanceChart
                   :id="'chart-balance'"
                   :loading="!balanceChartData"
@@ -71,46 +71,6 @@
                 />
               </div>
 
-              <div class="d-none box bg-main d-flex flex-column gap-3">
-                <div class="d-flex flex-column align-items-center gap-3">
-                  <div class="d-flex gap-2 w-100">
-                    <label class="w-100 d-flex gap-2 bg-body box">
-                      <input
-                        v-model="pieType"
-                        class="form-check-input flex-shrink-0"
-                        type="radio"
-                        name="listGroupRadios"
-                        id="listGroupRadios1"
-                        value="2"
-                        checked=""
-                      />
-                      <span>
-                        Outcomes
-                      </span>
-                    </label>
-
-                    <label class="w-100 d-flex gap-2 bg-body box ">
-                      <input
-                        v-model="pieType"
-                        class="form-check-input flex-shrink-0"
-                        type="radio"
-                        name="listGroupRadios"
-                        id="listGroupRadios2"
-                        value="1"
-                      />
-                      <span>
-                        Incomes
-                      </span>
-                    </label>
-                  </div>
-
-                  <CategoryPieChart
-                    :id="'chart-pie'"
-                    :loading="!pieChartData?.length"
-                    :chartData="pieChartData"
-                  />
-                </div>
-              </div>
             </div>
           </div>
           
@@ -128,7 +88,6 @@
 <script setup>
 import {computed, ref} from "vue";
 import BalanceChart from "./Components/Charts/BalanceChart.vue";
-import CategoryPieChart from "./Components/Charts/CategoryPieChart.vue";
 import Balances from "./Components/Balances.vue";
 import PeriodReport from "./Components/PeriodReport.vue";
 import PinnedAccounts from "./Components/PinnedAccounts.vue";

@@ -1,119 +1,169 @@
-<template>
-  <div>
-    <template v-if="loading"> Loading... </template>
+<script setup>
+import {computed, onMounted, onUpdated, ref, watch} from "vue";
+import {Chart} from "chart.js";
+import {useStore} from "vuex";
+import {enUS} from "date-fns/locale";
 
-    <div :id="id"></div>
-  </div>
-</template>
+const props = defineProps({
+  chartData: {
+    type: Array,
+  }
+})
 
-<script>
-import ApexCharts from "apexcharts";
-import { readableNumbers } from '../../../../helpers';
+const getAnimation = (data) => {
+  const totalDuration = 1000;
 
-export default {
-  props: ["chartData", "loading", "id"],
+  const delayBetweenPoints = totalDuration / data.length;
 
-  data() {
-    return {
-      chart: null,
-    };
-  },
+  const previousY = (ctx) => ctx.index === 0
+    ? ctx.chart.scales.y.getPixelForValue(100)
+    : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
 
-  mounted() {
-    this.renderChart();
-  },
-
-  updated() {
-    this.renderChart();
-  },
-
-  methods: {
-    async createChartInstance(defaultOptions) {
-      if (!this.chart) {
-        const chart = new ApexCharts(
-          document.querySelector(`#${this.id}`),
-          defaultOptions
-        );
-
-        await chart.render();
-
-        this.chart = chart;
+  return {
+    x: {
+      type: 'number',
+      easing: 'linear',
+      duration: delayBetweenPoints,
+      from: NaN, // the point is initially skipped
+      delay(ctx) {
+        if (ctx.type !== 'data' || ctx.xStarted) {
+          return 0;
+        }
+        ctx.xStarted = true;
+        return ctx.index * delayBetweenPoints;
       }
-
-      return this.chart;
     },
-
-    async renderChart() {
-      if (!this.chartData?.length) {
-        return;
+    y: {
+      type: 'number',
+      easing: 'linear',
+      duration: delayBetweenPoints,
+      from: previousY,
+      delay(ctx) {
+        if (ctx.type !== 'data' || ctx.yStarted) {
+          return 0;
+        }
+        ctx.yStarted = true;
+        return ctx.index * delayBetweenPoints;
       }
+    }
+  };
+}
 
-      const data = this.chartData?.map(({ balance, date }) => [
-        date,
-        parseFloat(balance).toFixed(2),
-      ]);
+const getConfig = () => {
+  const balance = [];
 
-      const options = {
-        theme: {
-          mode: this.$store.getters["app/appSchema"],
+  const amounts = [];
+
+  const labels = [];
+
+  for (const key in props.chartData) {
+    const value = props.chartData[key];
+
+    labels.push(value.date);
+
+    balance.push(value.balance);
+
+    amounts.push(value.amount);
+  }
+
+  const animation = getAnimation(data.value);
+
+  return {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          data: balance,
+          label: 'Balance',
+          borderWidth: 1,
         },
-        chart: {
-          type: "line",
-          zoom: {
-            enabled: false,
+        {
+          data: amounts,
+          label: 'Amount',
+          borderWidth: 1,
+        },
+      ]
+    },
+    options: {
+      animation,
+      responsive: true,
+      interaction: {
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          display: false,
+          position: 'top',
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+        },
+      },
+      scales: {
+        x: {
+          type: 'time',
+          adapter: {
+            date: {
+              locale: enUS
+            }
           },
-          dropShadow: {
-            enabled: true,
-            top: 5,
-            left: 2,
-            blur: 5,
-            opacity: 1,
-            color: '#00000050'
+          title: {
+            display: true,
+            text: 'Date',
           }
         },
-        colors: ["#008FFB"],
-        title: {
-          text: "Balance Chart",
-          align: "left",
-        },
-        stroke: {
-          curve: "smooth",
-        },
-        markers: {
-          size: 0
-        },
-        subtitle: {
-          text: "Balance Movements",
-          align: "left",
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        series: [
-          {
-            data: [...data],
-            name: "Balance",
-          },
-        ],
-        xaxis: {
-          type: "datetime",
-          min: data[0]?.timestamp,
-          tickAmount: 6,
-        },
-        yaxis: {
-          opposite: true,
-          labels: {
-            formatter: (value) => {
-              return readableNumbers(value);
-            },
-          },
-        },
-      };
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Amount',
+          }
+        }
+      },
+    }
+  };
+}
 
-      const chart = await this.createChartInstance(options);
+const data = computed(() => props.chartData)
 
-      chart.updateOptions(options);
-    },
-  },
-};
+const config = ref()
+
+let chart = null;
+
+const setConfigAndDraw = () => {
+  if (!props.chartData.length) {
+    return;
+  }
+
+  config.value = getConfig();
+
+  if (chart) {
+    chart.destroy();
+  }
+
+  chart = new Chart(
+    document.getElementById('chart'),
+    config.value
+  )
+}
+
+onMounted(() => {
+  setConfigAndDraw();
+})
+
+onUpdated(() => {
+  setConfigAndDraw();
+})
+
+watch(props, function (to, from) {
+  setConfigAndDraw();
+})
 </script>
+
+<template>
+  <div>
+    <canvas id="chart"></canvas>
+  </div>
+</template>
