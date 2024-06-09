@@ -57,14 +57,14 @@ const periods = [
     selected: true,
     dates: {
       from: dayjs().startOf("month").format("YYYY-MM-DD"),
-      to: dayjs().endOf("month").format("YYYY-MM-DD"),
+      to: dayjs().format("YYYY-MM-DD"),
     },
   },
   {
     key: "This Year",
     dates: {
       from: dayjs().startOf("year").format("YYYY-MM-DD"),
-      to: dayjs().endOf("year").format("YYYY-MM-DD"),
+      to: dayjs().format("YYYY-MM-DD"),
     },
   },
   {
