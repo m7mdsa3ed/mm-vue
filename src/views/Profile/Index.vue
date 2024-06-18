@@ -84,11 +84,19 @@ import EstimateCalculator from "../../components/EstimateCalculator.vue";
 import Passkeys from "./Components/Passkeys.vue";
 import CurrencyRates from "./Components/CurrencyRates.vue";
 
-const { state } = useStore();
+const { state, dispatch } = useStore();
 
 const profile = computed(() => state.auth.user);
 
 const roles = computed(() =>
   profile.value.roles?.map((role) => notationToReadable(role.name))
 );
+
+const load = () => {
+  const names = [
+    'currencies/fetchUserCurrenciesWithRates',
+  ];
+  
+  names.forEach((name) => dispatch(name));
+}
 </script>
