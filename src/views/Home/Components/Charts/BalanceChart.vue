@@ -100,6 +100,10 @@ const getConfig = () => {
           mode: 'index',
           intersect: false,
         },
+        title: {
+          display: true,
+          text: 'Balance / Amount Per Day'
+        }
       },
       scales: {
         x: {
