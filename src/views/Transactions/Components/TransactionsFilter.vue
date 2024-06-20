@@ -128,6 +128,18 @@
       </div>
     </div>
 
+    <div class="col-sm-6 col-md-4 col-lg-4">
+      <div class="form-floating">
+        <input
+          name="description"
+          placeholder="Description"
+          class="form-control"
+          v-model="filter.description"
+        />
+        <label> Description </label>
+      </div>
+    </div>
+
     <div class="col-12">
       <div class="btn-group w-100">
         <button class="btn btn-dark btn-sm w-100" @click="search">
@@ -216,6 +228,11 @@ const filtersOptions = [
     label: "Period",
     type: "select",
     skip: true,
+  },
+  {
+    name: "description",
+    label: "Description",
+    type: "text",
   },
 ];
 
