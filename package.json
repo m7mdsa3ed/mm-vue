@@ -11,30 +11,31 @@
   "dependencies": {
     "@bugsnag/js": "^7.23.0",
     "@fortawesome/fontawesome-free": "^6",
+    "@google/generative-ai": "^0.13.0",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.2",
     "bootstrap": "5.3.3",
     "chart.js": "^4.4.3",
     "chartjs-adapter-date-fns": "^3.0.0",
     "collect.js": "^4.36.1",
-    "credit-card-type": "^10.0.0",
+    "credit-card-type": "^10.0.1",
     "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "firebase": "^10.12.2",
     "path-to-regexp": "^6.2.2",
     "register-service-worker": "^1.7.2",
-    "vue": "^3.4.27",
+    "vue": "^3.4.29",
     "vue-axios": "^3.5.2",
-    "vue-router": "^4.3.2",
+    "vue-router": "^4.3.3",
     "vuex": "^4.1.0",
     "vuex-extensions": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
-    "@vue/compiler-sfc": "^3.4.27",
-    "sass": "^1.77.4",
-    "vite": "^5.2.13",
+    "@vue/compiler-sfc": "^3.4.29",
+    "sass": "^1.77.6",
+    "vite": "^5.3.1",
     "vite-plugin-pwa": "^0.20.0"
   }
 }
