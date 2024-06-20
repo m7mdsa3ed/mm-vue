@@ -7,6 +7,9 @@ import {enUS} from "date-fns/locale";
 const props = defineProps({
   chartData: {
     type: Array,
+  },
+  id: {
+    type: String
   }
 })
 
@@ -148,7 +151,7 @@ const setConfigAndDraw = () => {
   }
 
   chart = new Chart(
-    document.getElementById('chart'),
+    document.getElementById(props.id),
     config.value
   )
 }
@@ -168,6 +171,6 @@ watch(props, function (to, from) {
 
 <template>
   <div>
-    <canvas id="chart"></canvas>
+    <canvas :id="props.id"></canvas>
   </div>
 </template>
