@@ -5,7 +5,6 @@ import router from "./router";
 import CryptoJS from "crypto-js";
 import Cache from "./plugins/Cache/Cache";
 import store from "./store/index.js";
-import {GoogleGenerativeAI} from "@google/generative-ai";
 
 export const money = (number, suffix) => {
   suffix ??= store.state?.auth?.user?.main_currency?.slug ?? 'EGP';
@@ -261,19 +260,3 @@ export const readableNumbers = (value) => {
 export const cache = () => new Cache();
 
 export const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-
-export const ai = (prompt) => {
-  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
-  
-  return {
-    generate: async (prompt) => {
-      const results = await model.generateContent(prompt);
-
-      const response = await results.response;
-
-      return response.text();
-    }
-  }
-}
