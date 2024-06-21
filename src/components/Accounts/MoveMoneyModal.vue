@@ -88,6 +88,16 @@
             </div>
 
             <div class="form-floating mb-3">
+              <input
+                type="date"
+                placeholder="Date"
+                v-model="move.date"
+                class="form-control mb-3"
+              />
+              <label> Date </label>
+            </div>
+
+            <div class="form-floating mb-3">
               <textarea
                 class="form-control mb-3"
                 placeholder="Description"
