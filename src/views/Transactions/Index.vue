@@ -110,9 +110,15 @@
                     {{ money(transaction.balance) }}
                   </span>
                   
-                  <span class="badge bg-secondary rounded-0 mt-1">
-                    {{ transaction.action_type_as_string }}
-                  </span>
+                  <div class="d-flex align-items-center mt-1">
+                    <span class="badge bg-secondary rounded-0">
+                      {{ transaction.action_type_as_string }}
+                    </span>
+                    
+                    <span class="badge bg-success rounded-0">
+                      {{ transaction.is_profitable ? 'Profitable' : '' }}
+                    </span>
+                  </div>
                 </span>
               </td>
               <td class="text-nowrap text-end">

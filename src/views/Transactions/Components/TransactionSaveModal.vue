@@ -21,7 +21,7 @@
         </div>
 
         <div class="modal-body">
-          <Errors :errors="errors" v-if="errors" />
+          <Errors :errors="errors" v-if="errors"/>
 
           <form @submit.prevent="save" id="transactionForm">
             <div class="d-flex flex-column gap-3">
@@ -220,6 +220,20 @@
 
                       <label for="tagsSelect">Tag</label>
                     </div>
+
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox" 
+                        v-model="transaction.is_profitable"
+                        id="isProfitableCheck"
+                        :checked="transaction.is_profitable"
+                      >
+
+                      <label class="form-check-label" for="isProfitableCheck">
+                        Profitable
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -257,6 +271,7 @@ const {state, dispatch} = useStore();
 const transactionDefault = {
   action_type: 2,
   created_at: dayjs().format("YYYY-MM-DD"),
+  is_profitable: false
 };
 
 const transaction = ref(transactionDefault);
