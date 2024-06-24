@@ -18,6 +18,8 @@
 import {onBeforeMount, onMounted} from "vue";
 import {useStore} from "vuex";
 import ReloadServiceWorkerVue from "./components/ReloadServiceWorker.vue";
+import { Tooltip } from "bootstrap";
+import { onUpdated } from "vue";
 
 const {commit, dispatch, state} = useStore();
 
@@ -36,6 +38,10 @@ onMounted(() => {
     dispatch("app/fetchAll");
   }
 });
+
+onUpdated(() => {
+  registerTooltips()
+})
 
 const changeSchema = (schema = "light") => {
   const html = document.documentElement;
@@ -91,5 +97,11 @@ const flexFont = (ratio = 0.05) => {
   cb();
   
   window.addEventListener("resize", cb);
+}
+
+const registerTooltips = () => {
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  
+  [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
 }
 </script>

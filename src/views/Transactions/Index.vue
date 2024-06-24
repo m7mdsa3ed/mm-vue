@@ -116,7 +116,7 @@
                     </span>
                     
                     <span class="badge bg-success rounded-0">
-                      {{ transaction.is_profitable ? 'Profitable' : '' }}
+                      {{ !transaction.is_countable ? 'Not counted' : '' }}
                     </span>
                   </div>
                 </span>
