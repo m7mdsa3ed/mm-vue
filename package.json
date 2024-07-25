@@ -9,7 +9,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@bugsnag/js": "^7.23.0",
+    "@bugsnag/js": "^7.25.0",
     "@fortawesome/fontawesome-free": "^6",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.2",
@@ -20,22 +20,22 @@
     "credit-card-type": "^10.0.1",
     "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
-    "dayjs": "^1.11.11",
-    "firebase": "^10.12.2",
-    "path-to-regexp": "^6.2.2",
+    "dayjs": "^1.11.12",
+    "firebase": "^10.12.4",
+    "path-to-regexp": "^7.1.0",
     "register-service-worker": "^1.7.2",
-    "vue": "^3.4.29",
+    "vue": "^3.4.34",
     "vue-axios": "^3.5.2",
-    "vue-router": "^4.3.3",
+    "vue-router": "^4.4.0",
     "vuex": "^4.1.0",
     "vuex-extensions": "^4.1.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.5",
-    "@vue/compiler-sfc": "^3.4.29",
-    "sass": "^1.77.6",
-    "vite": "^5.3.1",
-    "vite-plugin-pwa": "^0.20.0"
+    "@vitejs/plugin-vue": "^5.1.0",
+    "@vue/compiler-sfc": "^3.4.34",
+    "sass": "^1.77.8",
+    "vite": "^5.3.5",
+    "vite-plugin-pwa": "^0.20.1"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

@@ -1,5 +1,5 @@
 import Bugsnag from '@bugsnag/js'
 
-if (eval(import.meta.env.VITE_BUGSNAG_ENABLED)) {
+if (import.meta.env.VITE_BUGSNAG_ENABLED === "true") {
   Bugsnag.start(import.meta.env.VITE_BUGSNAG_API_KEY)
 }

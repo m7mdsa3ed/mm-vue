@@ -18,7 +18,7 @@ import subscriptions from "./modules/subscriptions";
 import contacts from "./modules/contacts.js";
 import {cache} from "../helpers";
 
-const cacheEnabled = eval(import.meta.env.VITE_ENABLE_VUEX_CACHE ?? "false");
+const cacheEnabled = import.meta.env.VITE_ENABLE_VUEX_CACHE === "true";
 
 const store = createStore(Store, {
   modules: {

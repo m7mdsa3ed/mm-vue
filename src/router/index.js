@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from "vue-router";
-import RouterView from "../components/RouterView.vue";
 import auth from "./auth";
 import authentication from "./middlewares/authentication";
 import roles from "./middlewares/roles";
@@ -21,7 +20,7 @@ const routes = [
       },
       {
         path: "transactions",
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         children: [
           {
             path: "",
@@ -32,7 +31,7 @@ const routes = [
       },
       {
         path: "accounts",
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         children: [
           {
             path: "",
@@ -53,7 +52,7 @@ const routes = [
       },
       {
         path: "categories",
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         children: [
           {
             path: "",
@@ -64,7 +63,7 @@ const routes = [
       },
       {
         path: "tags",
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         children: [
           {
             path: "",
@@ -75,7 +74,7 @@ const routes = [
       },
       {
         path: "budget",
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         children: [
           {
             path: "",
@@ -86,7 +85,7 @@ const routes = [
       },
       {
         path: "subscriptions",
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         children: [
           {
             path: "",
@@ -97,7 +96,7 @@ const routes = [
       },
       {
         path: "profile",
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         children: [
           {
             path: "",
@@ -108,7 +107,7 @@ const routes = [
       },
       {
         path: 'contacts',
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         children: [
           {
             path: '',
@@ -119,7 +118,7 @@ const routes = [
       },
       {
         path: "settings",
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         meta: {
           middleware: [roles("manager")],
         },
@@ -133,7 +132,7 @@ const routes = [
       },
       {
         path: "notifications",
-        component: RouterView,
+        component: () => import('../components/RouterView.vue'),
         children: [
           {
             path: "",
