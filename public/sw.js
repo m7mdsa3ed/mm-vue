@@ -41,5 +41,3 @@ onBackgroundMessage(messaging, async (payload) => {
 self.skipWaiting();
 
 clientsClaim();
-
-console.log('Service worker has been registered.')

@@ -11,14 +11,14 @@
 </template>
 
 <script setup lang="ts">
-// import { useRegisterSW } from "virtual:pwa-register/vue";
-// import { watch } from "vue";
-//
-// const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
-//
-// watch(needRefresh, (to) => {
-//   if (to) {
-//     updateServiceWorker()
-//   }
-// });
+import { useRegisterSW } from "virtual:pwa-register/vue";
+import { watch } from "vue";
+
+const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
+
+watch(needRefresh, (to) => {
+  if (to) {
+    console.log('Updating service worker...');
+  }
+});
 </script>
