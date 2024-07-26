@@ -82,10 +82,12 @@ defineProps([
   "inLoanAmount",
   "inDebitAmount",
   "inHeldAmount",
+  "inAdjustAmount",
   "outAmount",
   "outLoanAmount",
   "outDebitAmount",
   "outHeldAmount",
+  "outAdjustAmount",
   "currencySlug",
 ]);
 </script>
