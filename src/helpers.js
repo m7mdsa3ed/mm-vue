@@ -59,6 +59,10 @@ export const route = (name, configs) => {
     url: () => {
       let { path, base } = parseRouteUrl(route.url ?? route);
 
+      for (const key in params) {
+        params[key] = String(params[key]);
+      }
+      
       path = compile(path)(params);
 
       return url ?? `${base ?? ""}/${path}`;
