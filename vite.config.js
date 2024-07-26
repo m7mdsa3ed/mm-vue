@@ -1,11 +1,11 @@
-import {defineConfig, loadEnv} from "vite";
+import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
-import {VitePWA} from "vite-plugin-pwa";
+import { VitePWA } from "vite-plugin-pwa";
 import pwaOptions from "./vite-pwa.config";
 import fs from "fs";
 
-export default defineConfig(({mode}) => {
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   const httpsConfigs = env.HTTPS_ENABLED
@@ -16,15 +16,16 @@ export default defineConfig(({mode}) => {
     : false;
 
   return {
-    plugins: [vue(), VitePWA(pwaOptions)],
+    plugins: [
+      vue(),
+      VitePWA(pwaOptions),
+    ],
     server: {
-      port: 8080,
       https: httpsConfigs,
     },
     logLevel: "info",
     build: {
       sourcemap: true,
-
       rollupOptions: {
         output: {},
       },

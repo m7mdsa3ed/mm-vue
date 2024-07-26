@@ -1,24 +1,16 @@
-import {cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute} from 'workbox-precaching';
-import {clientsClaim} from 'workbox-core';
-import {NavigationRoute, registerRoute} from 'workbox-routing';
-import {initializeApp} from "firebase/app";
-import {getMessaging, onBackgroundMessage} from "firebase/messaging/sw";
+import { precacheAndRoute } from 'workbox-precaching'
+import { initializeApp } from 'firebase/app'
+import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw'
 
-precacheAndRoute(self.__WB_MANIFEST);
+precacheAndRoute(self.__WB_MANIFEST)
 
-cleanupOutdatedCaches();
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting()
+  }
+})
 
-let allowlist;
-
-if (import.meta.env.DEV) {
-  allowlist = [/^\/$/];
-}
-
-registerRoute(new NavigationRoute(
-  createHandlerBoundToURL('index.html'),
-  {allowlist},
-));
-
+// Firebase FCM SW
 const firebaseConfig = {
   apiKey: "AIzaSyBmLYBsdhuhzdn23RP9bsFsxSusHOMoKXI",
   authDomain: "mm-vue-07.firebaseapp.com",
@@ -33,11 +25,7 @@ const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
 onBackgroundMessage(messaging, async (payload) => {
-  const {title, body, icon} = payload.data || {}
+  const { title, body, icon } = payload.data || {}
 
-  await self.registration.showNotification(title, {body, icon});
-})
-
-self.skipWaiting();
-
-clientsClaim();
+  await self.registration.showNotification(title, { body, icon });
+});

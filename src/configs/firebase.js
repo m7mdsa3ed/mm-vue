@@ -2,6 +2,19 @@ import {initializeApp} from "firebase/app";
 import {getMessaging, getToken, onMessage} from "firebase/messaging";
 import store from "../store";
 
+const getDefaultRegistration = async (fileName) => {
+  let registration = await navigator.serviceWorker.getRegistration();
+
+  if (!registration) {
+    registration = await navigator.serviceWorker.register(fileName, {
+      type: 'module',
+      scope: '/',
+    });
+  }
+
+  return registration;
+}
+
 const initializeFirebase = async () => {
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -27,7 +40,11 @@ const initializeFirebase = async () => {
   try {
     await Notification.requestPermission()
 
-    const registration = await navigator.serviceWorker.register('sw.js', {type: 'module'});
+    const registration = await getDefaultRegistration('sw.js');
+
+    if (!registration) {
+      throw new Error('Could not get registration');
+    }
 
     const token = await getToken(messaging, {
       serviceWorkerRegistration: registration,
@@ -35,8 +52,8 @@ const initializeFirebase = async () => {
     });
 
     await store.dispatch('notifications/saveFcmToken', token)
-  } catch (_) {
-    //
+  } catch (error) {
+    console.log('Could not get FCM token', error);
   }
 }
 
