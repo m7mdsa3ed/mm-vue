@@ -40,11 +40,13 @@ export default {
   },
 
   actions: {
-    async fetch({ commit }) {
+    async fetch({ commit }, payload) {
       commit("setLoading", true);
 
+      const { filters } = payload || {};
+
       try {
-        commit("setAccounts", await getAccounts());
+        commit("setAccounts", await getAccounts(undefined, filters));
       } catch (error) {
         commit("setErrors", error.getErrors());
       }

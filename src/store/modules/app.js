@@ -53,7 +53,7 @@ export default {
 
     async fetchAll() {
       [
-        "accounts/fetch",
+        ["accounts/fetch", { filters: { is_active: 1 } }],
         "accounts/fetchTypes",
         "categories/fetch",
         "transactions/fetch",
@@ -64,7 +64,11 @@ export default {
         "app/fetchAppInfo",
         'contacts/fetch'
       ].forEach((dispatchName) => {
-        store.dispatch(dispatchName);
+        if (typeof dispatchName === "string") {
+          store.dispatch(dispatchName);
+        } else {
+          store.dispatch(dispatchName[0], dispatchName[1]);
+        }
       });
     },
 
@@ -80,19 +84,19 @@ export default {
       return payload == true
         ? (state.stopActions = payload)
         : setTimeout(() => {
-            state.stopActions = payload;
-          }, 500);
+          state.stopActions = payload;
+        }, 500);
     },
 
-    async getSettings({}) {
+    async getSettings() {
       return await getSettings();
     },
 
-    async saveSettings({}, { key, value }) {
+    async saveSettings(_, { key, value }) {
       return await saveSettings(key, value);
     },
 
-    async deploy({}, { requestConfig }) {
+    async deploy(_, { requestConfig }) {
       return await deploy(requestConfig);
     },
 

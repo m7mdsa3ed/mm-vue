@@ -1,13 +1,13 @@
 import {route, httpRequest} from "../helpers";
 
-export const getAccounts = async (url, filter) => {
+export const getAccounts = async (url, filters) => {
   const routeObject = route("accounts.index", {
     url,
   });
 
   return await httpRequest(routeObject, {
     params: {
-      ...filter,
+      ...filters,
     },
   });
 };
