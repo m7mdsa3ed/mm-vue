@@ -10,7 +10,7 @@
 
         <button
           class="btn btn-outline-danger"
-          @click="$store.dispatch('accounts/fetch')"
+          @click="fetchAccounts"
         >
           <i class="fa-fw fas fa-refresh"></i>
         </button>
@@ -206,6 +206,9 @@ export default {
         activeModal: null,
       },
       focusedAccount: null,
+      filters: {
+        is_active: 1,
+      }
     };
   },
 
@@ -262,6 +265,10 @@ export default {
       const modal = new Modal(document.getElementById("AccountDetailsModal"));
 
       modal.show();
+    },
+
+    fetchAccounts() {
+      this.$store.dispatch("accounts/fetch", { filters: this.filters });
     },
   },
 };
