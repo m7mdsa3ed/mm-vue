@@ -62,7 +62,8 @@ export default {
         'currencies/fetchUserCurrenciesWithRates',
         "app/fetchStats",
         "app/fetchAppInfo",
-        'contacts/fetch'
+        'contacts/fetch',
+        'subscriptions/fetch',
       ].forEach((dispatchName) => {
         if (typeof dispatchName === "string") {
           store.dispatch(dispatchName);
