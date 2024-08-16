@@ -45,7 +45,7 @@ const loginProviders = computed(() => state.app.info?.services)
 
 const supportedProviders = computed(() => {
   return providers.filter((provider) => {
-    return loginProviders.value.includes(provider.name);
+    return loginProviders.value?.includes(provider.name);
   });
 });
 
