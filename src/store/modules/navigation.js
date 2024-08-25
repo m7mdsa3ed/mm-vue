@@ -40,6 +40,11 @@ export default {
         icon: `<i class="icon fas fa-clock"></i>`,
       },
       {
+        name: "Plans",
+        routeName: "Plans",
+        icon: `<i class="icon fas fa-clock"></i>`,
+      },
+      {
         name: "Contacts",
         routeName: "Contacts",
         icon: `<i class="icon fas fa-address-book"></i>`,

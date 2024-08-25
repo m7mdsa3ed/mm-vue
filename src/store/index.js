@@ -16,6 +16,7 @@ import accountTypes from "./modules/accountTypes";
 import notifications from "./modules/notifications";
 import subscriptions from "./modules/subscriptions";
 import contacts from "./modules/contacts.js";
+import plans from "./modules/plans";
 import {cache} from "../helpers";
 
 const cacheEnabled = import.meta.env.VITE_ENABLE_VUEX_CACHE === "true";
@@ -38,6 +39,7 @@ const store = createStore(Store, {
     notifications,
     subscriptions,
     contacts,
+    plans,
   },
 
   mutations: {

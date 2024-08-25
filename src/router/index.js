@@ -142,6 +142,17 @@ const routes = [
         ],
       },
       {
+        path: "plans",
+        component: () => import('../components/RouterView.vue'),
+        children: [
+          {
+            path: "",
+            name: "plans",
+            component: () => import("../views/Plans/Index.vue"),
+          },
+        ],
+      },
+      {
         path: "error/:code",
         name: "error",
         component: () => import("../views/Error.vue"),

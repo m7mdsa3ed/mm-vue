@@ -255,5 +255,31 @@
       "method": "POST",
       "url": "contacts/:id/delete"
     }
+  },
+  "plans": {
+    "fetch": {
+      "method": "GET",
+      "url": "plans"
+    },
+    "create": {
+      "method": "POST",
+      "url": "plans"
+    },
+    "update": {
+      "method": "POST",
+      "url": "plans/:id/update"
+    },
+    "delete": {
+      "method": "POST",
+      "url": "plans/:id/delete"
+    },
+    "new-item": {
+      "method": "POST",
+      "url": "plans/:id/new-item"
+    },
+    "link-transactions": {
+      "method": "POST",
+      "url": "plans/items/:id/link-transactions"
+    }
   }
 }
