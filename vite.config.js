@@ -8,7 +8,7 @@ import fs from "fs";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
-  const httpsConfigs = env.HTTPS_ENABLED
+  const httpsConfigs = env.HTTPS_ENABLED === "true"
     ? {
       key: fs.readFileSync(env.HTTPS_KEY_PATH),
       cert: fs.readFileSync(env.HTTPS_CERT_PATH),
