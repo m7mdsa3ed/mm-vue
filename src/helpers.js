@@ -264,3 +264,7 @@ export const readableNumbers = (value) => {
 export const cache = () => new Cache();
 
 export const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+
+export const copy = (text) => {
+  navigator.clipboard.writeText(text);
+};

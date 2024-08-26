@@ -1,4 +1,4 @@
-import { getPlans, createPlan, deletePlan } from "../../api/plans.js";
+import { getPlans, createPlan, deletePlan, linkTransactions } from "../../api/plans.js";
 import { mergeRow, removeRow } from "../../helpers.js";
 
 export default {
@@ -61,6 +61,21 @@ export default {
       commit("setLoading", false)
     },
 
+    async linkTransactions({ commit }, payload) {
+      commit("setLoading", true)
+
+      console.log({ payload, id: payload.plantItemId.toString() });
+
+      try {
+        await linkTransactions(payload.plantItemId.toString(), payload.transactions)
+      } catch (error) {
+        throw error;
+        // commit("setErrors", error.getErrors())
+      }
+      
+      commit("setLoading", false)
+    },
+
     async delete({ commit }, { plan }) {
       commit("setLoading", true)
       
@@ -69,7 +84,6 @@ export default {
 
         commit("remove", plan)
       } catch (error) {
-        throw error;
         commit("setErrors", error.getErrors())
       }
       

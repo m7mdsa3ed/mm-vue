@@ -16,6 +16,7 @@ body {
 .box {
   border-radius: $border-radius-xl;
   padding: map-get($spacers, 3);
+  overflow: auto !important
 }
 
 .bg-main {

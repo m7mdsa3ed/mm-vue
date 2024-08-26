@@ -70,20 +70,41 @@
 
     <button class="btn btn-primary" @click="save">Create</button>
 
+    Current Balance = {{ money(balance?.balanceByMainCurrency?.amount) }}
+
     <template v-for="plan in plans" :key="plan.id">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{ plan.name }}</h5>
-          <p class="card-text">{{ plan.description }}</p>
-          <p class="card-text">Total Price: {{ plan.total_price }}</p>
-          <p class="card-text">Items: {{ plan.items?.length }}</p>
 
-          <ul class="pb-0">
-            <li v-for="item in plan.items" :key="item.id">
-              {{ item.name }}
-              {{ item.price }}
-            </li>
-          </ul>
+          <p class="card-text">{{ plan.description }}</p>
+
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Already Paid</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in plan.items" :key="item.id">
+                <td>{{ item.name }}</td>
+                <td>{{ money(item.price) }}</td>
+                <td>{{ money(item.transactions?.reduce((a, b) => a + b.amount, 0)) }}</td>
+                <td>
+                  <input type="text" class="form-control" v-model="item.linkedTransactionIds" placeholder="Enter transaction ids" @change="updateLinkedTransactions(item)" />
+                </td>
+              </tr>
+
+              <tr>
+                <td>Total</td>
+                <td>{{ money(plan.total_price) }}</td>
+                <td>{{ money(plan.items.reduce((a, b) => a + b.transactions_total, 0)) }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -102,10 +123,25 @@
 import { onMounted, ref } from "vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { money } from "../../helpers";
 
 const { state, dispatch } = useStore();
 
-const plans = computed(() => state.plans.data);
+const plans = computed(() => {
+  const plans = state.plans.data;
+
+  return plans?.map((plan) => {
+    return {
+      ...plan,
+      items: plan.items?.map((item) => {
+        return {
+          ...item,
+          linkedTransactionIds: item.transactions.map((transaction) => transaction.id).join(","),
+        }
+      })
+    }
+  });
+});
 
 const load = () => {
   dispatch("plans/fetch");
@@ -115,6 +151,8 @@ const id = ref(null);
 const name = ref(null);
 const description = ref(null);
 const items = ref([]);
+
+const balance = computed(() => state.app.stats);
 
 const save = () => {
   dispatch("plans/save", {
@@ -143,6 +181,17 @@ const editPlan = (plan) => {
   description.value = plan.description;
   items.value = plan.items;
 };
+
+const updateLinkedTransactions = (item) => {
+  const id = item.id
+
+  const transactionIds = item.linkedTransactionIds.split(",").map(Number);
+
+  dispatch("plans/linkTransactions", {
+    plantItemId: id,
+    transactions: transactionIds,
+  });
+}
 
 onMounted(() => {
   load();

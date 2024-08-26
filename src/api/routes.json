@@ -279,7 +279,7 @@
     },
     "link-transactions": {
       "method": "POST",
-      "url": "plans/items/:id/link-transactions"
+      "url": "plans/items/:id/link-transaction"
     }
   }
 }

@@ -38,11 +38,15 @@ export const newItem = async (id, newItemData) => {
 }
 
 export const linkTransactions = async (id, transactionIds) => {
-  return await httpRequest(route('plans.link-transactions'), {
+  const routeObject = route('plans.link-transactions', {
     params: {
       id
     }
-  }, {
-    data: transactionIds
+  });
+
+  return await httpRequest(routeObject, {
+    data: {
+      transaction_ids: transactionIds
+    }
   });
 }

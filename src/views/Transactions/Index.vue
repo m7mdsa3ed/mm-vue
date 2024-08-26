@@ -54,21 +54,14 @@
             :key="transaction.id"
           >
             <tr>
-              <td class="d-none d-lg-table-cell">
-                <span class="small">
-                  <i
-                    class="icon fa-sm"
-                    :class="
-                      transaction.action == 1
-                        ? 'icon-bg-success fas fa-arrow-up'
-                        : 'icon-bg-danger fas fa-arrow-down'
-                    "
-                  ></i>
+              <td>
+                <span class="badge bg-secondary rounded-0" @click="copy(transaction.id)">
+                  #{{ transaction.id }}
                 </span>
               </td>
 
               <td>
-                <p class="mb-0 small">
+                <div class="mb-0 small d-flex align-items-start gap-1">
                   <span>
                     {{ transaction.category?.name || "No Category" }}
                   </span>
@@ -80,25 +73,29 @@
                   <template v-for="tag in transaction.tags" :key="tag.id">
                     <span
                       role="button"
-                      class="small fw-bold bg-body px-1 ms-2 d-none d-lg-inline-block"
+                      class="small fw-bold bg-body px-1 d-none d-lg-inline-block"
                       >#{{ tag.name.toUpperCase() }}
                     </span>
                   </template>
-                </p>
+                </div>
+
                 <span
                   class="small text-muted text-multi-truncate text-multi-truncate-2 white-space-pre-wrap d-none d-lg-inline-block"
                 >
                   {{ transaction.description }}
                 </span>
               </td>
+
               <td class="text-end">
                 <span class="small d-flex flex-column align-items-end">
-                  <span 
-                    class="text-nowrap" 
-                    :class="transaction.action == 2 ? 'text-danger' : 'text-success'"
+                  <span
+                    class="text-nowrap"
+                    :class="
+                      transaction.action == 2 ? 'text-danger' : 'text-success'
+                    "
                   >
                     {{
-                      (transaction.action == 2 ? "-" : "+") + 
+                      (transaction.action == 2 ? "-" : "+") +
                       $fn.money(
                         transaction.amount,
                         transaction.account?.currency?.name
@@ -109,14 +106,14 @@
                   <span class="text-muted small">
                     {{ money(transaction.balance) }}
                   </span>
-                  
+
                   <div class="d-flex align-items-center mt-1">
                     <span class="badge bg-secondary rounded-0">
                       {{ transaction.action_type_as_string }}
                     </span>
-                    
+
                     <span class="badge bg-success rounded-0">
-                      {{ !transaction.is_countable ? 'Not counted' : '' }}
+                      {{ !transaction.is_countable ? "Not counted" : "" }}
                     </span>
                   </div>
                 </span>
@@ -183,10 +180,10 @@
       </table>
 
       <div class="d-flex justify-content-between">
-        <Paginator 
-          :data="transactions" 
+        <Paginator
+          :data="transactions"
           :loading="isFetching"
-          infinityLoad="true" 
+          infinityLoad="true"
           @change="fetch"
         />
       </div>
@@ -207,7 +204,7 @@ import { Modal } from "bootstrap";
 import { useStore } from "vuex";
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
-import {money} from "../../helpers.js";
+import { money, copy } from "../../helpers.js";
 
 const { state, dispatch } = useStore();
 
@@ -219,21 +216,21 @@ const filter = ref({});
 
 const route = useRoute();
 
-const isFetching = ref(false)
+const isFetching = ref(false);
 
 const fetch = async (payload) => {
   const url = typeof payload === "object" ? payload.url : payload;
-  
+
   const append = typeof payload === "object" ? payload.append : false;
-  
+
   isFetching.value = true;
-  
+
   await dispatch("transactions/fetch", {
     url,
     filter: filter.value,
     append,
   });
-  
+
   isFetching.value = false;
 };
 
