@@ -65,7 +65,7 @@
               </div>
 
               <div class="form-floating">
-                <select class="form-select" id="categorySelect" v-model="transaction.category_id">
+                <select class="form-select" id="categorySelect" v-model="transaction.category_id" @change="loadDescriptionSuggestions">
                   <option selected :value="undefined">Select Category</option>
                   <option v-for="category in categories" :key="category.id" :value="category.id">
                     {{ category.name }}
@@ -105,10 +105,24 @@
                       <label> Date </label>
                     </div>
 
-                    <div class="form-floating">
-                      <textarea class="form-control" placeholder="Description" style="height: 100px"
-                        v-model="transaction.description"></textarea>
-                      <label>Description</label>
+                    <div class="d-flex flex-column gap-3">
+                      <div class="form-floating">
+                        <textarea class="form-control" placeholder="Description" style="height: 100px"
+                          v-model="transaction.description"></textarea>
+                        <label>Description</label>
+                      </div>
+
+                      <div class="d-flex gap-1 flex-wrap" v-if="descriptionSuggestions.length">
+                        <span
+                          v-for="descriptionSuggestion in descriptionSuggestions"
+                          :key="descriptionSuggestion"
+                          class="badge bg-secondary"
+                          type="button"
+                          @click="transaction.description = descriptionSuggestion"
+                        >
+                          {{ descriptionSuggestion }}
+                        </span>
+                      </div>
                     </div>
 
                     <div class="form-floating" v-if="tags.length">
@@ -163,6 +177,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import Errors from "../../../components/Errors.vue";
 import dayjs from "dayjs";
+import { getDescriptionSuggestions } from "../../../api/transactions";
 
 const emit = defineEmits(["newTransaction"]);
 
@@ -225,6 +240,10 @@ const contactRequired = computed(() => {
   return [4, 5, 6].includes(transaction.value.action_type);
 })
 
+const isOpen = ref(false);
+
+const descriptionSuggestions = ref([]);
+
 watch(
   () => props.currentTransaction,
   (currentTransaction) => {
@@ -261,11 +280,29 @@ const save = async () => {
   }
 };
 
+const loadDescriptionSuggestions = async () => {
+  descriptionSuggestions.value = await getDescriptionSuggestions(transaction.value.category_id);
+}
+
+watch(isOpen, (isOpen) => {
+  if (isOpen) {
+    loadDescriptionSuggestions();
+  }
+});
+
 onMounted(() => {
   document
     .querySelector("#TransactionModal")
     .addEventListener("hidden.bs.modal", () => {
       transaction.value = transactionDefault
+
+      isOpen.value = false;
+    });
+
+  document
+    .querySelector("#TransactionModal")
+    .addEventListener("shown.bs.modal", () => {
+      isOpen.value = true;
     });
 });
 </script>

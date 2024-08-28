@@ -78,6 +78,10 @@
     "delete": {
       "method": "POST",
       "url": "transactions/:id/delete"
+    },
+    "descriptionSuggestions": {
+      "method": "POST",
+      "url": "transactions/description-suggestions"
     }
   },
   "accounts": {

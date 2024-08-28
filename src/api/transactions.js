@@ -28,3 +28,13 @@ export const deleteTransaction = async (id) => {
 
   return await httpRequest(routeObject);
 };
+
+export const getDescriptionSuggestions = async (categoryId) => {
+  const routeObject = route("transactions.descriptionSuggestions");
+
+  return await httpRequest(routeObject, {
+    data: {
+      category_id: categoryId,
+    },
+  });
+}
