@@ -53,6 +53,13 @@ const periods = [
     },
   },
   {
+    key: "Last Week",
+    dates: {
+      from: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+      to: dayjs().format("YYYY-MM-DD"),
+    }
+  },
+  {
     key: "This Month",
     selected: true,
     dates: {
