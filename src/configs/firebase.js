@@ -1,19 +1,7 @@
 import {initializeApp} from "firebase/app";
 import {getMessaging, getToken, onMessage} from "firebase/messaging";
 import store from "../store";
-
-const getDefaultRegistration = async (fileName) => {
-  let registration = await navigator.serviceWorker.getRegistration();
-
-  if (!registration) {
-    registration = await navigator.serviceWorker.register(fileName, {
-      type: 'module',
-      scope: '/',
-    });
-  }
-
-  return registration;
-}
+import {getDefaultRegistration} from "./sw";
 
 const initializeFirebase = async () => {
   const firebaseConfig = {

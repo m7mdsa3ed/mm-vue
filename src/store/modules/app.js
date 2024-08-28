@@ -104,6 +104,10 @@ export default {
     changeAppSchema({ commit }, schema) {
       commit("changeSchema", schema);
     },
+
+    serviceWorkerStatus({ state }, payload) {
+      state.serviceWorkerStatus = payload;
+    }
   },
 
   getters: {
