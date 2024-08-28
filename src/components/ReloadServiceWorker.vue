@@ -13,7 +13,7 @@ const refresh = () => {
 
 const serviceWorkerStatus = computed(() => state.app.serviceWorkerStatus);
 
-const showBanner = computed(() => needRefresh || (serviceWorkerStatus.value?.installing))
+const showBanner = computed(() => needRefresh.value || (serviceWorkerStatus.value?.installing === 'true'))
 
 const message = computed(() => {
   if (serviceWorkerStatus.value?.installing) {
