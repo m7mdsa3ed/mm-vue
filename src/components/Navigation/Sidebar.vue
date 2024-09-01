@@ -7,7 +7,7 @@ const router = useRouter();
 
 const { state, dispatch } = useStore();
 
-const links = computed(() => state.navigation.links);
+const links = computed(() => state.navigation.links.filter((link) => link.active ?? true))
 
 const havePrivilege = (roles) => {
   if (roles && roles.length) {

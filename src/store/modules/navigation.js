@@ -43,6 +43,7 @@ export default {
         name: "Plans",
         routeName: "Plans",
         icon: `<i class="icon fas fa-clock"></i>`,
+        active: false
       },
       {
         name: "Contacts",
