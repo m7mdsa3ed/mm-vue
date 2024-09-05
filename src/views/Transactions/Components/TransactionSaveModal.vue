@@ -249,6 +249,7 @@ watch(
   (currentTransaction) => {
     transaction.value = {
       ...currentTransaction,
+      created_at: dayjs(currentTransaction.created_at).format("YYYY-MM-DD"),
     };
 
     transaction.value.tag_ids = transaction.value.tags?.map((tag) => tag.id);
