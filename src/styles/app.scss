@@ -128,3 +128,7 @@ body {
 .navbar {
   transition: all 0.2s ease;
 }
+
+.accordion-button:not(.collapsed) {
+  background-color: transparent;
+}
