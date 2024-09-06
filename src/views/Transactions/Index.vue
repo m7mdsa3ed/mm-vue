@@ -37,155 +37,142 @@
       </div>
     </div>
 
-    <div class="table-responsive box bg-main">
-      <table class="table align-middle table-borderless mb-3">
-        <thead>
-          <tr>
-            <th class="d-none d-lg-table-cell" width="50">Type</th>
-            <th>Category</th>
-            <th class="text-end">Amount</th>
-            <th class="text-end">Date</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <template
-            v-for="transaction in transactions.data"
-            :key="transaction.id"
-          >
-            <tr>
-              <td>
-                <span class="badge bg-secondary rounded-0" @click="copy(transaction.id)">
-                  #{{ transaction.id }}
-                </span>
-              </td>
-
-              <td>
-                <div class="mb-0 small d-flex align-items-start gap-1">
+    <div class="box box-sm bg-main">
+      <div class="accordion accordion-flush " id="transactions">
+        <div
+          v-for="transaction in transactions.data"
+          :key="transaction.id"
+          class="accordion-item rounded-3"
+        >
+          <h2 class="accordion-header bg-main">
+            <div
+              class="accordion-button collapsed p-2 bg-main"
+              type="button"
+              data-bs-toggle="collapse"
+              :data-bs-target="`#${transaction.id}`"
+              aria-expanded="false"
+              :aria-controls="transaction.id"
+            >
+              <div
+                class="d-flex flex-wrap justify-content-between gap-2 text-nowrap w-100 small"
+              >
+                <div class="d-flex flex-column align-items-start me-2 gap-1">
                   <span>
-                    {{ transaction.category?.name || "No Category" }}
-                  </span>
-                  -
-                  <span class="text-muted small">
-                    {{ transaction.account?.name }}
-                  </span>
-
-                  <template v-for="tag in transaction.tags" :key="tag.id">
-                    <span
-                      role="button"
-                      class="small fw-bold bg-body px-1 d-none d-lg-inline-block"
-                      >#{{ tag.name.toUpperCase() }}
+                    {{ transaction.account?.name }} 
+                    <span class="badge">
+                      ({{ money(transaction.balance, transaction.account?.currency?.name) }})
                     </span>
-                  </template>
-                </div>
+                  </span>
 
-                <span
-                  class="small text-muted text-multi-truncate text-multi-truncate-2 white-space-pre-wrap d-none d-lg-inline-block"
-                >
-                  {{ transaction.description }}
-                </span>
-              </td>
-
-              <td class="text-end">
-                <span class="small d-flex flex-column align-items-end">
                   <span
-                    class="text-nowrap"
                     :class="
                       transaction.action == 2 ? 'text-danger' : 'text-success'
                     "
+                    class="text-nowrap"
                   >
                     {{
-                      (transaction.action == 2 ? "-" : "+") +
-                      $fn.money(
+                      money(
                         transaction.amount,
                         transaction.account?.currency?.name
                       )
                     }}
                   </span>
-
-                  <span class="text-muted small">
-                    {{ money(transaction.balance) }}
-                  </span>
-
-                  <div class="d-flex align-items-center mt-1">
-                    <span class="badge bg-secondary rounded-0">
-                      {{ transaction.action_type_as_string }}
-                    </span>
-
-                    <span class="badge bg-success rounded-0">
-                      {{ !transaction.is_countable ? "Not counted" : "" }}
-                    </span>
-                  </div>
-                </span>
-              </td>
-              <td class="text-nowrap text-end">
-                <div class="mb-0 small d-flex flex-column">
-                  <span class="fw-bold">
-                    {{ $date(transaction.created_at).format("dddd") }}
-                  </span>
-
-                  <span class="text-muted">
-                    {{ $date(transaction.created_at).format("YYYY-MM-DD") }}
-                  </span>
                 </div>
-              </td>
-              <td width="1">
-                <div class="dropdown">
-                  <span role="button" data-bs-toggle="dropdown">
-                    <i class="fa-fw fas fa-ellipsis-v"></i>
-                  </span>
 
-                  <ul
-                    class="dropdown-menu dropdown-menu-end dropdown-menu-custom mx-0"
-                    style="width: 220px"
+                <div class="d-flex flex-column align-items-end me-2 gap-1">
+                  <span>{{ $date(transaction.created_at).format("ddd") }}</span>
+                  <span>{{
+                    $date(transaction.created_at).format("YYYY-MM-DD")
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </h2>
+
+          <div
+            :id="transaction.id"
+            class="accordion-collapse collapse"
+            data-bs-parent="#transactions"
+          >
+            <div class="accordion-body bg-main p-2">
+              <div v-if="transaction.description">
+                <span> Description </span>
+                <p>
+                  {{ transaction.description }}
+                </p>
+              </div>
+
+              <div v-if="transaction.tags.length">
+                <span> Tags </span>
+                <p>
+                  <span
+                    v-for="tag in transaction.tags"
+                    :key="tag.id"
+                    class="badge bg-secondary rounded-0"
                   >
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href=""
-                        @click.prevent="
-                          selectTransactionOpenModal(transaction, 'details')
-                        "
-                      >
-                        <span> Details </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href=""
-                        @click.prevent="
-                          selectTransactionOpenModal(transaction, 'edit')
-                        "
-                      >
-                        <span> Edit </span>
-                      </a>
-                    </li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li>
-                      <a
-                        class="dropdown-item text-danger"
-                        href=""
-                        @click.prevent="remove(transaction)"
-                      >
-                        <span> Delete </span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          </template>
-        </tbody>
-      </table>
+                    {{ tag.name }}
+                  </span>
+                </p>
+              </div>
 
-      <div class="d-flex justify-content-between">
-        <Paginator
-          :data="transactions"
-          :loading="isFetching"
-          infinityLoad="true"
-          @change="fetch"
-        />
+              <div v-if="transaction.contact">
+                <span> Contact </span>
+                <p>
+                  {{ transaction.contact.name }}
+                </p>
+              </div>
+
+              <div v-if="transaction.account">
+                <span> Account </span>
+                <p>
+                  {{ transaction.account.name }}
+                </p>
+              </div>
+
+              <div v-if="transaction.category">
+                <span> Category </span>
+                <p>
+                  {{ transaction.category.name }}
+                </p>
+              </div>
+
+              <div v-if="transaction.balance">
+                <span> Account Balance </span>
+                <p>
+                  {{ money(transaction.balance) }}
+                </p>
+              </div>
+
+              <div>
+                <span> Posted Date </span> 
+                <p>
+                  {{ $date(transaction.updated_at).format("YYYY-MM-DD dddd") }}
+                </p>
+              </div>
+
+              <div class="d-flex justify-content-between gap-2">
+                <button class="w-100 btn btn-sm btn-dark" @click="selectTransactionOpenModal(transaction, 'edit')">
+                  <i class="icon fas fa-edit"></i>
+                  Edit
+                </button>
+
+                <button class="w-100 btn btn-sm btn-danger" @click="remove(transaction)">
+                  <i class="icon fas fa-trash"></i>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <Paginator
+            :data="transactions"
+            :loading="isFetching"
+            infinityLoad="true"
+            @change="fetch"
+          />
+        </div>
       </div>
     </div>
 
@@ -219,10 +206,9 @@ const [fetching, { loading: isFetching, error: fetchingError }] =
     await dispatch("transactions/fetch", { url, filter, append });
   });
 
-const [remove] =
-  useLazyCallback(async (transaction) => {
-    await dispatch("transactions/delete", { transaction });
-  });
+const [remove] = useLazyCallback(async (transaction) => {
+  await dispatch("transactions/delete", { transaction });
+});
 
 const fetch = async (payload) => {
   const url = typeof payload === "object" ? payload.url : payload;
