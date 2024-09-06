@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="content py-4 px-2">
+    <div class="content py-4">
       <div class="container-fluid">
         <i class="fas fa-bars sidebar-toggler" @click="toggleOpen"></i>
 
