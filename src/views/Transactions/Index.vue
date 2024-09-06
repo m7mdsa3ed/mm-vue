@@ -203,8 +203,8 @@ import TransactionDetailsModal from "./Components/TransactionDetailsModal.vue";
 import { Modal } from "bootstrap";
 import { useStore } from "vuex";
 import { computed, ref } from "vue";
-import { useRoute } from "vue-router";
 import { money, copy } from "../../helpers.js";
+import { useLazyCallback } from "../../hooks/useLazyCallback";
 
 const { state, dispatch } = useStore();
 
@@ -214,28 +214,22 @@ const selectedTransaction = ref(null);
 
 const filter = ref({});
 
-const route = useRoute();
+const [fetching, { loading: isFetching, error: fetchingError }] =
+  useLazyCallback(async (url, filter, append) => {
+    await dispatch("transactions/fetch", { url, filter, append });
+  });
 
-const isFetching = ref(false);
+const [remove] =
+  useLazyCallback(async (transaction) => {
+    await dispatch("transactions/delete", { transaction });
+  });
 
 const fetch = async (payload) => {
   const url = typeof payload === "object" ? payload.url : payload;
 
   const append = typeof payload === "object" ? payload.append : false;
 
-  isFetching.value = true;
-
-  await dispatch("transactions/fetch", {
-    url,
-    filter: filter.value,
-    append,
-  });
-
-  isFetching.value = false;
-};
-
-const remove = async (transaction) => {
-  await dispatch("transactions/delete", { transaction });
+  await fetching(url, filter.value, append);
 };
 
 const selectTransactionOpenModal = (transaction, type) => {

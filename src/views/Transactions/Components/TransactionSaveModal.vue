@@ -9,7 +9,9 @@
         </div>
 
         <div class="modal-body">
-          <Errors :errors="errors" v-if="errors" />
+          <p class="text-danger" v-if="savingError">
+            {{ savingError }}
+          </p>
 
           <form @submit.prevent="save" id="transactionForm">
             <div class="d-flex flex-column gap-3">
@@ -162,8 +164,8 @@
         </div>
 
         <div class="modal-footer">
-          <button form="transactionForm" class="btn btn-dark border w-100">
-            Save
+          <button form="transactionForm" class="btn btn-dark border w-100" :disabled="isSaving">
+            {{ isSaving ? "Saving..." : "Save" }}
           </button>
         </div>
       </div>
@@ -175,9 +177,9 @@
 import { Modal } from "bootstrap";
 import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import Errors from "../../../components/Errors.vue";
 import dayjs from "dayjs";
 import { getDescriptionSuggestions } from "../../../api/transactions";
+import { useLazyCallback } from "../../../hooks/useLazyCallback";
 
 const emit = defineEmits(["newTransaction"]);
 
@@ -232,10 +234,6 @@ const categories = computed(() => state.categories.categories);
 
 const contacts = computed(() => state.contacts.data);
 
-const isLoading = computed(() => state.transactions.loading);
-
-const errors = computed(() => state.transactions.errors);
-
 const contactRequired = computed(() => {
   return [4, 5, 6].includes(transaction.value.action_type);
 })
@@ -243,6 +241,12 @@ const contactRequired = computed(() => {
 const isOpen = ref(false);
 
 const descriptionSuggestions = ref([]);
+
+const [saving, { loading: isSaving, error: savingError }] = useLazyCallback(async (transaction) => {
+  await dispatch("transactions/save", {
+    data: transaction,
+  });
+});
 
 watch(
   () => props.currentTransaction,
@@ -268,11 +272,9 @@ watch(
 );
 
 const save = async () => {
-  await dispatch("transactions/save", {
-    data: transaction.value,
-  });
+  await saving(transaction.value)
 
-  if (!errors.value) {
+  if (!error.value) {
     emit("newTransaction", transaction);
 
     const modal = Modal.getOrCreateInstance("#TransactionModal");

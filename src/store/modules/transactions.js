@@ -1,4 +1,4 @@
-import {mergeRow, removeRow} from "../../helpers";
+import { mergeRow, removeRow } from "../../helpers";
 import {
   deleteTransaction,
   getTransactions,
@@ -16,7 +16,7 @@ export default {
   },
 
   mutations: {
-    setTransactions: (state, {data, append}) => {
+    setTransactions: (state, { data, append }) => {
       if (append) {
         state.pages = [...state.pages, data]
 
@@ -48,52 +48,25 @@ export default {
   },
 
   actions: {
-    async fetch({commit}, payload) {
-      commit("setLoading", true);
+    async fetch({ commit }, payload) {
 
-      commit("setErrors", null);
+      let { url, filter, append } = payload || {};
 
-      let {url, filter, append} = payload || {};
+      const data = await getTransactions(url, filter);
 
-      try {
-        const data = await getTransactions(url, filter);
-
-        commit("setTransactions", {data, append});
-      } catch (error) {
-        commit("setErrors", error.getErrors());
-      }
-
-      commit("setLoading", false);
+      commit("setTransactions", { data, append });
     },
 
-    async save({commit}, {data}) {
-      commit("setLoading", true);
+    async save({ commit }, { data }) {
+      const transaction = await saveTransaction(data, data.id)
 
-      commit("setErrors", null);
-
-      try {
-        commit("saveTransaction", await saveTransaction(data, data.id));
-      } catch (error) {
-        commit("setErrors", error.getErrors());
-      }
-
-      commit("setLoading", false);
+      commit("saveTransaction", transaction);
     },
 
-    async delete({commit}, {transaction}) {
-      commit("setLoading", true);
+    async delete({ commit }, { transaction }) {
+      await deleteTransaction(transaction.id);
 
-      commit("setErrors", null);
-
-      try {
-        await deleteTransaction(transaction.id);
-
-        commit("removeTransaction", transaction);
-      } catch (error) {
-        commit("setErrors", error.getErrors());
-      }
-
-      commit("setLoading", false);
+      commit("removeTransaction", transaction);
     },
   },
 };
