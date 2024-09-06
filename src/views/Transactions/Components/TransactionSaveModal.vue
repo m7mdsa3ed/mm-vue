@@ -274,7 +274,7 @@ watch(
 const save = async () => {
   await saving(transaction.value)
 
-  if (!error.value) {
+  if (!savingError.value) {
     emit("newTransaction", transaction);
 
     const modal = Modal.getOrCreateInstance("#TransactionModal");
