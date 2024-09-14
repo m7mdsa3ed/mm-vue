@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import auth from "./auth";
 import authentication from "./middlewares/authentication";
 import roles from "./middlewares/roles";
@@ -153,6 +153,17 @@ const routes = [
         ],
       },
       {
+        path: "t",
+        component: () => import('../components/RouterView.vue'),
+        children: [
+          {
+            path: "",
+            name: "plans",
+            component: () => import("../views/Testing.vue"),
+          },
+        ],
+      },
+      {
         path: "error/:code",
         name: "error",
         component: () => import("../views/Error.vue"),
@@ -199,7 +210,7 @@ function middlewarePipeline(middlewareParams, middleware, index) {
       index + 1
     );
 
-    nextMiddleware({...middlewareParams, next: nextPipeline});
+    nextMiddleware({ ...middlewareParams, next: nextPipeline });
   };
 }
 
