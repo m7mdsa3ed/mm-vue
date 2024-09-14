@@ -72,7 +72,12 @@
                   :chartData="balanceChartData"
                 />
               </div>
-
+            
+              <div class="box bg-main">
+                <Last12MonthsChart 
+                  :data="last12MonthsChartData"
+                />
+              </div>
             </div>
           </div>
           
@@ -99,6 +104,7 @@ import SubscriptionsAlert from "./Components/SubscriptionsAlert.vue";
 import BudgetTracks from "./Components/BudgetTracks.vue";
 import {useStore} from "vuex";
 import collect from "collect.js";
+import Last12MonthsChart from "./Components/Charts/Last12MonthsChart.vue";
 
 const {state, dispatch} = useStore();
 
@@ -124,13 +130,9 @@ const balanceChartData = computed(() => {
   return data;
 });
 
-const pieChartData = computed(() => {
-  const data = collect(dashboardStats.value?.charts.categoryPie)
-    .where("currency_slug", selectedCurrencySlug.value)
-    .where("action", parseInt(pieType.value))
+const last12MonthsChartData = computed(() => {
+  return collect(dashboardStats.value?.charts.last12MonthChart)
     .toArray();
-
-  return data;
 });
 
 const categoriesSummaryData = computed(() => {
