@@ -57,9 +57,19 @@ const config = {
     scales: {
       x: {
         stacked: true,
+        ticks: {
+          callback: (key) => {
+            const [year, month] = labels.value[key].split('-'); 
+
+            return `${month}/${year.slice(2)}`;
+          },
+        },
       },
       y: {
         stacked: true,
+        ticks: {
+          callback: (value) => ``,
+        },
       },
     },
   },

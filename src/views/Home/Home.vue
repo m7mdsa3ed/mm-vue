@@ -74,8 +74,8 @@
               </div>
             
               <div class="box bg-main">
-                <Last12MonthsChart 
-                  :data="last12MonthsChartData"
+                <LastMonthsChart 
+                  :data="lastMonthsChartData"
                 />
               </div>
             </div>
@@ -104,7 +104,7 @@ import SubscriptionsAlert from "./Components/SubscriptionsAlert.vue";
 import BudgetTracks from "./Components/BudgetTracks.vue";
 import {useStore} from "vuex";
 import collect from "collect.js";
-import Last12MonthsChart from "./Components/Charts/Last12MonthsChart.vue";
+import LastMonthsChart from "./Components/Charts/LastMonthsChart.vue";
 
 const {state, dispatch} = useStore();
 
@@ -130,7 +130,7 @@ const balanceChartData = computed(() => {
   return data;
 });
 
-const last12MonthsChartData = computed(() => {
+const lastMonthsChartData = computed(() => {
   return collect(dashboardStats.value?.charts.last12MonthChart)
     .toArray();
 });
