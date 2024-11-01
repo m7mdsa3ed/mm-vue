@@ -33,16 +33,25 @@
           <template v-for="category in categories" :key="category.id">
             <tr>
               <td>
-                <p class="mb-0" @click="getDetails(category)">
-                  {{ category.name }}
-                </p>
+                <div>
+                  <span class="small text-muted" v-if="category.parent_names?.length">
+                    {{ category.parent_names.join(', ') }}
+                  </span>
+
+                  <p class="mb-0" @click="getDetails(category)">
+                    {{ category.name }}
+                  </p>
+                </div>
+              
                 <span class="text-muted small">
                   Transactions: {{ category.transactions_count }}
                 </span>
               </td>
+              
               <td class="text-end">
                 {{ $fn.money(category.balance) }}
               </td>
+
               <td width="1">
                 <div class="dropdown">
                   <span role="button" data-bs-toggle="dropdown">
