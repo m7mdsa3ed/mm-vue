@@ -6,6 +6,15 @@
         <p class="h3 fw-bold"> Balance </p>
 
         <p class="h1 fw-lighter mb-0"> {{ $fn.money(balanceByMainCurrency) }} </p>
+
+        <div class="d-flex flex-column mt-2" v-if="currencyRatesLastUpdatedTime">
+          <span class="small fw-bold">
+            Currency rates updated at
+          </span>
+          <span class="text-muted small">
+            {{ $date(currencyRatesLastUpdatedTime) }}
+          </span>
+        </div>
       </div>
 
       <div id="balanceInformation" class="collapse w-100">
@@ -71,7 +80,7 @@
 import BalanceInfoModal from "@/components/BalanceInfoModal.vue";
 
 export default {
-  props: ["balanceSummary", "balanceByMainCurrency"],
+  props: ["balanceSummary", "balanceByMainCurrency", 'currencyRatesLastUpdatedTime'],
 
   components: {
     BalanceInfoModal,

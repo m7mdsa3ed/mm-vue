@@ -28,6 +28,7 @@
           v-if="dashboardStats?.balance_summary?.length"
           :balanceSummary="dashboardStats?.balance_summary"
           :balanceByMainCurrency="dashboardStats?.balanceByMainCurrency?.amount"
+          :currencyRatesLastUpdatedTime="dashboardStats?.currencyRatesLastUpdatedTime"
         />
 
         <PeriodReport
