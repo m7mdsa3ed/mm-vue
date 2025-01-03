@@ -68,24 +68,6 @@
                   <span>
                     {{ $fn.money(account.balance, account.currency?.name) }}
                   </span>
-                  <span
-                    v-if="account.loans && Number(account.loans) != 0"
-                    class="small text-success text-uppercase fw-bold"
-                  >
-                    {{ account.loans }} Loans
-                  </span>
-                  <span
-                    v-if="account.debits && Number(account.debits) != 0"
-                    class="small text-danger text-uppercase fw-bold"
-                  >
-                    {{ account.debits }} Debits
-                  </span>
-                  <span
-                    v-if="account.held && Number(account.held) != 0"
-                    class="small text-danger text-uppercase fw-bold"
-                  >
-                    {{ account.held }} Held
-                  </span>
                 </div>
               </td>
               <td width="1">
