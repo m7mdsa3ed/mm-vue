@@ -43,10 +43,29 @@
 
               <div class="row g-3">
                 <div class="col-12 col-md-6">
-                  <div class="form-floating">
+                  <div class="form-floating" v-if="!isAmountExpression">
                     <input type="number" placeholder="Amount" v-model="transaction.amount" class="form-control"
                       step="any" required />
                     <label> Amount</label>
+                  </div>
+
+                  <div class="form-floating" v-else>
+                    <input type="text" placeholder="Expression" v-model="amountExpression" class="form-control" 
+                      step="any" required />
+                    <label> Expression</label>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="form-check form-switch mt-2">
+                      <input class="form-check-input" type="checkbox" role="switch" id="amountEx" v-model="isAmountExpression">
+                      <label class="form-check-label" for="amountEx">
+                        Expression
+                      </label>
+                    </div>
+
+                    <span class="text-muted" v-if="isAmountExpression">
+                      {{ money(calculatedAmount ?? 0) }}
+                    </span>
                   </div>
                 </div>
 
@@ -180,6 +199,7 @@ import { useStore } from "vuex";
 import dayjs from "dayjs";
 import { getDescriptionSuggestions } from "../../../api/transactions";
 import { useLazyCallback } from "../../../hooks/useLazyCallback";
+import { money } from "../../../helpers";
 
 const emit = defineEmits(["newTransaction"]);
 
@@ -198,6 +218,12 @@ const transactionDefault = {
 };
 
 const transaction = ref(transactionDefault);
+
+const isAmountExpression = ref(false);
+
+const amountExpression = ref("");
+
+const calculatedAmount = ref(0)
 
 const actionTypes = [
   {
@@ -290,6 +316,17 @@ const loadDescriptionSuggestions = async () => {
 watch(isOpen, (isOpen) => {
   if (isOpen) {
     loadDescriptionSuggestions();
+  }
+});
+
+watch(amountExpression, (x) => {
+  try {
+    const v = eval(x)
+
+    calculatedAmount.value = v
+    transaction.value.amount = v
+  } catch (_) {
+    console.log('Invalid ');
   }
 });
 
