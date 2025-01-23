@@ -12,29 +12,29 @@
     "@bugsnag/js": "^8.1.2",
     "@fortawesome/fontawesome-free": "^6",
     "@popperjs/core": "^2.11.8",
-    "axios": "^1.7.7",
+    "axios": "^1.7.9",
     "bootstrap": "5.3.3",
-    "chart.js": "^4.4.6",
+    "chart.js": "^4.4.7",
     "chartjs-adapter-date-fns": "^3.0.0",
     "collect.js": "^4.36.1",
-    "credit-card-type": "^10.0.1",
+    "credit-card-type": "^10.0.2",
     "crypto-js": "^4.2.0",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
-    "firebase": "^11.0.2",
+    "firebase": "^11.2.0",
     "path-to-regexp": "^8.2.0",
     "register-service-worker": "^1.7.2",
     "vue": "^3.5.13",
     "vue-axios": "^3.5.2",
-    "vue-router": "^4.4.5",
+    "vue-router": "^4.5.0",
     "vuex": "^4.1.0",
     "vuex-extensions": "^4.1.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.0",
+    "@vitejs/plugin-vue": "^5.2.1",
     "@vue/compiler-sfc": "^3.5.13",
-    "sass": "^1.81.0",
-    "vite": "^5.4.11",
-    "vite-plugin-pwa": "^0.21.0"
+    "sass": "^1.83.4",
+    "vite": "^6.0.11",
+    "vite-plugin-pwa": "^0.21.1"
   }
 }
